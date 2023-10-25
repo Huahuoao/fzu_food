@@ -1,12 +1,17 @@
 <template>
-  <view class="index">
-    <nut-button>测试按钮</nut-button>
-  </view>
+<nut-button @click="handleRegister">跳转到注册</nut-button>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import './index.css'
+import Taro from "@tarojs/taro";
 
-
+const handleRegister = ()=>{
+  Taro.navigateTo({
+    url: '/pages/register/register',
+  })
+}
 </script>
+<style scoped>
+
+
+</style>

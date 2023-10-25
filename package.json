@@ -52,6 +52,7 @@
     "@tarojs/runtime": "3.6.17",
     "@tarojs/shared": "3.6.17",
     "@tarojs/taro": "3.6.17",
+    "axios": "^1.5.1",
     "vue": "^3.0.0"
   },
   "devDependencies": {

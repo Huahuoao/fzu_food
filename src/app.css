@@ -1,0 +1,32 @@
+/*全局css配置*/
+/*字体规范css*/
+.max-title {
+  font-weight: bold;
+  font-size: 26px;
+}
+
+.part-title {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.tag-text {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.normal-text {
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.comment-text {
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.icon-text {
+  font-weight: normal;
+  font-size: 10px;
+}
+/**/
