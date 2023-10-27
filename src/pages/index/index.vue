@@ -13,15 +13,15 @@
 
     </nut-row>
     <view
-      style="height: 220px; display: flex;flex-wrap: wrap; justify-content: center; align-items: center;margin-bottom: 20px;">
-      <view class="box"></view>
-      <view class="box"></view>
-      <view class="box"></view>
-      <view class="box"></view>
+      style=" display: flex;flex-wrap: wrap; justify-content: center; align-items: center;margin-bottom: 30px;margin-top: 30px;">
+      <IndexBar background-url="../../images/home-bg.svg" icon-url="../../images/home-icon.svg" msg="校园食堂，美味尽享" title="商铺详情"></IndexBar>
+      <IndexBar background-url="" icon-url="" msg="" title=""></IndexBar>
+      <IndexBar background-url="" icon-url="" msg="" title=""></IndexBar>
+      <IndexBar background-url="" icon-url="" msg="" title=""></IndexBar>
     </view>
-    <view>
-      <view style="display: flex;width: 100%;justify-content: center;margin-top: 20px; flex-grow: 1;">
 
+    <view>
+      <view style="display: flex;width: 100%;justify-content: center;flex-grow: 1;">
         <nut-swiper :init-page="page" :pagination-visible="true" pagination-color="#426543" auto-play="3000"
                     style="width: 90%; border-radius: 15px;box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 4px 0px 6px rgba(0, 0, 0, 0.1);">
           <nut-swiper-item>
@@ -45,7 +45,8 @@
 <script setup>
 import Taro from "@tarojs/taro";
 import {ref} from "vue";
-
+import IndexBar from "../index/../../component/IndexBar.vue"
+import "../../images/home-bg.svg"
 const br = ref("\n")
 const handleRegister = () => {
   Taro.navigateTo({

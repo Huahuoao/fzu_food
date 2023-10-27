@@ -1,35 +1,37 @@
 /*全局css配置*/
 /*字体规范css*/
 
-
+/*大标题*/
 .max-title {
   font-weight: bold;
-  font-size: 1.95em;
+  font-size: 44px;
 }
-
+/*弹窗标题*/
 .part-title {
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 34px;
 }
-
+/*tag*/
 .tag-text {
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 30px;
 }
-
+/*正文*/
 .normal-text {
-  font-weight: normal;
-  font-size: 1.2em;
+  font-size: 34px;
 }
-
+/*预设正文*/
+.preset-text{
+  font-size: 34px;
+  color: #878787;
+}
+/*评论*/
 .comment-text {
-  font-weight: normal;
-  font-size: 1.05em;
+  font-size: 28px;
 }
 
 .icon-text {
-  font-weight: normal;
-  font-size: 0.75em;
+  font-size: 24px;
 }
 /**/
 

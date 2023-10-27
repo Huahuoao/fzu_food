@@ -14,17 +14,36 @@
       <button open-type="chooseAvatar" @chooseAvatar="bind"
               style="border-radius: 50vw;width: 3rem;height: 3rem;margin: 20px;">
       </button>
-      <text>点击登陆</text>
+
+      <view @click="showLogin"><text>{{nickName}}</text></view>
+
+
     </view>
-    <view style="display: flex;justify-content: space-around;margin-top: 5px;">
-      <view class="my-button-item"></view>
-      <view class="my-button-item"></view>
-      <view class="my-button-item"></view>
-      <view class="my-button-item"></view>
-    </view>
+    <nut-popup :style="{borderTopLeftRadius:'25px',borderTopRightRadius:'25px'  }" position="bottom"  v-model:visible="showBottom">
+      <view style="display: flex;flex-direction: column;">
+        <view style="margin:15px;display: flex;flex-direction: column;">
+          <text class="tag-text">知食分子 申请使用</text>
+          <text class="tag-text">获取您的手机号码</text>
+          <nut-input class="normal-text">输入手机号码</nut-input>
+          <text  class="tag-text">获取您的名称</text>
+          <nut-input class="normal-text">输入昵称</nut-input>
+          <text  class="tag-text">获取您的微信头像</text>
+          <button open-type="chooseAvatar" @chooseAvatar="bind"
+                  style="border-radius: 50vw;width: 3rem;height: 3rem;margin: 20px;">
+          </button>
+          <nut-button class="normal-text">确认授权并保存</nut-button>
+        </view>
+      </view>
+
+
+    </nut-popup>    <view style="display: flex;justify-content: space-around;margin-top: 5px;">
+    <view class="my-button-item"></view>
+    <view class="my-button-item"></view>
+    <view class="my-button-item"></view>
+    <view class="my-button-item"></view>
+  </view>
     <view class="my-bottom">
     </view>
-
   </view>
 </template>
 
@@ -33,15 +52,20 @@ import {ref} from 'vue'
 import './my.css'
 import Taro from "@tarojs/taro";
 import {useLoad} from "@tarojs/taro";
-
+const nickName = ref("点击登陆")
 const code = ref()
 const fileManager = Taro.getFileSystemManager()
-
+const showBottom = ref(false)
 const login = () => {
   Taro.login().then(res => {
     code.value = res.code
     console.log(code.value)
   })
+}
+const show = ref(false);
+const showLogin=()=>{
+  console.log("login")
+  showBottom.value = true;
 }
 // useLoad(() => {
 //   Taro.hideTabBar()
@@ -57,7 +81,10 @@ const bind = (event) => {
   height: 2.8em;
   background-color: blue;
 }
+.login-popup{
+  height: 40%;
 
+}
 .my-app {
   background: linear-gradient(#FFF9EE, #FFc765, #FFF9EE);
   height: 100vh;
@@ -67,7 +94,7 @@ const bind = (event) => {
 
 .my-bottom {
   flex-grow: 1;
-  background: url("../../images/my-bg.svg") no-repeat center;
+  background: url("../../images/my-bg.svg") no-repeat center ;
 }
-</style>
 
+</style>
