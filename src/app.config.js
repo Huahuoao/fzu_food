@@ -1,7 +1,8 @@
 export default defineAppConfig({
   pages: [
     'pages/index/index',
-    'pages/register/register'
+    'pages/register/register',
+    'pages/my/my'
   ],
   tabBar: {
     list: [{
@@ -10,7 +11,7 @@ export default defineAppConfig({
       iconPath:"images/index_tabbar_before.png", // 激活前的图片
       selectedIconPath:"images/index_tabbar_before.png", // 激活后的图片
     }, {
-      pagePath: 'pages/register/register',
+      pagePath: 'pages/my/my',
       text: '个人',
       iconPath:"images/my_tabbar_before.png",
       selectedIconPath:"images/my_tabbar_before.png",
@@ -18,12 +19,12 @@ export default defineAppConfig({
     }],
     'color': '#000',
     'selectedColor': '#56abe4',
-    'backgroundColor': '#fff',
+    'backgroundColor': '#FFF9EE',
     'borderStyle': 'white'
   },
   window: {
     backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#fff',
+    navigationBarBackgroundColor: '#FFF9EE',
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black'
   }
