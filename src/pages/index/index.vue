@@ -15,11 +15,10 @@
     <view
       style=" display: flex;flex-wrap: wrap; justify-content: center; align-items: center;margin-bottom: 30px;margin-top: 30px;">
       <IndexBar background-url="../../images/home-bg.svg" icon-url="../../images/home-icon.svg" msg="校园食堂，美味尽享" title="商铺详情"></IndexBar>
-      <IndexBar background-url="" icon-url="" msg="" title=""></IndexBar>
+      <IndexBar background-url="../../images/ph-bg.svg" icon-url="../../images/ph-icon.svg" msg="校园美食，热门排行" title="排行榜"></IndexBar>
       <IndexBar background-url="" icon-url="" msg="" title=""></IndexBar>
       <IndexBar background-url="" icon-url="" msg="" title=""></IndexBar>
     </view>
-
     <view>
       <view style="display: flex;width: 100%;justify-content: center;flex-grow: 1;">
         <nut-swiper :init-page="page" :pagination-visible="true" pagination-color="#426543" auto-play="3000"
@@ -45,8 +44,13 @@
 <script setup>
 import Taro from "@tarojs/taro";
 import {ref} from "vue";
+
 import IndexBar from "../index/../../component/IndexBar.vue"
+import "../../images/home-icon.svg"
 import "../../images/home-bg.svg"
+import "../../images/ph-icon.svg"
+import "../../images/ph-bg.svg"
+
 const br = ref("\n")
 const handleRegister = () => {
   Taro.navigateTo({
