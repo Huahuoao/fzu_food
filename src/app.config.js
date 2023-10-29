@@ -8,13 +8,13 @@ export default defineAppConfig({
     list: [{
       pagePath: 'pages/index/index',
       text: '首页',
-      iconPath:"images/index_tabbar_before.png", // 激活前的图片
-      selectedIconPath:"images/index_tabbar_before.png", // 激活后的图片
+      iconPath:"pages/images/index_tabbar_before.png", // 激活前的图片
+      selectedIconPath:"pages/images/index_tabbar_before.png", // 激活后的图片
     }, {
       pagePath: 'pages/my/my',
       text: '个人',
-      iconPath:"images/my_tabbar_before.png",
-      selectedIconPath:"images/my_tabbar_before.png",
+      iconPath:"pages/images/my_tabbar_before.png",
+      selectedIconPath:"pages/images/my_tabbar_before.png",
 
     }],
     'color': '#000',
@@ -24,8 +24,9 @@ export default defineAppConfig({
   },
   window: {
     backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#FFF9EE',
+    navigationBarBackgroundColor: '#FFC765',
     navigationBarTitleText: 'WeChat',
-    navigationBarTextStyle: 'black'
+    navigationBarTextStyle: 'black',
+    initialRenderingCache: 'static'
   }
 })

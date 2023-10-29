@@ -3,19 +3,21 @@
     <view class="inner-bar">
       <view class="inner-bar-ball">
       </view>
-      <image :src="props.iconUrl" style=" width:35px; height: 32px;  z-index: 999;">
+      <image  :src="props.iconUrl" style=" width:35px; height: 32px;  z-index: 999;">
       </image>
     </view>
-    <view class="indexBarText" >
-      <text class="indexbart1">{{ props.title }}{{ br }}</text>
+    <view class="indexBarText">
+      <text class="indexbart1" W>{{ props.title }}{{ br }}</text>
       <text class="indexbart2">{{ props.msg }}</text>
     </view>
-    <image :src="props.backgroundUrl" style="width: 38%; height: 65%;position: absolute; bottom: 5px;right: 8px;"></image>
+    <image :src="props.backgroundUrl"
+           style="width: 38%; height: 65%;position: absolute; bottom: 5px;right: 8px;"></image>
   </view>
 </template>
 
 <script setup>
 import {ref} from "vue";
+import {useLoad} from "@tarojs/taro";
 
 const br = ref("\n")
 let props = defineProps({
@@ -24,15 +26,17 @@ let props = defineProps({
   iconUrl: String,
   backgroundUrl: String
 });
-
+useLoad(() => {
+  console.log(props.iconUrl)
+})
 
 </script>
 
 <style>
 .index-bar {
+  margin:34px;
   position: relative;
   display: flex;
-  margin: 2vh 2vw;
   width: 300px;
   height: 185px;
   background-color: rgba(255, 199, 101, 1);
@@ -62,7 +66,8 @@ let props = defineProps({
   right: 10px;
   border-radius: 50%;
 }
-.indexbart1{
+
+.indexbart1 {
   font-size: 32px;
   font-weight: bold;
   line-height: 44px;
@@ -70,7 +75,8 @@ let props = defineProps({
   text-align: center;
 
 }
-.indexbart2{
+
+.indexbart2 {
 
   font-size: 24px;
   font-weight: normal;
@@ -80,7 +86,8 @@ let props = defineProps({
 
 
 }
-.indexBarText{
+
+.indexBarText {
   margin-left: 10px;
 }
 </style>

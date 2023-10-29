@@ -26,10 +26,6 @@ const login = () => {
   })
 }
 
-const bind = (event) => {
-  console.log(event.detail.avatarUrl)
-  const headImgBase64 = fileManager.readFileSync(event.detail.avatarUrl, "base64")
-}
 </script>
 <style scoped>
 </style>
