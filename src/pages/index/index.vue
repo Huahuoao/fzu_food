@@ -1,40 +1,65 @@
 <template>
-  <view class="index-app">
+  <view class="index-app" style="display: flex;flex-direction: column;justify-content: center;">
+    <view class="index-bg">
     <!--  <nut-button @click="handleRegister">跳转到注册</nut-button>-->
-    <nut-row style="height: 60px;display: flex;align-items: center;margin: 2vw;">
+    <nut-row style="height: 60px;display: flex;align-items: center;margin-bottom: 10px;margin-top: 100px;">
       <nut-col :span="18">
         <view style="margin-left: 5vw;">
-          <text> Hi,同学{{ br }}这么晚了，有什么心事吗？</text>
+          <text class="title-medium" style="margin-bottom: 5px;">Hi!花火</text>
+          <text class="text-small">{{ br }}这么晚了还没睡，有什么心事吗？</text>
         </view>
       </nut-col>
       <nut-col :span="6">
-        <view style="width: 56px;height: 56px;border-radius: 50px;background-color: aliceblue;"></view>
+        <view >
+          <image src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/b_4c93510a137e030c07899f01122794e3.jpg" style="width: 65px;height: 65px;border-radius: 50px;"> </image>
+        </view>
       </nut-col>
-
     </nut-row>
     <view
-      style=" display: flex;flex-wrap: wrap; justify-content: center; align-items: center;margin-bottom: 30px;margin-top: 30px;">
-      <IndexBar background-url="../../images/home-bg.svg" icon-url="../../images/home-icon.svg" msg="校园食堂，美味尽享" title="商铺详情"></IndexBar>
-      <IndexBar background-url="" icon-url="" msg="" title=""></IndexBar>
-      <IndexBar background-url="" icon-url="" msg="" title=""></IndexBar>
-      <IndexBar background-url="" icon-url="" msg="" title=""></IndexBar>
-    </view>
+      style=" display: flex;
+      justify-content:center; align-item:center; flex-wrap: wrap;margin-bottom: 10px;margin-top: 0px;">
+      <IndexBar background-url="../../images/home-bg.svg" icon-url="../../images/home-icon.svg" msg="校园食堂，美味尽享"
+                title="商铺详情"></IndexBar>
+      <IndexBar
+        background-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Vector%20%281%29.svg"
+        icon-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Vector.svg"
+        msg="校园美食，热门排行" title="排行榜"></IndexBar>
+      <IndexBar
+        background-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Auto%20stories.svg"
+        icon-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Vector%20%282%29.svg"
+        msg="享受美味，记录瞬间" title="干饭日记"></IndexBar>
+      <IndexBar icon-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Sync.svg"
+                background-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Sync%20%281%29.svg"
+                msg="摇出美食，惊喜上桌" title="随机摇菜"></IndexBar>
 
+    </view>
+    </view>
     <view>
-      <view style="display: flex;width: 100%;justify-content: center;flex-grow: 1;">
+
+      <view
+        style="display: flex;width: 100%;justify-content: center;flex-grow: 1;flex-direction: column;align-items: center;">
+        <view style="width: 90%;margin-bottom: 15px;">
+          <text class="title-medium">推荐 </text>
+          <text class="input-text">| 来看看今天都吃什么吧</text>
+        </view>
+
         <nut-swiper :init-page="page" :pagination-visible="true" pagination-color="#426543" auto-play="3000"
-                    style="width: 90%; border-radius: 15px;box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 4px 0px 6px rgba(0, 0, 0, 0.1);">
+                    style="width: 90%; border-radius: 15px;">
           <nut-swiper-item>
-            <img src="https://storage.360buyimg.com/jdc-article/NutUItaro34.jpg" alt=""/>
+            <img src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png"
+                 alt=""/>
           </nut-swiper-item>
           <nut-swiper-item>
-            <img src="https://storage.360buyimg.com/jdc-article/NutUItaro2.jpg" alt=""/>
+            <img src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png"
+                 alt=""/>
           </nut-swiper-item>
           <nut-swiper-item>
-            <img src="https://storage.360buyimg.com/jdc-article/welcomenutui.jpg" alt=""/>
+            <img src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png"
+                 alt=""/>
           </nut-swiper-item>
           <nut-swiper-item>
-            <img src="https://storage.360buyimg.com/jdc-article/fristfabu.jpg" alt=""/>
+            <img src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png"
+                 alt=""/>
           </nut-swiper-item>
         </nut-swiper>
       </view>
@@ -45,14 +70,14 @@
 <script setup>
 import Taro from "@tarojs/taro";
 import {ref} from "vue";
-import IndexBar from "../index/../../component/IndexBar.vue"
+
+import IndexBar from "../../component/IndexBar.vue"
+import "../../images/home-icon.svg"
 import "../../images/home-bg.svg"
+import "../../images/Vector.png"
+
 const br = ref("\n")
-const handleRegister = () => {
-  Taro.navigateTo({
-    url: '/pages/register/register',
-  })
-}
+
 </script>
 <style>
 
@@ -76,7 +101,7 @@ const handleRegister = () => {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #FFF9EE;
+  background: linear-gradient(#FFC765,#FFF9EE,#FFF9EE,#FFF9EE,#FFF9EE,#FFF9EE,#FFF9EE);
 
 }
 </style>

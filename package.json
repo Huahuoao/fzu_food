@@ -42,6 +42,7 @@
     "@tarojs/helper": "3.6.17",
     "@tarojs/plugin-framework-vue3": "3.6.17",
     "@tarojs/plugin-html": "^3.6.17",
+    "@tarojs/plugin-http": "^3.6.18",
     "@tarojs/plugin-platform-alipay": "3.6.17",
     "@tarojs/plugin-platform-h5": "3.6.17",
     "@tarojs/plugin-platform-jd": "3.6.17",
@@ -52,7 +53,7 @@
     "@tarojs/runtime": "3.6.17",
     "@tarojs/shared": "3.6.17",
     "@tarojs/taro": "3.6.17",
-    "axios": "^1.5.1",
+    "axios": "^1.6.0",
     "vue": "^3.0.0"
   },
   "devDependencies": {
