@@ -1,6 +1,4 @@
 <template>
-
-
   <view class="index-app" style="display: flex;flex-direction: column;justify-content: center;">
     <view class="index-bg">
     <!--  <nut-button @click="handleRegister">跳转到注册</nut-button>-->
@@ -20,7 +18,7 @@
     <view
       style=" display: flex;
       justify-content:center; align-item:center; flex-wrap: wrap;margin-bottom: 10px;margin-top: 0px;">
-      <IndexBar background-url="../images/home-bg.svg" icon-url="../images/home-icon.svg" msg="校园食堂，美味尽享"
+      <IndexBar background-url="../../images/home-bg.svg" icon-url="../../images/home-icon.svg" msg="校园食堂，美味尽享"
                 title="商铺详情"></IndexBar>
       <IndexBar
         background-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Vector%20%281%29.svg"

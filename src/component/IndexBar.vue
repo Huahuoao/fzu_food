@@ -7,7 +7,7 @@
       </image>
     </view>
     <view class="indexBarText">
-      <text class="indexbart1" W>{{ props.title }}{{ br }}</text>
+      <text class="indexbart1" >{{ props.title }}{{ br }}</text>
       <text class="indexbart2">{{ props.msg }}</text>
     </view>
     <image :src="props.backgroundUrl"

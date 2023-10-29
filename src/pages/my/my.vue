@@ -46,7 +46,7 @@
     <view style="display: flex;justify-content: space-around;margin-top: 5px;">
       <view class="my-button-all">
         <view class="my-button-item">
-          <image src="../images/my-like.svg" style="width: 23px;height: 30px;"></image>
+          <image src="../../images/my-like.svg" style="width: 23px;height: 30px;"></image>
         </view>
         <text>我的收藏</text>
       </view>
