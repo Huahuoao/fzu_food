@@ -2,7 +2,7 @@ export default defineAppConfig({
   pages: [
     'pages/index/index',
     'pages/register/register',
-    'pages/my/my'
+    'pages/my/my',
   ],
   tabBar: {
     list: [{
