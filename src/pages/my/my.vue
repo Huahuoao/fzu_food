@@ -10,53 +10,79 @@
   <!--    <nut-button>注册</nut-button>-->
   <!--  </nut-row>-->
   <view class="my-app">
-    <view style="display: flex;align-items: center;">
-      <button open-type="chooseAvatar" @chooseAvatar="bind"
-              style="border-radius: 50vw;width: 3rem;height: 3rem;margin: 20px; ">
-      </button>
-      <view @click="showLogin">
-        <text>{{ nickName }}</text>
+    <view style="margin-top: 80px;;">
+      <view style="display: flex;align-items: center; margin-left: 30px;margin-bottom: 20px;">
+        <view>
+          <image
+            src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/b_4c93510a137e030c07899f01122794e3.jpg"
+            style="width: 65px;height: 65px;border-radius: 50px;  box-shadow: 5px 5px 5px rgba(220,38,38,0.3);"></image>
+        </view>
+        <view @click="showLogin">
+          <text class="title-medium" style="margin-left: 10px;">点击登录</text>
+        </view>
+
+
       </view>
 
-
-    </view>
-
-    <nut-popup :style="{borderTopLeftRadius:'25px',borderTopRightRadius:'25px'  }" position="bottom"
-               v-model:visible="showBottom">
-      <view style="display: flex;flex-direction: column;">
-        <view style="margin:15px;display: flex;flex-direction: column; ">
-          <text >知食分子 申请使用</text>
-          <text class="my-ts-text">获取您的名称</text>
-          <input type="nickname" :modle="nickName" style="margin-left:5px; "/>
-          <nut-divider :style="{color: '#F1EBE1', padding: '0 0',margin: '0px'}"/>
-          <text class="my-ts-text pop-title">获取您的微信头像</text>
-          <view>
-            <button open-type="chooseAvatar" @chooseAvatar="bind" plain="true"
-                    :style="{ backgroundImage: `url(${bgImageUrl})`, borderRadius: '50%', width: '68px', height: '68px', margin: '0px 0px 0px 5px', backgroundPosition: 'center', backgroundSize: 'contain' }"
-            >
-            </button>
-
+      <nut-popup :style="{borderTopLeftRadius:'25px',borderTopRightRadius:'25px', backgroundColor: '#FFF9EE' }"
+                 position="bottom"
+                 v-model:visible="showBottom">
+        <view style="display: flex;flex-direction: column;">
+          <view style="margin:15px;display: flex;flex-direction: column; ">
+            <text class="text-small" style="margin-bottom: 10px;">知食分子 申请使用</text>
+            <view style="margin-bottom: 10px;">
+            <text class="label" style="margin-bottom: 5px;"   >获取您的名称</text>
+            <input type="nickname" style="margin-left:5px;" v-model="nickName" />
+            <nut-divider :style="{color: '#F1EBE1', padding: '0 0',margin: '0px', marginBottom: '5px', marginTop: '5px'}"/>
+            <text class="label" style="margin-bottom: 10px;">获取您的微信头像</text>
+            <view>
+              <button open-type="chooseAvatar" @chooseAvatar="bind" plain="true"
+                      :style="{ backgroundImage: `url(${bgImageUrl})`, borderRadius: '50%', width: '60px', height: '60px', margin: '10px 0px 0px 5px', backgroundPosition: 'center', backgroundSize: 'contain' }"
+              >
+              </button>
+            </view>
+            </view>
+            <nut-button type="success" class="normal-text" @click="handleAuth" style="margin-top: 0px;">
+              确认授权并保存
+            </nut-button>
           </view>
-          <nut-button type="success" class="normal-text" @click="handleAuth" style="margin-top: 20px;">确认授权并保存</nut-button>
+
+        </view>
+
+      </nut-popup>
+      <view style="display: flex;justify-content: center;align-items: center;width: 100vw;">
+        <view style="display: flex;justify-content: space-around;margin-top: 5px;width: 95%;">
+          <view class="my-button-all">
+            <view class="my-button-item">
+              <image src="../../images/my-like.svg" style="width: 23px;height: 30px;"></image>
+            </view>
+            <text style="margin-top: 3px;" class="text-small">我的收藏</text>
+          </view>
+          <view class="my-button-all">
+            <view class="my-button-item">
+              <image src="../../images/my-like.svg" style="width: 23px;height: 30px;"></image>
+            </view>
+            <text class="text-small" style="margin-top: 3px;">贡献信息</text>
+          </view>
+          <view class="my-button-all">
+            <view class="my-button-item">
+              <image src="../../images/my-like.svg" style="width: 23px;height: 30px;"></image>
+            </view>
+            <text class="text-small" style="margin-top: 3px;">店铺关注</text>
+          </view>
+          <view class="my-button-all">
+            <view class="my-button-item">
+              <image src="../../images/my-like.svg" style="width: 23px;height: 30px;"></image>
+            </view>
+            <text class="text-small" style="margin-top: 3px;">联系管理</text>
+          </view>
         </view>
       </view>
-
-
-    </nut-popup>
-    <view style="display: flex;justify-content: space-around;margin-top: 5px;">
-      <view class="my-button-all">
-        <view class="my-button-item">
-          <image src="../../images/my-like.svg" style="width: 23px;height: 30px;"></image>
-        </view>
-        <text>我的收藏</text>
+      <view class="my-bottom">
       </view>
-      <view class="my-button-item"></view>
-      <view class="my-button-item"></view>
-      <view class="my-button-item"></view>
-    </view>
-    <view class="my-bottom">
     </view>
   </view>
+
 </template>
 
 <script setup>
@@ -65,13 +91,14 @@ import './my.css'
 import Taro, {getUserProfile} from "@tarojs/taro";
 import {useLoad} from "@tarojs/taro";
 import {getUnionId, getUserByUnionId, register} from "../../request/api";
+
 const headBase64 = ref()
-const nickName = ref("点击登陆")
+const nickName = ref()
 const code = ref()
 const fileManager = Taro.getFileSystemManager()
 const showBottom = ref(false)
 const openid = ref()
-const  bgImageUrl = ref("https://images.fzuhuahuo.cn/Snipaste_2023-10-29_17-59-00.png")
+const bgImageUrl = ref("https://images.fzuhuahuo.cn/Snipaste_2023-10-29_17-59-00.png")
 const handleAuth = async () => {
   await Taro.login().then(res => {
     code.value = res.code
@@ -87,6 +114,11 @@ const handleAuth = async () => {
     }).then(res => {
       getUserByUnionId(openid.value).then(res => {
         console.log(res)
+        showBottom.value = false;
+          Taro.showToast({
+            title:"登录成功",
+        })
+
       })
     })
   })
@@ -111,12 +143,14 @@ useLoad(() => {
 
 </script>
 <style>
-image{
+image {
   max-width: 100%;
   max-height: 100%;
   object-fit: cover;
 }
+
 .my-button-item {
+  box-shadow: 5px 5px 5px rgba(220, 38, 38, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -133,6 +167,7 @@ image{
 }
 
 .my-button-all {
+  margin: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -145,7 +180,7 @@ image{
 }
 
 .my-app {
-  background: linear-gradient(#FFF9EE, #FFc765, #FFF9EE);
+  background: linear-gradient(#FFF9EE, #FFF9EE, #FCE8C5, #FCE8C5, #FFF9EE, #FFF9EE);
   height: 100vh;
   display: flex;
   flex-direction: column;

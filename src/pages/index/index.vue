@@ -11,7 +11,8 @@
       </nut-col>
       <nut-col :span="6">
         <view >
-          <image src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/b_4c93510a137e030c07899f01122794e3.jpg" style="width: 65px;height: 65px;border-radius: 50px;"> </image>
+          <image src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/b_4c93510a137e030c07899f01122794e3.jpg" style="  box-shadow: 5px 5px 5px rgba(220,38,38,0.3);
+width: 65px;height: 65px;border-radius: 50px;"> </image>
         </view>
       </nut-col>
     </nut-row>
