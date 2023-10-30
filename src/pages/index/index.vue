@@ -5,13 +5,19 @@
     <nut-row style="height: 60px;display: flex;align-items: center;margin-bottom: 10px;margin-top: 100px;">
       <nut-col :span="18">
         <view style="margin-left: 5vw;">
-          <text class="title-medium" style="margin-bottom: 5px;">Hi!花火</text>
+          <view v-if="isLogin">
+          <text class="title-medium" style="margin-bottom: 5px;">Hi!{{ nickName }}</text>
           <text class="text-small">{{ br }}这么晚了还没睡，有什么心事吗？</text>
+          </view>
+          <view v-if="!isLogin">
+            <text class="title-medium" style="margin-bottom: 5px;">未登录</text>
+            <text class="text-small">{{ br }}请前往个人页面进行登录哦</text>
+          </view>
         </view>
       </nut-col>
       <nut-col :span="6">
         <view >
-          <image src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/b_4c93510a137e030c07899f01122794e3.jpg" style="  box-shadow: 5px 5px 5px rgba(220,38,38,0.3);
+          <image :src="headImg" style="  box-shadow: 2px 2px 2px rgba(220,38,38,0.3);
 width: 65px;height: 65px;border-radius: 50px;"> </image>
         </view>
       </nut-col>
@@ -69,7 +75,7 @@ width: 65px;height: 65px;border-radius: 50px;"> </image>
 </template>
 
 <script setup>
-import Taro from "@tarojs/taro";
+import Taro, {useDidShow, useLoad} from "@tarojs/taro";
 import {ref} from "vue";
 
 import IndexBar from "../../component/IndexBar.vue"
@@ -78,6 +84,22 @@ import "../../images/home-bg.svg"
 import "../../images/Vector.png"
 
 const br = ref("\n")
+const nickName = ref()
+const headImg = ref()
+const isLogin = ref(false)
+useDidShow(() => {
+  if(Taro.getStorageSync("isLogin")){
+    isLogin.value = true
+    nickName.value = Taro.getStorageSync("nickName")
+    headImg.value = Taro.getStorageSync("headImg")
+  }else {
+    nickName.value = ""
+    headImg.value = "https://images.fzuhuahuo.cn/default_headImg.jpeg"
+  }
+})
+useLoad(() => {
+
+})
 
 </script>
 <style>

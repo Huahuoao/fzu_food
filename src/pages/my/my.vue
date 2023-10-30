@@ -14,11 +14,11 @@
       <view style="display: flex;align-items: center; margin-left: 30px;margin-bottom: 20px;">
         <view>
           <image
-            src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/b_4c93510a137e030c07899f01122794e3.jpg"
-            style="width: 65px;height: 65px;border-radius: 50px;  box-shadow: 5px 5px 5px rgba(220,38,38,0.3);"></image>
+            :src="headImg"
+            style="width: 65px;height: 65px;border-radius: 50px;  box-shadow: 2px 2px 2px rgba(220,38,38,0.3);"></image>
         </view>
         <view @click="showLogin">
-          <text class="title-medium" style="margin-left: 10px;">点击登录</text>
+          <text class="title-medium" style="margin-left: 10px;">{{ nickName == "" ? '点击登录' : nickName }}</text>
         </view>
 
 
@@ -31,16 +31,17 @@
           <view style="margin:15px;display: flex;flex-direction: column; ">
             <text class="text-small" style="margin-bottom: 10px;">知食分子 申请使用</text>
             <view style="margin-bottom: 10px;">
-            <text class="label" style="margin-bottom: 5px;"   >获取您的名称</text>
-            <input type="nickname" style="margin-left:5px;" v-model="nickName" />
-            <nut-divider :style="{color: '#F1EBE1', padding: '0 0',margin: '0px', marginBottom: '5px', marginTop: '5px'}"/>
-            <text class="label" style="margin-bottom: 10px;">获取您的微信头像</text>
-            <view>
-              <button open-type="chooseAvatar" @chooseAvatar="bind" plain="true"
-                      :style="{ backgroundImage: `url(${bgImageUrl})`, borderRadius: '50%', width: '60px', height: '60px', margin: '10px 0px 0px 5px', backgroundPosition: 'center', backgroundSize: 'contain' }"
-              >
-              </button>
-            </view>
+              <text class="label" style="margin-bottom: 5px;">获取您的名称</text>
+              <input type="nickname" style="margin-left:5px;" v-model="nickNameInput"/>
+              <nut-divider
+                :style="{color: '#F1EBE1', padding: '0 0',margin: '0px', marginBottom: '5px', marginTop: '5px'}"/>
+              <text class="label" style="margin-bottom: 10px;">获取您的微信头像</text>
+              <view>
+                <button open-type="chooseAvatar" @chooseAvatar="bind" plain="true"
+                        :style="{ backgroundImage: `url(${bgImageUrl})`, borderRadius: '50%', width: '60px', height: '60px', margin: '10px 0px 0px 5px', backgroundPosition: 'center', backgroundSize: 'contain' }"
+                >
+                </button>
+              </view>
             </view>
             <nut-button type="success" class="normal-text" @click="handleAuth" style="margin-top: 0px;">
               确认授权并保存
@@ -88,17 +89,18 @@
 <script setup>
 import {ref} from 'vue'
 import './my.css'
-import Taro, {getUserProfile} from "@tarojs/taro";
+import Taro, {getUserProfile, useDidShow} from "@tarojs/taro";
 import {useLoad} from "@tarojs/taro";
 import {getUnionId, getUserByUnionId, register} from "../../request/api";
-
+const nickNameInput = ref()
 const headBase64 = ref()
-const nickName = ref()
+const nickName = ref("点击登录")
 const code = ref()
 const fileManager = Taro.getFileSystemManager()
 const showBottom = ref(false)
 const openid = ref()
 const bgImageUrl = ref("https://images.fzuhuahuo.cn/Snipaste_2023-10-29_17-59-00.png")
+const headImg = ref()
 const handleAuth = async () => {
   await Taro.login().then(res => {
     code.value = res.code
@@ -110,15 +112,18 @@ const handleAuth = async () => {
     register({
       avatarBase64: headBase64.value,
       unionId: res.data.data.openid,
-      username: nickName.value
+      username: nickNameInput.value
     }).then(res => {
       getUserByUnionId(openid.value).then(res => {
-        console.log(res)
+        headImg.value = res.data.data.avatarUrl
         showBottom.value = false;
-          Taro.showToast({
-            title:"登录成功",
+        nickName.value = res.data.data.username
+        Taro.showToast({
+          title: "登录成功",
         })
-
+        Taro.setStorageSync("isLogin", true)
+        Taro.setStorageSync("headImg", headImg.value)
+        Taro.setStorageSync("nickName", nickNameInput.value)
       })
     })
   })
@@ -129,14 +134,24 @@ const handleAuth = async () => {
 const bind = (event) => {
   console.log(event.detail.avatarUrl)
   headBase64.value = fileManager.readFileSync(event.detail.avatarUrl, "base64")
-  bgImageUrl.value = event.detail.avatarUrl
-  console.log(headBase64.value)
+  bgImageUrl.value = 'data:image/png;base64,' + headBase64.value
+  console.log(bgImageUrl)
 }
 const show = ref(false);
 const showLogin = () => {
   showBottom.value = true;
 }
+
+
 useLoad(() => {
+  if (Taro.getStorageSync("isLogin")) {
+    nickName.value = Taro.getStorageSync("nickName")
+    headImg.value = Taro.getStorageSync("headImg")
+  } else {
+    nickName.value = ""
+    headImg.value = "https://images.fzuhuahuo.cn/default_headImg.jpeg"
+  }
+
 
 })
 
