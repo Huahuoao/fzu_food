@@ -1,5 +1,5 @@
 <template>
-  <view class="my_divider" v-for="(item,index) in list" :style="{left:(len) * (index+1) +'%'}"></view>
+<!--  <view class="my_divider" v-for="(item,index) in list" :style="{left:(len) * (index+1) +'%'}"></view>-->
   <view class="store">
     <view class="search">
       <view class="search_line">

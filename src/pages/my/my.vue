@@ -10,7 +10,7 @@
   <!--    <nut-button>注册</nut-button>-->
   <!--  </nut-row>-->
   <view class="my-app">
-    <view style="margin-top: 80px;;">
+    <view style="margin-top: 80px; display: flex; flex-direction: column;">
       <view style="display: flex;align-items: center; margin-left: 30px;margin-bottom: 20px;">
         <view>
           <image
@@ -53,33 +53,78 @@
       </nut-popup>
       <view style="display: flex;justify-content: center;align-items: center;width: 100vw;">
         <view style="display: flex;justify-content: space-around;margin-top: 5px;width: 95%;">
-          <view class="my-button-all">
+          <view class="my-button-all" @click="handleMyLike">
             <view class="my-button-item">
-              <image src="../../images/my-like.svg" style="width: 23px;height: 30px;"></image>
+              <view v-if="selectValue==1"
+                    style="width: 20px;height: 18px;background-color: #f6ac15;position: absolute;right: 3px;bottom: 3px;border-radius: 50%;"></view>
+              <image src="../../images/my-like.svg" class="my-item-icon"></image>
             </view>
             <text style="margin-top: 3px;" class="text-small">我的收藏</text>
           </view>
-          <view class="my-button-all">
+          <view class="my-button-all" @click="handleMyMsg">
             <view class="my-button-item">
-              <image src="../../images/my-like.svg" style="width: 23px;height: 30px;"></image>
+              <view v-if="selectValue==2"
+                    style="width: 20px;height: 18px;background-color: #f6ac15;position: absolute;right: 3px;bottom: 3px;border-radius: 50%;"></view>
+              <image src="https://images.fzuhuahuo.cn/Input.png" style="object-fit: contain;"
+                     class="my-item-icon"></image>
             </view>
             <text class="text-small" style="margin-top: 3px;">贡献信息</text>
           </view>
-          <view class="my-button-all">
+          <view class="my-button-all" @click="handleMyFocus">
             <view class="my-button-item">
-              <image src="../../images/my-like.svg" style="width: 23px;height: 30px;"></image>
+              <view v-if="selectValue==3"
+                    style="width: 20px;height: 18px;background-color: #f6ac15;position: absolute;right: 3px;bottom: 3px;border-radius: 50%;"></view>
+
+              <image src="https://images.fzuhuahuo.cn/Vector.png" class="my-item-icon"></image>
             </view>
             <text class="text-small" style="margin-top: 3px;">店铺关注</text>
           </view>
-          <view class="my-button-all">
+          <view class="my-button-all" @click="handleAdmin">
             <view class="my-button-item">
-              <image src="../../images/my-like.svg" style="width: 23px;height: 30px;"></image>
+              <view v-if="selectValue==4"
+                    style="width: 20px;height: 18px;background-color: #f6ac15;position: absolute;right: 3px;bottom: 3px;border-radius: 50%;"></view>
+              <image src="https://images.fzuhuahuo.cn/Vector (1).png" class="my-item-icon"></image>
             </view>
             <text class="text-small" style="margin-top: 3px;">联系管理</text>
           </view>
         </view>
       </view>
-      <view class="my-bottom">
+
+    </view>
+    <view class="my-bottom" style="display: flex;justify-content: center;">
+<!--      我的收藏-->
+      <view   v-if="selectValue==1"   style="display:flex; width: 90%;height: 90%;background-color:
+rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;">
+        <image src="https://images.fzuhuahuo.cn/Vector (2).png"
+               style="right: 0px;top: 0px;position: absolute;width: 28px;height: 28px; margin: 5px;"></image>
+        <view style="height: 95%;width: 95%;display: flex;position: relative;flex-direction: column;">
+          <view style="margin-left: 5px;">
+            <text class="label">|</text>
+            <text class="text-small" style="margin-left: 5px;margin-bottom: 10px;"> 默认收藏夹</text>
+          </view>
+          <view style="justify-content: center;align-items: center;">
+            <view style="display: flex;flex-direction: column;justify-content: center;margin: 10px; width: 65px;align-items: center;">
+              <image src="https://images.fzuhuahuo.cn/20231102002910.png"
+                     style="width: 65px;height: 65px;object-fit: contain; border-radius: 10px;">
+              </image>
+              <text class="icon-name" style="margin-top: 3px;">
+                拔丝地瓜
+              </text>
+            </view>
+          </view>
+        </view>
+      </view>
+<!--      贡献信息-->
+      <view   v-if="selectValue==2"   style="display:flex; width: 90%;height: 90%;background-color:
+rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;">
+      </view>
+<!--      店铺关注-->
+      <view   v-if="selectValue==3"   style="display:flex; width: 90%;height: 90%;background-color:
+rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;">
+      </view>
+<!--      联系管理-->
+      <view   v-if="selectValue==4"   style="display:flex; width: 90%;height: 90%;background-color:
+rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;">
       </view>
     </view>
   </view>
@@ -92,6 +137,8 @@ import './my.css'
 import Taro, {getUserProfile, useDidShow} from "@tarojs/taro";
 import {useLoad} from "@tarojs/taro";
 import {getUnionId, getUserByUnionId, register} from "../../request/api";
+
+const selectValue = ref(1)
 const value = ref('0');
 const nickNameInput = ref()
 const headBase64 = ref()
@@ -103,6 +150,24 @@ const openid = ref()
 const bgImageUrl = ref("https://images.fzuhuahuo.cn/Snipaste_2023-10-29_17-59-00.png")
 const headImg = ref()
 const isLogin = ref()
+//我的收藏
+const handleMyLike = () => {
+  selectValue.value = 1;
+}
+//贡献信息
+const handleMyMsg = () => {
+  selectValue.value = 2;
+}
+//店铺关注
+const handleMyFocus = () => {
+  selectValue.value = 3;
+}
+//联系管理
+
+const handleAdmin = () => {
+  selectValue.value = 4;
+}
+
 const handleAuth = async () => {
   await Taro.login().then(res => {
     code.value = res.code
@@ -141,7 +206,7 @@ const bind = (event) => {
 }
 const show = ref(false);
 const showLogin = () => {
-  if (!isLogin) {
+  if (!isLogin.value) {
     showBottom.value = true;
   }
 }
@@ -169,6 +234,13 @@ image {
   object-fit: cover;
 }
 
+.my-item-icon {
+  object-fit: contain;
+  width: 60%;
+  height: 60%;
+  z-index: 100;
+}
+
 .my-button-item {
   box-shadow: 5px 5px 5px rgba(220, 38, 38, 0.3);
   display: flex;
@@ -179,6 +251,7 @@ image {
   height: 96px;
   background-color: white;
   border-radius: 20px;
+  position: relative;
 }
 
 .login-popup {
@@ -208,7 +281,6 @@ image {
 
 .my-bottom {
   flex-grow: 1;
-  background: url("../../images/my-bg.svg") no-repeat center;
 }
 
 .my-ts-text {
