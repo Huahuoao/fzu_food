@@ -34,6 +34,7 @@ useLoad(() => {
 
 <style>
 .index-bar {
+  box-shadow: 5px 5px 5px rgba(220,38,38,0.3);
   margin:34px;
   position: relative;
   display: flex;

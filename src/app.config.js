@@ -11,13 +11,13 @@ export default defineAppConfig({
     list: [{
       pagePath: 'pages/index/index',
       text: '首页',
-      iconPath:"images/index_tabbar_before.png", // 激活前的图片
-      selectedIconPath:"images/index_tabbar_before.png", // 激活后的图片
+      iconPath:"images/s1.png", // 激活前的图片
+      selectedIconPath:"images/s2.png", // 激活后的图片
     }, {
       pagePath: 'pages/my/my',
       text: '个人',
-      iconPath:"images/my_tabbar_before.png",
-      selectedIconPath:"images/my_tabbar_before.png",
+      iconPath:"images/m1.png",
+      selectedIconPath:"images/m2.png",
 
     }],
     'color': '#000',
