@@ -26,7 +26,7 @@ width: 65px;height: 65px;border-radius: 50px;"> </image>
       style=" display: flex;
       justify-content:center; align-item:center; flex-wrap: wrap;margin-bottom: 10px;margin-top: 0px;">
       <IndexBar background-url="../../images/home-bg.svg" icon-url="../../images/home-icon.svg" msg="校园食堂，美味尽享"
-                title="商铺详情"></IndexBar>
+                title="商铺详情" @click="navitoStore"></IndexBar>
       <IndexBar
         background-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Vector%20%281%29.svg"
         icon-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Vector.svg"
@@ -82,7 +82,11 @@ import IndexBar from "../../component/IndexBar.vue"
 import "../../images/home-icon.svg"
 import "../../images/home-bg.svg"
 import "../../images/Vector.png"
-
+const navitoStore = ()=>{
+  Taro.navigateTo({
+    url:'../store/store'
+  })
+}
 const br = ref("\n")
 const nickName = ref()
 const headImg = ref()
