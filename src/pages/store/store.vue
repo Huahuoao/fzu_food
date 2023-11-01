@@ -1,45 +1,45 @@
 <template>
-  <div class="my_divider"   v-for="(item,index) in list" :style="{left:(len) * (index+1) +'%'}"></div>
-    <div class="store">
-      <div class="search">
-          <div class="search_line">
-            <input v-model="searchdata" class="search_input">
-            <nut-divider direction="vertical"  style="background-color: black;height: 70%;"/>
-            <IconFont name="search" size="20px" style="margin-right: 2.5vw;"></IconFont>
-          </div>
-        </div>
-        
-        <div class="store_list">
-          <nut-tabs v-model="tabactive" @click="changeTab" color="black" background="#F6AC15" style="font-family: 'PingFang';
+  <view class="my_divider" v-for="(item,index) in list" :style="{left:(len) * (index+1) +'%'}"></view>
+  <view class="store">
+    <view class="search">
+      <view class="search_line">
+        <input v-model="searchdata" class="search_input" />
+        <nut-divider direction="vertical" style="background-color: black;height: 70%;" />
+        <IconFont name="search" size="20px" style="margin-right: 2.5vw;"></IconFont>
+      </view>
+    </view>
+
+    <view class="store_list">
+      <nut-tabs v-model="tabactive" @click="changeTab" color="black" background="#F6AC15" style="font-family: 'PingFang';
   font-size: 16Px;
   font-weight: bold;">
-          <nut-tab-pane v-for="item in canteenlist" :pane-key="item.paneKey" :title=item.title class="tab_pane"> 
-            <div v-for="(item,index) in storelist" class="store_line" >
-              <image src="../../images/mcdona.png" class="store_logo_img" />
-              <div class="store_rate" @click="navitoStoreDetail()">
-                <div style="margin-bottom: 20px;">{{ item.name }}</div>
-                <div style="display: flex;">
-                  <nut-rate v-model="item.star" readnoly active-color="#F6AC15" size="13" class="rate_star" spacing="8" data-desc="this"/>
-                  <span style="font-family: 'PingFang';font-size: 10px; margin-top: 0.5vh;">{{ item.star }}分</span>
-                </div>
-              </div>
-              <div class="store_line_right">
-                
-                <div style="position: absolute;">
-                  <div class="heart1" :class="{red:item.color==1,white:item.color==0}" @click="changeColor(index)"></div>
-                  <div class="heart_left" :class="{red:item.color==1,white:item.color==0}" @click="changeColor(index)"></div>
-                  <div class="heart" :class="{red:item.color==1,white:item.color==0}" @click="changeColor(index)"></div>
-                  <div class="heart_right" :class="{red:item.color==1,white:item.color==0}" @click="changeColor(index)"></div>
-              </div>
-            <div class="store_type">
-              {{ item.type }}
-            </div>
-              </div>
-            </div>
-          </nut-tab-pane>
-          </nut-tabs> 
-        </div>
-    </div>
+        <nut-tab-pane v-for="item in canteenlist" :pane-key="item.paneKey" :title=item.title  class="tab_pane" :key="item.paneKey">
+          <view v-for="(item,index) in storelist" class="store_line" :key="item.id">
+            <image src="https://images.fzuhuahuo.cn/mcdona.png" class="store_logo_img" />
+            <view class="store_rate" @click="navitoStoreDetail()">
+              <view style="margin-bottom: 20px;">{{ item.name }}</view>
+              <view style="display: flex;">
+                <nut-rate v-model="item.star" readnoly active-color="#F6AC15" size="13" class="rate_star" spacing="8" data-desc="this" />
+                <text style="font-family: 'PingFang';font-size: 10px; margin-top: 0.5vh;">{{ item.star }}分</text>
+              </view>
+            </view>
+            <view class="store_line_right">
+              <view style="position: absolute;">
+                <view class="heart1" :class="{red:item.color==1,white:item.color==0}" @click="changeColor(index)"></view>
+                <view class="heart_left" :class="{red:item.color==1,white:item.color==0}" @click="changeColor(index)"></view>
+                <view class="heart" :class="{red:item.color==1,white:item.color==0}" @click="changeColor(index)"></view>
+                <view class="heart_right" :class="{red:item.color==1,white:item.color==0}" @click="changeColor(index)"></view>
+              </view>
+              <view class="store_type">
+                {{ item.type }}
+              </view>
+            </view>
+          </view>
+        </nut-tab-pane>
+      </nut-tabs>
+    </view>
+  </view>
+
 </template>
 
 <script setup>
@@ -71,7 +71,7 @@ const canteenlist = ref([
     paneKey: '4'
   }
 ])
-var storelist = ref([
+const storelist = ref([
   {
     id:1,
     name:'麦当劳',
@@ -91,7 +91,7 @@ var storelist = ref([
     tap:false
   }
 ])
-var len = 100/(storelist.value.length ) 
+var len = 100/(storelist.value.length )
 const changeTab = (tab) => {
   tabactive.value = tab.paneKey;
   console.log(len)
@@ -170,8 +170,8 @@ const navitoStoreDetail =()=>{
   width :5px;
   height: 40px;
   background-color: black;
-  
-} 
+
+}
 .store_line{
   width: 90vw;
   height: 13vh;

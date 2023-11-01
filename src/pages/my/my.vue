@@ -92,6 +92,7 @@ import './my.css'
 import Taro, {getUserProfile, useDidShow} from "@tarojs/taro";
 import {useLoad} from "@tarojs/taro";
 import {getUnionId, getUserByUnionId, register} from "../../request/api";
+const value = ref('0');
 const nickNameInput = ref()
 const headBase64 = ref()
 const nickName = ref("点击登录")
@@ -101,6 +102,7 @@ const showBottom = ref(false)
 const openid = ref()
 const bgImageUrl = ref("https://images.fzuhuahuo.cn/Snipaste_2023-10-29_17-59-00.png")
 const headImg = ref()
+const isLogin = ref()
 const handleAuth = async () => {
   await Taro.login().then(res => {
     code.value = res.code
@@ -139,12 +141,15 @@ const bind = (event) => {
 }
 const show = ref(false);
 const showLogin = () => {
-  showBottom.value = true;
+  if (!isLogin) {
+    showBottom.value = true;
+  }
 }
 
 
 useLoad(() => {
   if (Taro.getStorageSync("isLogin")) {
+    isLogin.value = true
     nickName.value = Taro.getStorageSync("nickName")
     headImg.value = Taro.getStorageSync("headImg")
   } else {
