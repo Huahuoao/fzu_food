@@ -1,5 +1,5 @@
 <template>
-  <div class="my_divider"   v-for="(item,index) in list" :style="{left:(len) * (index+1) +'%'}"></div>
+  <div class="my_divider"   v-for="(item,index) in canteenlist" :style="{left:(len) * (index+1) +'%'}"></div>
     <div class="store">
       <div class="search">
           <div class="search_line">
@@ -15,7 +15,7 @@
   font-weight: bold;">
           <nut-tab-pane v-for="item in canteenlist" :pane-key="item.paneKey" :title=item.title class="tab_pane"> 
             <div v-for="(item,index) in storelist" class="store_line" >
-              <image src="../../images/mcdona.png" class="store_logo_img" />
+              <image src="https://images.fzuhuahuo.cn/mcdona.png" class="store_logo_img" />
               <div class="store_rate" @click="navitoStoreDetail()">
                 <div style="margin-bottom: 20px;">{{ item.name }}</div>
                 <div style="display: flex;">
@@ -77,7 +77,7 @@ var storelist = ref([
     name:'麦当劳',
     star:3,
     type:'西餐汉堡',
-    logo:'/src/images/macdona.png',
+    logo:'https://images.fzuhuahuo.cn/mcdona.png',
     color:0,
     tap:false
   },
@@ -86,12 +86,12 @@ var storelist = ref([
     name:'麦当劳',
     star:5,
     type:'西餐汉堡',
-    logo:'../../images/macdona.png',
+    logo:'https://images.fzuhuahuo.cn/mcdona.png',
     color:0,
     tap:false
   }
 ])
-var len = 100/(storelist.value.length ) 
+var len = 100/(canteenlist.value.length ) 
 const changeTab = (tab) => {
   tabactive.value = tab.paneKey;
   console.log(len)
@@ -166,9 +166,9 @@ const navitoStoreDetail =()=>{
  .my_divider{
   z-index: 2;
   position: absolute;
-  top: 140px;
+  top: 130px;
   width :5px;
-  height: 40px;
+  height: 30px;
   background-color: black;
   
 } 

@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import './app.css'
 import Taro, {loadFontFace} from "@tarojs/taro";
-
+import './icon/font/font_66cezw049xu/iconfont.css';
 const App = createApp({
   onShow (options) {
     console.log('App onShow.')

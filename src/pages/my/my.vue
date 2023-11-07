@@ -55,25 +55,25 @@
         <view style="display: flex;justify-content: space-around;margin-top: 5px;width: 95%;">
           <view class="my-button-all">
             <view class="my-button-item">
-              <image src="../../images/my-like.svg" style="width: 23px;height: 30px;"></image>
+              <image src="https://images.fzuhuahuo.cn/my-like.svg" style="width: 23px;height: 30px;"></image>
             </view>
             <text style="margin-top: 3px;" class="text-small">我的收藏</text>
           </view>
           <view class="my-button-all">
             <view class="my-button-item">
-              <image src="../../images/my-like.svg" style="width: 23px;height: 30px;"></image>
+              <image src="https://images.fzuhuahuo.cn/my-like.svg" style="width: 23px;height: 30px;"></image>
             </view>
             <text class="text-small" style="margin-top: 3px;">贡献信息</text>
           </view>
           <view class="my-button-all">
             <view class="my-button-item">
-              <image src="../../images/my-like.svg" style="width: 23px;height: 30px;"></image>
+              <image src="https://images.fzuhuahuo.cn/my-like.svg" style="width: 23px;height: 30px;"></image>
             </view>
             <text class="text-small" style="margin-top: 3px;">店铺关注</text>
           </view>
           <view class="my-button-all">
             <view class="my-button-item">
-              <image src="../../images/my-like.svg" style="width: 23px;height: 30px;"></image>
+              <image src="https://images.fzuhuahuo.cn/my-like.svg" style="width: 23px;height: 30px;"></image>
             </view>
             <text class="text-small" style="margin-top: 3px;">联系管理</text>
           </view>
@@ -203,7 +203,7 @@ image {
 
 .my-bottom {
   flex-grow: 1;
-  background: url("../../images/my-bg.svg") no-repeat center;
+  background: url("https://images.fzuhuahuo.cn/my-bg.svg") no-repeat center;
 }
 
 .my-ts-text {
