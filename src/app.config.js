@@ -5,7 +5,8 @@ export default defineAppConfig({
     'pages/my/my',
     'pages/store/store',
     'pages/storedetail/storedetail',
-    'pages/dishdetail/dishdetail'
+    'pages/dishdetail/dishdetail',
+    'pages/leaderboard/leaderboard'
   ],
   tabBar: {
     list: [{
