@@ -54,7 +54,7 @@
             <view class="my-button-item">
               <view v-if="selectValue==1"
                     style="width: 20px;height: 18px;background-color: #f6ac15;position: absolute;right: 3px;bottom: 3px;border-radius: 50%;"></view>
-              <image src="../../images/my-like.svg" class="my-item-icon"></image>
+              <image src="https://images.fzuhuahuo.cn/my-like.svg" class="my-item-icon"></image>
             </view>
             <text style="margin-top: 3px;" class="text-small">我的收藏</text>
           </view>
