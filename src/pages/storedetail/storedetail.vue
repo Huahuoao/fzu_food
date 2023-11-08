@@ -5,7 +5,7 @@
     </div>
     <div class="store_line0">
       <div v-for="(item,index) in storelist" class="store_line" >
-              <image src="../../images/mcdona.png" class="store_logo_img" />
+              <image src="https://images.fzuhuahuo.cn/mcdona.png" class="store_logo_img" />
               <div class="store_rate" @click="navitoStoreDetail()">
                 <div style="margin-bottom: 20px;font-family: 'PingFang';font-size: 20Px;font-weight: bold;">{{ item.name }}</div>
                 <div style="display: flex;">
@@ -83,7 +83,7 @@ var menulist = ref([
     star:0,
     typetag:'种类标签',
     tastytag:'口味标签',
-    logo:require('../../images/hum.png'),
+    logo:'https://images.fzuhuahuo.cn/hum.png',
     price:23
   },
   {
@@ -92,7 +92,7 @@ var menulist = ref([
     star:0,
     typetag:'种类标签',
     tastytag:'口味标签',
-    logo:require('../../images/hum1.png'),
+    logo:'https://images.fzuhuahuo.cn/hum1.png',
     price:23
   }
 ])
