@@ -6,6 +6,7 @@ export default defineAppConfig({
     'pages/store/store',
     'pages/storedetail/storedetail',
     'pages/dishdetail/dishdetail',
+    'pages/leaderboard/leaderboard',
     'pages/randomselection/randomselection'
   ],
   tabBar: {

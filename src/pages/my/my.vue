@@ -10,7 +10,7 @@
   <!--    <nut-button>注册</nut-button>-->
   <!--  </nut-row>-->
   <view class="my-app">
-    <view style="margin-top: 80px;;">
+    <view style="margin-top: 80px; display: flex; flex-direction: column;">
       <view style="display: flex;align-items: center; margin-left: 30px;margin-bottom: 20px;">
         <view>
           <image
@@ -20,8 +20,6 @@
         <view @click="showLogin">
           <text class="title-medium" style="margin-left: 10px;">{{ nickName == "" ? '点击登录' : nickName }}</text>
         </view>
-
-
       </view>
 
       <nut-popup :style="{borderTopLeftRadius:'25px',borderTopRightRadius:'25px', backgroundColor: '#FFF9EE' }"
@@ -47,42 +45,113 @@
               确认授权并保存
             </nut-button>
           </view>
-
         </view>
 
       </nut-popup>
       <view style="display: flex;justify-content: center;align-items: center;width: 100vw;">
         <view style="display: flex;justify-content: space-around;margin-top: 5px;width: 95%;">
-          <view class="my-button-all">
+          <view class="my-button-all" @click="handleMyLike">
             <view class="my-button-item">
-              <image src="https://images.fzuhuahuo.cn/my-like.svg" style="width: 23px;height: 30px;"></image>
+              <view v-if="selectValue==1"
+                    style="width: 20px;height: 18px;background-color: #f6ac15;position: absolute;right: 3px;bottom: 3px;border-radius: 50%;"></view>
+              <image src="https://images.fzuhuahuo.cn/my-like.svg" class="my-item-icon"></image>
             </view>
             <text style="margin-top: 3px;" class="text-small">我的收藏</text>
           </view>
-          <view class="my-button-all">
+          <view class="my-button-all" @click="handleMyMsg">
             <view class="my-button-item">
-              <image src="https://images.fzuhuahuo.cn/my-like.svg" style="width: 23px;height: 30px;"></image>
+              <view v-if="selectValue==2"
+                    style="width: 20px;height: 18px;background-color: #f6ac15;position: absolute;right: 3px;bottom: 3px;border-radius: 50%;"></view>
+              <image src="https://images.fzuhuahuo.cn/Input.png" style="object-fit: contain;"
+                     class="my-item-icon"></image>
             </view>
             <text class="text-small" style="margin-top: 3px;">贡献信息</text>
           </view>
-          <view class="my-button-all">
+          <view class="my-button-all" @click="handleMyFocus">
             <view class="my-button-item">
-              <image src="https://images.fzuhuahuo.cn/my-like.svg" style="width: 23px;height: 30px;"></image>
+              <view v-if="selectValue==3"
+                    style="width: 20px;height: 18px;background-color: #f6ac15;position: absolute;right: 3px;bottom: 3px;border-radius: 50%;"></view>
+
+              <image src="https://images.fzuhuahuo.cn/Vector.png" class="my-item-icon"></image>
             </view>
             <text class="text-small" style="margin-top: 3px;">店铺关注</text>
           </view>
-          <view class="my-button-all">
+          <view class="my-button-all" @click="handleAdmin">
             <view class="my-button-item">
-              <image src="https://images.fzuhuahuo.cn/my-like.svg" style="width: 23px;height: 30px;"></image>
+              <view v-if="selectValue==4"
+                    style="width: 20px;height: 18px;background-color: #f6ac15;position: absolute;right: 3px;bottom: 3px;border-radius: 50%;"></view>
+              <image src="https://images.fzuhuahuo.cn/Vector (1).png" class="my-item-icon"></image>
             </view>
             <text class="text-small" style="margin-top: 3px;">联系管理</text>
           </view>
         </view>
       </view>
-      <view class="my-bottom">
+
+    </view>
+    <view class="my-bottom" style="display: flex;justify-content: center;">
+<!--      我的收藏-->
+      <view   v-if="selectValue==1"   style="display:flex; width: 90%;height: 90%;background-color:
+rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;">
+        <image src="https://images.fzuhuahuo.cn/Vector (2).png"
+               style="right: 0px;top: 0px;position: absolute;width: 28px;height: 28px; margin: 5px;"></image>
+        <view style="height: 95%;width: 95%;display: flex;position: relative;flex-direction: column;">
+          <view style="margin-left: 5px;">
+            <text class="label">|</text>
+            <text class="text-small" style="margin-left: 5px;margin-bottom: 10px;"> 默认收藏夹</text>
+          </view>
+          <view style="justify-content: center;align-items: center;">
+            <view style="display: flex;flex-direction: column;justify-content: center;margin: 10px; width: 65px;align-items: center;">
+              <image src="https://images.fzuhuahuo.cn/20231102002910.png"
+                     style="width: 65px;height: 65px;object-fit: contain; border-radius: 10px;">
+              </image>
+              <text class="icon-name" style="margin-top: 3px;">
+                拔丝地瓜
+              </text>
+            </view>
+          </view>
+        </view>
+      </view>
+<!--      贡献信息-->
+      <view   v-if="selectValue==2"   style="display:flex; width: 90%;height: 90%;background-color:
+rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;">
+        <view class="my-top-select" >
+         <view @click="contributeFood" class="my-select-left" :style="{ backgroundColor: bgColorLeft }" ><text class="input-text">贡献餐品</text></view>
+          <view  @click="contributeShop" class="my-select-right" :style="{ backgroundColor: bgColorRight }"><text class="input-text">贡献店铺</text></view>
+
+        </view>
+
+
+        <view class="con-main" style="width: 100%;height: 100%;margin-top: 36%;display: flex;flex-direction: column;margin-left: 5%;margin-right: 5%;">
+
+          <view>
+            <text class="text-small">1.请上传店铺封面：</text>
+            <nut-divider :style="{ color: '#A1A1A140'}" ></nut-divider>
+          </view>
+          <view>   <text  class="text-small">2.请上传店铺名字：</text>            <nut-divider :style="{ color: '#A1A1A140'}"></nut-divider>
+          </view>
+          <view>  <text  class="text-small">3.请选择店铺的位置：</text>            <nut-divider :style="{ color: '#A1A1A140'}"></nut-divider>
+          </view>
+          <view><text  class="text-small">4.请选择店铺的标签：</text></view>
+
+
+
+
+        </view>
+
+
+      </view>
+
+<!--      店铺关注-->
+      <view   v-if="selectValue==3"   style="display:flex; width: 90%;height: 90%;background-color:
+rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;">
+      </view>
+<!--      联系管理-->
+      <view   v-if="selectValue==4"   style="display:flex; width: 90%;height: 90%;background-color:
+rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;">
       </view>
     </view>
   </view>
+
 
 </template>
 
@@ -92,6 +161,9 @@ import './my.css'
 import Taro, {getUserProfile, useDidShow} from "@tarojs/taro";
 import {useLoad} from "@tarojs/taro";
 import {getUnionId, getUserByUnionId, register} from "../../request/api";
+
+const selectValue = ref(1)
+const value = ref('0');
 const nickNameInput = ref()
 const headBase64 = ref()
 const nickName = ref("点击登录")
@@ -101,6 +173,40 @@ const showBottom = ref(false)
 const openid = ref()
 const bgImageUrl = ref("https://images.fzuhuahuo.cn/Snipaste_2023-10-29_17-59-00.png")
 const headImg = ref()
+const isLogin = ref()
+const translateX = ref(0)
+const bgColorLeft = ref("#FFC765")
+const bgColorRight = ref('white')
+const myContributeType = ref(1)
+const contributeFood = ()=> {
+  bgColorLeft.value = "#FFC765"
+  bgColorRight.value = "white"
+  myContributeType.value = 1;
+}
+const contributeShop = ()=> {
+  bgColorRight.value = "#FFC765"
+  bgColorLeft.value = "white"
+  myContributeType.value = 2;
+
+}
+//我的收藏
+const handleMyLike = () => {
+  selectValue.value = 1;
+}
+//贡献信息
+const handleMyMsg = () => {
+  selectValue.value = 2;
+}
+//店铺关注
+const handleMyFocus = () => {
+  selectValue.value = 3;
+}
+//联系管理
+
+const handleAdmin = () => {
+  selectValue.value = 4;
+}
+
 const handleAuth = async () => {
   await Taro.login().then(res => {
     code.value = res.code
@@ -139,12 +245,15 @@ const bind = (event) => {
 }
 const show = ref(false);
 const showLogin = () => {
-  showBottom.value = true;
+  if (!isLogin.value) {
+    showBottom.value = true;
+  }
 }
 
 
 useLoad(() => {
   if (Taro.getStorageSync("isLogin")) {
+    isLogin.value = true
     nickName.value = Taro.getStorageSync("nickName")
     headImg.value = Taro.getStorageSync("headImg")
   } else {
@@ -158,10 +267,43 @@ useLoad(() => {
 
 </script>
 <style>
+.my-top-select{
+  position: absolute;
+  box-shadow: 5px 5px 5px rgba(220, 38, 38, 0.3);
+  display: flex;
+  width: 150Px;
+  height: 22Px;
+  border-radius: 11Px;
+  background-color: white;
+  left: 20Px;
+  top: 20Px;
+}
+.my-select-left{
+  display: flex;
+  justify-content: center;
+  width: 120Px;
+  height: 22Px;
+  border-radius: 11Px;
+
+}
+.my-select-right{
+  display: flex;
+  justify-content: center;
+  width: 120Px;
+  height: 22Px;
+  border-radius: 11Px;
+}
 image {
   max-width: 100%;
   max-height: 100%;
   object-fit: cover;
+}
+
+.my-item-icon {
+  object-fit: contain;
+  width: 60%;
+  height: 60%;
+  z-index: 100;
 }
 
 .my-button-item {
@@ -174,6 +316,7 @@ image {
   height: 96px;
   background-color: white;
   border-radius: 20px;
+  position: relative;
 }
 
 .login-popup {
@@ -203,7 +346,6 @@ image {
 
 .my-bottom {
   flex-grow: 1;
-  background: url("https://images.fzuhuahuo.cn/my-bg.svg") no-repeat center;
 }
 
 .my-ts-text {
