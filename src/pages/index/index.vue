@@ -83,6 +83,16 @@ const navitoStore = ()=>{
     url:'../store/store'
   })
 }
+const navitoRandom = ()=>{
+  Taro.navigateTo({
+    url:'../randomselection/randomselection'
+  })
+}
+const navitoLeaderboard =()=>{
+  Taro.navigateTo({
+    url:'../leaderboard/leaderboard'
+  })
+}
 const br = ref("\n")
 const nickName = ref()
 const headImg = ref()
