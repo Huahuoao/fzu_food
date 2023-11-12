@@ -1,4 +1,4 @@
 export default definePageConfig({
-  navigationBarTitleText: '菜品详情',
+  navigationBarTitleText: '',
   navigationBarBackgroundColor: '#FFF9EE',
 })

@@ -7,10 +7,10 @@
       <div v-for="(item,index) in storelist" class="store_line" >
               <image src="https://images.fzuhuahuo.cn/mcdona.png" class="store_logo_img" />
               <div class="store_rate" @click="navitoStoreDetail()">
-                <div style="margin-bottom: 20px;font-family: 'PingFang';font-size: 20Px;font-weight: bold;">{{ item.name }}</div>
+                <div style="margin-bottom: 10px;font-family: 'PingFang';font-size: 20px;font-weight: 600;">{{ item.name }}</div>
                 <div style="display: flex;">
-                  <nut-rate v-model="item.star" readnoly active-color="#F6AC15" size="13" class="rate_star" spacing="8" data-desc="this"/>
-                  <span style="font-family: 'PingFang';font-size: 10px; margin-top: 0.5vh;">{{ item.star }}分</span>
+                  <nut-rate v-model="item.star" readnoly active-color="#F6AC15" size="12" class="rate_star" spacing="8" style="width: 100px;"/>
+                  <span style="font-family: 'PingFang';font-size: 10px; margin-top: 0.5vh;">{{ item.star }}.0分</span>
                 </div>
               </div>
               <div class="store_line_right">
@@ -34,9 +34,9 @@
       </div>
       <div class="menu_list">
         <div v-for="(item,index) in menulist" class="menu_line" >
-              <image :src="item.logo" class="store_logo_img" />
-              <div class="store_rate" @click="navitoDishDetail()">
-                <div style="margin-top: 10px;font-family: 'PingFang';font-size: 20Px;font-weight: bold;">{{ item.name }}</div>
+              <image :src="item.logo" class="menue_logo_img" />
+              <div class="store_rate" @click="navitoDishDetail(index)">
+                <div style="margin-top: 10px;font-family: 'PingFang';font-size: 20Px;font-weight: 600;">{{ item.name }}</div>
                 <div style="display: flex;">
                   <div class="menu_type">
                     {{ item.typetag }}
@@ -108,9 +108,9 @@ const changeColor = (index) =>{
   storelist.value[index].tap = !storelist.value[index].tap
   },100)
 }
-const navitoDishDetail = ()=>{
+const navitoDishDetail = (index)=>{
   Taro.navigateTo({
-    url:'../dishdetail/dishdetail?id='+ JSON.stringify(menulist.value[0]),
+    url:'../dishdetail/dishdetail?id='+ JSON.stringify(menulist.value[index]),
   })
 }
 </script>
@@ -128,7 +128,7 @@ const navitoDishDetail = ()=>{
   display: flex;
   .menu_title{
     display: flex;
-    margin-top: 150px;
+    margin-top: 110px;
     width:100vw;
     height: 3vh;
     align-items: center;
@@ -147,27 +147,37 @@ const navitoDishDetail = ()=>{
   }
   .menu_list{
    position: absolute;
-    margin-top: 250px;
+    margin-top: 140px;
+    display: flex;
+    flex-wrap: wrap;
     .menu_line{
       width: 100vw;
       display: flex;
       border-bottom:2px solid rgba(0,0,0,0.1);
       padding: 20px;
       margin-top: 20px;
+      justify-content: space-evenly;
+        .menue_logo_img{
+          object-fit: cover;
+          width:160px;
+          height: 160px;
+        }
         .menu_type{
         display: flex;
         align-items: center;
         justify-content: center;
         border: 2px solid #595959;
-        color: #595959;
         width: 20vw;
         height: 3vh;
         border-radius:20px;
         margin-top: 20px;
         margin-right: 20px;
+        font-size:30px;
+        font-family: 'PingFang';
+        font-weight: 400;
       }
       .dish_line_right{
-        width: 10vw;
+        width: 20vw;
         margin-bottom: 20px;
         .menu_price{
           margin-top: 15px;
@@ -193,31 +203,29 @@ const navitoDishDetail = ()=>{
 .head_color{
   width: 100vw;
   height: 10vh;
-  background-color: #F6AC15;
-}
-.store_line{
-  width: 90vw;
-  height: 13vh;
-  margin-bottom: 20px;
-  border-radius: 20px;
-  font-family: 'PingFang';
-  font-size: 14Px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: white;
-  box-shadow: 5px 5px 10px 0px rgb(232,227,217);
+  background-color: #FFC765;
 }
 .store_line0{
   position: absolute;
   top: 3vh;
-  left: 5vw;
+  left: 7.2vw;
+  font-family: 'PingFang';
+  .store_line{
+  width: 640px;
+  height: 164px;
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 5px 5px 20px -13px rgba(0,0,0,0.5);
+  margin-bottom: -15px;
 }
 .store_logo_img{
   object-fit: cover;
-  width:22vw;
-  height: 22vw;
-  margin-left: 15px;
+  width:140px;
+  height: 126px;
+  margin-left: 14px;
 }
 .store_rate{
   width: 45vw;
@@ -229,47 +237,49 @@ const navitoDishDetail = ()=>{
 }
 .store_line_right{
   display: flex;
-  width: 20vw;
+  width: 25vw;
   margin-bottom: 20px;
 }
 .heart {
   position:absolute;
-  top: 10px;
-  left: 80px;
-  width: 20px;
-  height: 20px;
+  top: 30px;
+  left: 120px;
+  width: 16px;
+  height: 16px;
   transform: rotate(-45deg);
-  border-bottom: 2px solid #F6AC15;
-  border-left: 2px solid #F6AC15;
+  border-bottom: 4px solid #F6AC15;
+  border-left: 4px solid #F6AC15;
 }
 .heart1 {
   z-index: 5;
   position:absolute;
-  top: 10px;
-  left: 80px;
-  width: 20px;
-  height: 20px;
+  top: 30px;
+  left: 120px;
+  width: 16px;
+  height: 16px;
   transform: rotate(-45deg);
-  border-bottom: 2px solid #F6AC15;
-  border-left: 2px solid #F6AC15;
+  border-bottom: 4px solid #F6AC15;
+  border-left: 4px solid #F6AC15;
 }
 .heart_left {
-  border: 2px solid #F6AC15;
-  width: 20px;
-  height: 20px;
-  left: 71px;
+  border: 4px solid #F6AC15;
+  width: 16px;
+  height: 16px;
+  left: 113px;
   border-radius: 20px;
   transform: rotate(-45deg);
   position: absolute;
+  top: 22px;
 }
 .heart_right {
   transform: rotate(-45deg);
-  border: 2px solid #F6AC15;
-  width: 20px;
-  height: 20px;
-  left: 89px;
+  border: 4px solid #F6AC15;
+  width: 16px;
+  height: 16px;
+  left: 124px;
   border-radius: 20px;
   position: absolute;
+  top: 22px;
 }
 .store_type{
   display: flex;
@@ -280,7 +290,12 @@ const navitoDishDetail = ()=>{
   height: 3vh;
   border-radius:20px;
   border: 2px solid #595959;
-  margin-top: 75px;
+  margin-top: 86px;
   margin-right: 20px;
+  font-family: 'PingFang';
+  font-size: 16Px;
+  font-weight: 400;
 }
+}
+
 </style>

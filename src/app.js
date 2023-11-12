@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import './app.css'
 import Taro, {loadFontFace} from "@tarojs/taro";
-import './icon/font/font_66cezw049xu/iconfont.css';
 const App = createApp({
   onShow (options) {
     console.log('App onShow.')
@@ -14,6 +13,18 @@ const App = createApp({
       console.log("载入字体成功")
     });
   },
+  onPullDownRefresh:function(){
+    this.onRefresh();
+  },
+  onRefresh:function(){
+      //导航条加载动画
+      wx.showNavigationBarLoading();
+      setTimeout(function () {
+        wx.hideNavigationBarLoading();
+        //停止下拉刷新
+        wx.stopPullDownRefresh();
+      }, 2000);
+    },
 
   // 入口组件不需要实现 render 方法，即使实现了也会被 taro 所覆盖
 })

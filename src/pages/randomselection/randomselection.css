@@ -1,0 +1,7 @@
+page{
+    --nut-button-border-width:0;
+    --nut-button-default-bg-color:black;
+    --nut-button-default-color:black;
+    --nut-button-info-color:black;
+    --nut-button-primary-background-color: green;
+}

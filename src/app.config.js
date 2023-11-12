@@ -3,10 +3,18 @@ export default defineAppConfig({
     'pages/index/index',
     'pages/register/register',
     'pages/my/my',
-    'pages/store/store',
-    'pages/storedetail/storedetail',
-    'pages/dishdetail/dishdetail',
-    'pages/leaderboard/leaderboard'
+    'pages/leaderboard/leaderboard',
+    'pages/randomselection/randomselection'
+  ],
+  subpackages: [
+    {
+      "root": "pagesA",
+      "pages": [
+        "store/store",
+        "storedetail/storedetail",
+        "dishdetail/dishdetail"
+      ]
+    }
   ],
   tabBar: {
     list: [{
@@ -31,6 +39,8 @@ export default defineAppConfig({
     navigationBarBackgroundColor: '#FFC765',
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black',
-    initialRenderingCache: 'static'
+    initialRenderingCache: 'static',
+    backgroundTextStyle:"dark",
+    enablePullDownRefresh:true,
   }
 })
