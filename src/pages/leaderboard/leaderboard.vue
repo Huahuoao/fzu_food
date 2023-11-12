@@ -13,24 +13,24 @@
       <nut-tab-pane v-for="item in list" :pane-key="item.paneKey">
         <view class="top-three" style="display: flex; gap: 5vw;justify-content: center;">
           <view style="display: flex;flex-direction: column;">
-            <image src="../../images/皇冠2.png" class="crown" />
-            <image src="../../images/basidigua.png" class="top_img" />
+            <image src="https://images.fzuhuahuo.cn/%E7%9A%87%E5%86%A02.png" class="crown" />
+            <image src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png" class="top_img" />
             <text
               style="font-family: 'PingFang';font-size: 12px; font-weight: 700;text-align: center;margin-top: 1vw;">{{ renderlist[1].name }}</text>
             <text
               style="font-family: 'DM Sans';font-size: 16px; font-weight: 700;text-align: center;margin-top: 1vw;">{{renderlist[1].num}}</text>
           </view>
           <view style="display: flex;flex-direction: column;position: relative; top: -5vw;">
-            <image src="../../images/皇冠1.png" class="crown" />
-            <image src="../../images/basidigua.png" class="top_img" style="width: 80px;height: 80px;" />
+            <image src="https://images.fzuhuahuo.cn/%E7%9A%87%E5%86%A01.png" class="crown" />
+            <image src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png" class="top_img" style="width: 80px;height: 80px;" />
             <text
               style="font-family: 'PingFang';font-size: 12px; font-weight: 700;text-align: center;margin-top: 1vw;">{{ renderlist[0].name }}</text>
             <text
               style="font-family: 'DM Sans';font-size: 16px; font-weight: 700;text-align: center;margin-top: 1vw;">{{renderlist[0].num}}</text>
           </view>
           <view style="display: flex;flex-direction: column;">
-            <image src="../../images/皇冠3.png" class="crown" />
-            <image src="../../images/basidigua.png" class="top_img" />
+            <image src="https://images.fzuhuahuo.cn/%E7%9A%87%E5%86%A03.png" class="crown" />
+            <image src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png" class="top_img" />
             <text
               style="font-family: 'PingFang';font-size: 12px; font-weight: 700;text-align: center;margin-top: 1vw;">{{ renderlist[2].name }}</text>
             <text
@@ -43,7 +43,7 @@
             <view style="display:flex;align-items: center;width: 150px;padding-left: 20px;">
               <text style="font-family: 'DM Sans';font-size: 16px; font-weight: 700;  color:#F6AC15;width: 20px;height: 21px;">{{
                 item.id }}</text>
-              <image src="../../images/basidigua.png" class="img" />
+              <image src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png" class="img" />
               <text
                 style="font-family: 'PingFang';font-size: 12px; font-weight: 700; margin-left:20px;text-align: center;width: 48px;">{{
                   item.name }}</text>

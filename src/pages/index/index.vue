@@ -80,7 +80,7 @@ import {ref} from "vue";
 import IndexBar from "../../component/IndexBar.vue"
 const navitoStore = ()=>{
   Taro.navigateTo({
-    url:'../store/store'
+    url:'../../pagesA/store/store'
   })
 }
 const navitoRandom = ()=>{

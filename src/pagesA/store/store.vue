@@ -10,16 +10,16 @@
         </div>
         
         <div class="store_list">
-          <nut-tabs v-model="tabactive" @click="changeTab" color="black" background="#F6AC15" style="font-family: 'PingFang';
+          <nut-tabs v-model="tabactive" @click="changeTab" color="black" background="#FFC765" style="font-family: 'PingFang';
   font-size: 16Px;
-  font-weight: bold;">
+  font-weight: bold;" size="large">
           <nut-tab-pane v-for="item in canteenlist" :pane-key="item.paneKey" :title=item.title class="tab_pane"> 
             <div v-for="(item,index) in storelist" class="store_line" >
               <image src="https://images.fzuhuahuo.cn/mcdona.png" class="store_logo_img" />
               <div class="store_rate" @click="navitoStoreDetail()">
                 <div style="margin-bottom: 20px;">{{ item.name }}</div>
                 <div style="display: flex;">
-                  <nut-rate v-model="item.star" readnoly active-color="#F6AC15" size="13" class="rate_star" spacing="8" data-desc="this"/>
+                  <nut-rate v-model="item.star" readnoly active-color="#F6AC15" size="13" class="rate_star" spacing="8" style="width: 103px;"/>
                   <span style="font-family: 'PingFang';font-size: 10px; margin-top: 0.5vh;">{{ item.star }}分</span>
                 </div>
               </div>
@@ -127,7 +127,7 @@ const storelist = ref([
     tap:false
   }
 ])
-var len = 100/(storelist.value.length )
+var len = 100/(canteenlist.value.length )
 const changeTab = (tab) => {
   tabactive.value = tab.paneKey;
   console.log(len)

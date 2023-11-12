@@ -28,7 +28,8 @@
         <image src="https://images.fzuhuahuo.cn/Line.png"  class="line_img"/>
         <image src="https://images.fzuhuahuo.cn/round_point.png"  class="round_img" />
       </view>
-      <image src="https://images.fzuhuahuo.cn/turntable1.png" class="turntable_img" :class="{rotate360:turnflag==1}"/>
+      <image src="https://images.fzuhuahuo.cn/turntable_c.png" class="turntable_img" :class="{rotate360:turnflag==1}"/>
+      <image src="https://images.fzuhuahuo.cn/pointer.png" class="pointer_img"/>
       <view class="choose_list">
         <view class="choose_type">
               <view class="menu-container">
@@ -311,7 +312,7 @@ const decideChoose = ()=>{
         width: 130px;
         height: 165px;
         top: 475px;
-        left: 36px;
+        left: 38px;
         transition-duration: 0.5s;
       }
     }
@@ -331,6 +332,14 @@ const decideChoose = ()=>{
     top: 65px;
     transition-duration: 0.5s;
   }
+    .pointer_img{
+      position: absolute;
+      left: 522px;
+      top: 180px;
+      object-fit: cover;
+      height: 295px;
+      width: 60px;
+    }
   .rotate360 {
       animation: rotate360 5s ease-out 0s;
   }
