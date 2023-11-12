@@ -4,36 +4,34 @@
       <div class="search">
           <div class="search_line">
             <input v-model="searchdata" class="search_input">
-            <nut-divider direction="vertical"  style="background-color: black;height: 70%;"/>
-            <IconFont name="search" size="20px" style="margin-right: 2.5vw;"></IconFont>
+            <nut-divider direction="vertical"  style="background-color: black;height: 70%;margin-left: 50px;"/>
+            <image src="../../images/search.svg" style="object-fit: cover;width: 35px;margin-right: 8px;margin-top: 8px;"></image>
           </div>
         </div>
         
         <div class="store_list">
-          <nut-tabs v-model="tabactive" @click="changeTab" color="black" background="#F6AC15" style="font-family: 'PingFang';
-  font-size: 16Px;
-  font-weight: bold;">
+          <nut-tabs v-model="tabactive" @click="changeTab" color="black" background="#FFC756" style="font-family: 'PingFang';
+  font-weight: bold;" size="large">
           <nut-tab-pane v-for="item in canteenlist" :pane-key="item.paneKey" :title=item.title class="tab_pane"> 
             <div v-for="(item,index) in storelist" class="store_line" >
-              <image src="https://images.fzuhuahuo.cn/mcdona.png" class="store_logo_img" />
-              <div class="store_rate" @click="navitoStoreDetail()">
-                <div style="margin-bottom: 20px;">{{ item.name }}</div>
+              <image src="https://images.fzuhuahuo.cn/mcdona.png" class="store_logo_img" @click="navitoStoreDetail()"/>
+              <div class="store_rate" >
+                <div style="margin-bottom: 10px;font-family: 'PingFang';font-size: 16px;" @click="navitoStoreDetail()">{{ item.name }}</div>
                 <div style="display: flex;">
-                  <nut-rate v-model="item.star" readnoly active-color="#F6AC15" size="13" class="rate_star" spacing="8" data-desc="this"/>
-                  <span style="font-family: 'PingFang';font-size: 10px; margin-top: 0.5vh;">{{ item.star }}分</span>
+                  <nut-rate v-model="item.star" readnoly active-color="#F6AC15" size="12" class="rate_star" spacing="8" style="width: 100px;"/>
+                  <div style="font-family: 'PingFang';font-size: 10px; margin-top: 0.5vh;opacity: 0.5;margin-right: 5px;">{{ item.star }}.0分</div>
                 </div>
               </div>
               <div class="store_line_right">
-                
                 <div style="position: absolute;">
                   <div class="heart1" :class="{red:item.color==1,white:item.color==0}" @click="changeColor(index)"></div>
                   <div class="heart_left" :class="{red:item.color==1,white:item.color==0}" @click="changeColor(index)"></div>
                   <div class="heart" :class="{red:item.color==1,white:item.color==0}" @click="changeColor(index)"></div>
                   <div class="heart_right" :class="{red:item.color==1,white:item.color==0}" @click="changeColor(index)"></div>
               </div>
-            <div class="store_type">
-              {{ item.type }}
-            </div>
+              <div class="store_type">
+                {{ item.type }}
+              </div>
               </div>
             </div>
           </nut-tab-pane>
@@ -76,6 +74,42 @@ var storelist = ref([
     id:1,
     name:'麦当劳',
     star:3,
+    type:'西餐汉堡',
+    logo:'https://images.fzuhuahuo.cn/mcdona.png',
+    color:0,
+    tap:false
+  },
+  {
+    id:2,
+    name:'麦当劳',
+    star:5,
+    type:'西餐堡',
+    logo:'https://images.fzuhuahuo.cn/mcdona.png',
+    color:0,
+    tap:false
+  },
+  {
+    id:2,
+    name:'麦当劳',
+    star:5,
+    type:'西餐',
+    logo:'https://images.fzuhuahuo.cn/mcdona.png',
+    color:0,
+    tap:false
+  },
+  {
+    id:2,
+    name:'麦当劳',
+    star:5,
+    type:'西餐汉堡',
+    logo:'https://images.fzuhuahuo.cn/mcdona.png',
+    color:0,
+    tap:false
+  },
+  {
+    id:2,
+    name:'麦当劳',
+    star:5,
     type:'西餐汉堡',
     logo:'https://images.fzuhuahuo.cn/mcdona.png',
     color:0,
@@ -139,10 +173,9 @@ const navitoStoreDetail =()=>{
   display: flex;
   align-items: center;
   justify-content: space-around;
-  border: 1px solid black;
-  border-radius: 5%;
-  box-shadow: 5px 5px 20px -5px rgba(0,0,0,0.5);
-  background-color: #FFC765
+  border-radius: 15px;
+  box-shadow: inset 5px 5px 20px -13px rgba(0,0,0,0.5);
+  background-color: #FCE8C5
 }
 .search_input{
   height: 100%;
@@ -152,43 +185,45 @@ const navitoStoreDetail =()=>{
 }
 .store_list{
   width: 100%;
-  height: 90vh;
-  background-color: #F6AC15;
+  height: 80vh;
+  background: linear-gradient(#FFC765,#FDDDA3);
   border-top-left-radius: 40px;
   border-top-right-radius: 40px;
 }
 .tab_pane{
   width:100%;
-  height: 90vh;
-  background-color: #F6AC15;
+  height: 88vh;
+  background: linear-gradient(#FFC765,#FDDDA3);
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  /* align-content:flex-start  */
 }
  .my_divider{
   z-index: 2;
   position: absolute;
-  top: 130px;
+  top: 137px;
   width :5px;
   height: 30px;
   background-color: black;
   
 } 
 .store_line{
-  width: 90vw;
-  height: 13vh;
-  background-color: #fce8c5;
-  margin-bottom: 20px;
+  width: 640px;
+  height: 164px;
+  background-color: #FFF9EE;
   border-radius: 20px;
-  font-family: 'PingFang';
-  font-size: 14Px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-shadow: 5px 5px 20px -13px rgba(0,0,0,0.5);
+  margin-bottom: -15px;
 }
 .store_logo_img{
   object-fit: cover;
-  width:22vw;
-  height: 22vw;
-  margin-left: 5px;
+  width:140px;
+  height: 126px;
+  margin-left: 14px;
 }
 .store_rate{
   width: 45vw;
@@ -200,47 +235,49 @@ const navitoStoreDetail =()=>{
 }
 .store_line_right{
   display: flex;
-  width: 20vw;
+  width: 25vw;
   margin-bottom: 20px;
 }
 .heart {
   position:absolute;
-  top: 10px;
-  left: 80px;
-  width: 20px;
-  height: 20px;
+  top: 30px;
+  left: 120px;
+  width: 16px;
+  height: 16px;
   transform: rotate(-45deg);
-  border-bottom: 2px solid #F6AC15;
-  border-left: 2px solid #F6AC15;
+  border-bottom: 4px solid #F6AC15;
+  border-left: 4px solid #F6AC15;
 }
 .heart1 {
   z-index: 5;
   position:absolute;
-  top: 10px;
-  left: 80px;
-  width: 20px;
-  height: 20px;
+  top: 30px;
+  left: 120px;
+  width: 16px;
+  height: 16px;
   transform: rotate(-45deg);
-  border-bottom: 2px solid #F6AC15;
-  border-left: 2px solid #F6AC15;
+  border-bottom: 4px solid #F6AC15;
+  border-left: 4px solid #F6AC15;
 }
 .heart_left {
-  border: 2px solid #F6AC15;
-  width: 20px;
-  height: 20px;
-  left: 70px;
+  border: 4px solid #F6AC15;
+  width: 16px;
+  height: 16px;
+  left: 113px;
   border-radius: 20px;
   transform: rotate(-45deg);
   position: absolute;
+  top: 22px;
 }
 .heart_right {
   transform: rotate(-45deg);
-  border: 2px solid #F6AC15;
-  width: 20px;
-  height: 20px;
-  left: 88px;
+  border: 4px solid #F6AC15;
+  width: 16px;
+  height: 16px;
+  left: 124px;
   border-radius: 20px;
   position: absolute;
+  top: 22px;
 }
 .store_type{
   display: flex;
@@ -251,8 +288,10 @@ const navitoStoreDetail =()=>{
   height: 3vh;
   border-radius:20px;
   border: 2px solid #595959;
-  margin-top: 75px;
+  margin-top: 86px;
   margin-right: 20px;
+  font-family: 'PingFang';
+  font-size: 16Px;
 }
 /* .heart::before{
   border-top: 5px solid black;

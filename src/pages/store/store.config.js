@@ -1,3 +1,4 @@
 export default definePageConfig({
-  navigationBarTitleText: '知食分子'
+  navigationBarBackgroundColor:'#FFF9EE',
+  navigationBarTitleText:''
 })

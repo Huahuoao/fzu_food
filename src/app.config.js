@@ -5,7 +5,8 @@ export default defineAppConfig({
     'pages/my/my',
     'pages/store/store',
     'pages/storedetail/storedetail',
-    'pages/dishdetail/dishdetail'
+    'pages/dishdetail/dishdetail',
+    'pages/randomselection/randomselection'
   ],
   tabBar: {
     list: [{
@@ -30,6 +31,8 @@ export default defineAppConfig({
     navigationBarBackgroundColor: '#FFC765',
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black',
-    initialRenderingCache: 'static'
+    initialRenderingCache: 'static',
+    backgroundTextStyle:"dark",
+    enablePullDownRefresh:true,
   }
 })

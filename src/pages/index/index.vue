@@ -30,14 +30,14 @@ width: 65px;height: 65px;border-radius: 50px;"> </image>
       <IndexBar
         background-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Vector%20%281%29.svg"
         icon-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Vector.svg"
-        msg="校园美食，热门排行" title="排行榜"></IndexBar>
+        msg="校园美食，热门排行" title="排行榜" ></IndexBar>
       <IndexBar
         background-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Auto%20stories.svg"
         icon-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Vector%20%282%29.svg"
         msg="享受美味，记录瞬间" title="干饭日记"></IndexBar>
       <IndexBar icon-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Sync.svg"
                 background-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Sync%20%281%29.svg"
-                msg="摇出美食，惊喜上桌" title="随机摇菜"></IndexBar>
+                msg="摇出美食，惊喜上桌" title="随机摇菜" @click="navitoRandom"></IndexBar>
 
     </view>
     </view>
@@ -81,6 +81,11 @@ import IndexBar from "../../component/IndexBar.vue"
 const navitoStore = ()=>{
   Taro.navigateTo({
     url:'../store/store'
+  })
+}
+const navitoRandom = ()=>{
+  Taro.navigateTo({
+    url:'../randomselection/randomselection'
   })
 }
 const br = ref("\n")
