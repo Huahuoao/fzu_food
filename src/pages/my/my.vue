@@ -131,19 +131,16 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
 
           <view style="display: flex;">
             <text class="text-small">1.请上传店铺封面：</text>
-            <view class="my-shop-img">
+            <view class="my-shop-img" @click="myUploadImg">
+              <image class="my-shop-img"  :src="conTempUrl"></image>
             </view>
           </view>
           <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
-
           <view style="display: flex;">
-            <text class="text-small">2.请输入店铺名字：</text>
-            <input class="my-shop-input"/>
+            <text class="text-small" v-model="myConName" >2.请输入店铺名字：</text>
+            <input class="my-shop-input" style="color: #767676"/>
           </view>
-
           <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
-
-
           <view style="display: flex;">
             <text class="text-small">3.请选择店铺的位置：</text>
             <nut-button @click="handleSelectArea" style="border: none" class="my-shop-input">{{ shopAreaValueString }}
@@ -182,19 +179,16 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
 
           <view style="display: flex;">
             <text class="text-small">1.请上传菜品图片：</text>
-            <view class="my-shop-img">
+            <view class="my-shop-img" @click="myUploadImg">
+              <image class="my-shop-img"  :src="conTempUrl"></image>
             </view>
           </view>
           <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
-
           <view style="display: flex;">
-            <text class="text-small">2.请输入菜品名字：</text>
-            <input class="my-shop-input"/>
+            <text class="text-small" v-model="myConName" >2.请输入菜品名字：</text>
+            <input class="my-shop-input"  style="color: #767676"/>
           </view>
-
           <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
-
-
           <view style="display: flex;">
             <text class="text-small">3.请选择菜品所属店铺：</text>
             <nut-button @click="handleSelectArea" style="border: none" class="my-shop-input">{{ shopAreaValueString }}
@@ -209,7 +203,7 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
           </view>
           <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
           <view style="display: flex;">
-            <text class="text-small">4.请选择菜品的口味：</text>
+            <text class="text-small">4.请选择菜品口味：</text>
             <nut-button class="my-shop-input" style="border: none" @click="handleSelectLabel">
               {{ shopLabelValueString }}
             </nut-button>
@@ -251,6 +245,22 @@ import Taro, {getUserProfile, useDidShow} from "@tarojs/taro";
 import {useLoad} from "@tarojs/taro";
 import {getUnionId, getUserByUnionId, register} from "../../request/api";
 
+const conTempUrl = ref("")
+const myUploadImg = () => {
+  Taro.chooseMedia({
+    count: 1,
+    mediaType: ['image'],
+    sourceType: ['album', 'camera'],
+    maxDuration: 30,
+    camera: 'back',
+    success: (res) => {
+      console.log(res.tempFiles)
+      console.log(res.type)
+      conTempUrl.value = res.tempFiles[0].tempFilePath
+    }
+  })
+}
+const myConName = ref()
 const selectValue = ref(1)
 const value = ref('0');
 const nickNameInput = ref()
