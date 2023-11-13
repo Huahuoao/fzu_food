@@ -1,5 +1,6 @@
 <template>
-  <view class="leaderboard">
+  <view class="leaderboard"  >
+    <view style="height: 15px;"></view>
     <nut-tabs v-model="value" swipeable>
       <template #titles>
         <div class="mytab" style="display: flex;">
@@ -39,7 +40,7 @@
         </view>
         <view class="tab_pane">
           <view v-for="(item, index) in renderlist.slice(3,10)"  class="remainder" :key="item.id">
-            
+
             <view style="display:flex;align-items: center;width: 150px;padding-left: 20px;">
               <text style="font-family: 'DM Sans';font-size: 16px; font-weight: 700;  color:#F6AC15;width: 20px;height: 21px;">{{
                 item.id }}</text>
@@ -53,7 +54,7 @@
               <text
                 style="font-family: 'DM Sans';font-size: 12px; font-weight: 700; color:#F6AC15;margin-right: 25px;">{{ item.num }}</text>
             </view>
-          
+
           </view>
         </view>
 
@@ -287,10 +288,10 @@ page {
 }
 
 .remainder {
-  
+
   height: 92px;
   padding-top: 40px;
-  
+
   border-radius: 20px;
   font-family: 'PingFang';
   font-size: 14Px;
@@ -318,7 +319,8 @@ page {
 }
 
 .leaderboard {
-  background: radial-gradient(circle, rgba(246, 172, 21, 1), #fff9ee);
+  height: 100vh;
+  background: linear-gradient(#FFF9EE, #FFF9EE, #FCE8C5, #FCE8C5, #FFF9EE, #FFF9EE);
 }
 </style>
 

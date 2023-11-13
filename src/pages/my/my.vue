@@ -89,8 +89,8 @@
 
     </view>
     <view class="my-bottom" style="display: flex;justify-content: center;">
-<!--      我的收藏-->
-      <view   v-if="selectValue==1"   style="display:flex; width: 90%;height: 90%;background-color:
+      <!--      我的收藏-->
+      <view v-if="selectValue==1" style="display:flex; width: 90%;height: 90%;background-color:
 rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;">
         <image src="https://images.fzuhuahuo.cn/Vector (2).png"
                style="right: 0px;top: 0px;position: absolute;width: 28px;height: 28px; margin: 5px;"></image>
@@ -100,7 +100,8 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
             <text class="text-small" style="margin-left: 5px;margin-bottom: 10px;"> 默认收藏夹</text>
           </view>
           <view style="justify-content: center;align-items: center;">
-            <view style="display: flex;flex-direction: column;justify-content: center;margin: 10px; width: 65px;align-items: center;">
+            <view
+              style="display: flex;flex-direction: column;justify-content: center;margin: 10px; width: 65px;align-items: center;">
               <image src="https://images.fzuhuahuo.cn/20231102002910.png"
                      style="width: 65px;height: 65px;object-fit: contain; border-radius: 10px;">
               </image>
@@ -111,42 +112,130 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
           </view>
         </view>
       </view>
-<!--      贡献信息-->
-      <view   v-if="selectValue==2"   style="display:flex; width: 90%;height: 90%;background-color:
+      <!--      贡献信息-->
+      <view v-if="selectValue==2" style="display:flex; width: 90%;height: 90%;background-color:
 rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;">
-        <view class="my-top-select" >
-         <view @click="contributeFood" class="my-select-left" :style="{ backgroundColor: bgColorLeft }" ><text class="input-text">贡献餐品</text></view>
-          <view  @click="contributeShop" class="my-select-right" :style="{ backgroundColor: bgColorRight }"><text class="input-text">贡献店铺</text></view>
+        <view class="my-top-select">
+          <view @click="contributeFood" class="my-select-left" :style="{ backgroundColor: bgColorLeft }">
+            <text class="input-text" :style="{ color: textColorLeft }">贡献商铺</text>
+          </view>
+          <view @click="contributeShop" class="my-select-right" :style="{ backgroundColor: bgColorRight }">
+            <text :style="{ color: textColorRight }" class="input-text">贡献餐品</text>
+          </view>
 
         </view>
 
 
-        <view class="con-main" style="width: 100%;height: 100%;margin-top: 36%;display: flex;flex-direction: column;margin-left: 5%;margin-right: 5%;">
+        <view v-show="myContributeType==1" class="con-main"
+              style="width: 100%;height: 100%;margin-top: 36%;display: flex;flex-direction: column;margin-left: 5%;margin-right: 5%;">
 
-          <view>
+          <view style="display: flex;">
             <text class="text-small">1.请上传店铺封面：</text>
-            <nut-divider :style="{ color: '#A1A1A140'}" ></nut-divider>
+            <view class="my-shop-img">
+            </view>
           </view>
-          <view>   <text  class="text-small">2.请上传店铺名字：</text>            <nut-divider :style="{ color: '#A1A1A140'}"></nut-divider>
+          <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
+
+          <view style="display: flex;">
+            <text class="text-small">2.请输入店铺名字：</text>
+            <input class="my-shop-input"/>
           </view>
-          <view>  <text  class="text-small">3.请选择店铺的位置：</text>            <nut-divider :style="{ color: '#A1A1A140'}"></nut-divider>
+
+          <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
+
+
+          <view style="display: flex;">
+            <text class="text-small">3.请选择店铺的位置：</text>
+            <nut-button @click="handleSelectArea" style="border: none" class="my-shop-input">{{ shopAreaValueString }}
+            </nut-button>
+            <nut-popup position="bottom" v-model:visible="isShopAreaShow">
+              <nut-picker v-model="shopAreaValue" :columns="shopAreaColumns" title="请选择位置"
+                          @confirm="handleShopAreaConfirm"
+                          @cancel="isShopAreaShow = false">
+              </nut-picker>
+            </nut-popup>
+
           </view>
-          <view><text  class="text-small">4.请选择店铺的标签：</text></view>
+          <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
+          <view style="display: flex;">
+            <text class="text-small">4.请选择店铺的标签：</text>
+            <nut-button class="my-shop-input" style="border: none" @click="handleSelectLabel">
+              {{ shopLabelValueString }}
+            </nut-button>
+            <nut-popup position="bottom" v-model:visible="isShopLabelShow">
+              <nut-picker v-model="shopLabelValue" :columns="shopLabelColumns" title="请选择标签"
+                          @confirm="handleShopLabelConfirm"
+                          @cancel="isShopLabelShow = false">
+              </nut-picker>
+            </nut-popup>
+
+          </view>
+
+          <view style="display: flex;justify-content: center;">
+            <nut-button style="margin-top: 40px;width: 132px;height: 24px; font-family: 'PingFang';
+  font-size: 14Px;color: white;" type="success">上传
+            </nut-button>
+          </view>
+        </view>
+        <view v-show="myContributeType==2" class="con-main"
+              style="width: 100%;height: 100%;margin-top: 36%;display: flex;flex-direction: column;margin-left: 5%;margin-right: 5%;">
+
+          <view style="display: flex;">
+            <text class="text-small">1.请上传菜品图片：</text>
+            <view class="my-shop-img">
+            </view>
+          </view>
+          <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
+
+          <view style="display: flex;">
+            <text class="text-small">2.请输入菜品名字：</text>
+            <input class="my-shop-input"/>
+          </view>
+
+          <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
 
 
+          <view style="display: flex;">
+            <text class="text-small">3.请选择菜品所属店铺：</text>
+            <nut-button @click="handleSelectArea" style="border: none" class="my-shop-input">{{ shopAreaValueString }}
+            </nut-button>
+            <nut-popup position="bottom" v-model:visible="isShopAreaShow">
+              <nut-picker v-model="shopAreaValue" :columns="shopAreaColumns" title="请选择位置"
+                          @confirm="handleShopAreaConfirm"
+                          @cancel="isShopAreaShow = false">
+              </nut-picker>
+            </nut-popup>
 
+          </view>
+          <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
+          <view style="display: flex;">
+            <text class="text-small">4.请选择菜品的口味：</text>
+            <nut-button class="my-shop-input" style="border: none" @click="handleSelectLabel">
+              {{ shopLabelValueString }}
+            </nut-button>
+            <nut-popup position="bottom" v-model:visible="isShopLabelShow">
+              <nut-picker v-model="shopLabelValue" :columns="shopLabelColumns" title="请选择标签"
+                          @confirm="handleShopLabelConfirm"
+                          @cancel="isShopLabelShow = false">
+              </nut-picker>
+            </nut-popup>
 
+          </view>
+
+          <view style="display: flex;justify-content: center;">
+            <nut-button style="margin-top: 40px;width: 132px;height: 24px; font-family: 'PingFang';
+  font-size: 14Px;color: white;" type="success">上传
+            </nut-button>
+          </view>
         </view>
 
-
       </view>
-
-<!--      店铺关注-->
-      <view   v-if="selectValue==3"   style="display:flex; width: 90%;height: 90%;background-color:
+      <!--      店铺关注-->
+      <view v-if="selectValue==3" style="display:flex; width: 90%;height: 90%;background-color:
 rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;">
       </view>
-<!--      联系管理-->
-      <view   v-if="selectValue==4"   style="display:flex; width: 90%;height: 90%;background-color:
+      <!--      联系管理-->
+      <view v-if="selectValue==4" style="display:flex; width: 90%;height: 90%;background-color:
 rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;">
       </view>
     </view>
@@ -178,16 +267,60 @@ const translateX = ref(0)
 const bgColorLeft = ref("#FFC765")
 const bgColorRight = ref('white')
 const myContributeType = ref(1)
-const contributeFood = ()=> {
+const textColorLeft = ref("white")
+const textColorRight = ref("#595959")
+//选择餐厅位置
+const shopAreaValueString = ref("")
+const shopAreaColumns = ref([
+  {text: '紫荆园', value: '紫荆园'},
+  {text: '玫瑰园', value: '玫瑰园'},
+  {text: '丁香园', value: '丁香园'},
+  {text: '海棠园', value: '海棠园'},
+]);
+const shopAreaValue = ref([])
+const isShopAreaShow = ref(false)
+const handleSelectArea = () => {
+  isShopAreaShow.value = true;
+}
+const handleShopAreaConfirm = ({selectedValue, selectedOptions}) => {
+  shopAreaValueString.value = selectedOptions.map((val) => val.text).join(',')
+  isShopAreaShow.value = false;
+};
+//选择餐厅标签
+const shopLabelValueString = ref("")
+const shopLabelColumns = ref([
+  {text: '大众快餐', value: '大众快餐'},
+  {text: '炸鸡汉堡', value: '炸鸡汉堡'},
+  {text: '麻辣烫', value: '麻辣烫'},
+  {text: '饮品甜品', value: '饮品甜品'},
+]);
+const shopLabelValue = ref([])
+const isShopLabelShow = ref(false)
+const handleSelectLabel = () => {
+  isShopLabelShow.value = true;
+}
+const handleShopLabelConfirm = ({selectedValue, selectedOptions}) => {
+  shopLabelValueString.value = selectedOptions.map((val) => val.text).join(',')
+  isShopLabelShow.value = false;
+};
+//
+const contributeFood = () => {
+  shopAreaValueString.value = ""
+  shopLabelValueString.value = ""
   bgColorLeft.value = "#FFC765"
   bgColorRight.value = "white"
   myContributeType.value = 1;
+  textColorLeft.value = "white"
+  textColorRight.value = "#595959"
 }
-const contributeShop = ()=> {
+const contributeShop = () => {
+  shopAreaValueString.value = ""
+  shopLabelValueString.value = ""
   bgColorRight.value = "#FFC765"
   bgColorLeft.value = "white"
   myContributeType.value = 2;
-
+  textColorLeft.value = "#595959"
+  textColorRight.value = "white"
 }
 //我的收藏
 const handleMyLike = () => {
@@ -267,7 +400,7 @@ useLoad(() => {
 
 </script>
 <style>
-.my-top-select{
+.my-top-select {
   position: absolute;
   box-shadow: 5px 5px 5px rgba(220, 38, 38, 0.3);
   display: flex;
@@ -278,7 +411,8 @@ useLoad(() => {
   left: 20Px;
   top: 20Px;
 }
-.my-select-left{
+
+.my-select-left {
   display: flex;
   justify-content: center;
   width: 120Px;
@@ -286,17 +420,40 @@ useLoad(() => {
   border-radius: 11Px;
 
 }
-.my-select-right{
+
+.my-shop-input {
+  width: 300px;
+  height: 40px;
+  border-radius: 10Px;
+  margin-left: 5px;
+  background-color: white;
+  box-shadow: 5px 5px 5px rgba(220, 38, 38, 0.1);
+  font-family: 'PingFang';
+  font-size: 14Px;
+  text-align: center;
+}
+
+.my-select-right {
   display: flex;
   justify-content: center;
   width: 120Px;
   height: 22Px;
   border-radius: 11Px;
 }
+
 image {
   max-width: 100%;
   max-height: 100%;
   object-fit: cover;
+}
+
+.my-shop-img {
+  width: 140px;
+  height: 140px;
+  border-radius: 10Px;
+  background-color: white;
+  box-shadow: 5px 5px 5px rgba(220, 38, 38, 0.1);
+
 }
 
 .my-item-icon {
