@@ -1,7 +1,6 @@
 export default defineAppConfig({
   pages: [
     'pages/index/index',
-    'pages/register/register',
     'pages/my/my',
     'pages/leaderboard/leaderboard',
     'pages/randomselection/randomselection'
@@ -35,6 +34,7 @@ export default defineAppConfig({
     'borderStyle': 'white'
   },
   window: {
+    handleWebviewPreload: "auto",
     disableScroll: true,
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#FFC765',

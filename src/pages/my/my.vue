@@ -90,7 +90,7 @@
     </view>
     <view class="my-bottom" style="display: flex;justify-content: center;">
       <!--      我的收藏-->
-      <view v-if="selectValue==1" style="display:flex; width: 90%;height: 90%;background-color:
+      <view v-show="selectValue==1" style="display:flex; width: 90%;height: 90%;background-color:
 rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;">
         <image src="https://images.fzuhuahuo.cn/Vector (2).png"
                style="right: 0px;top: 0px;position: absolute;width: 28px;height: 28px; margin: 5px;"></image>
@@ -105,7 +105,7 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
               <image src="https://images.fzuhuahuo.cn/20231102002910.png"
                      style="width: 65px;height: 65px;object-fit: contain; border-radius: 10px;">
               </image>
-              <text class="icon-name" style="margin-top: 3px;">
+              <text class="text-small" style="margin-top: 3px;">
                 拔丝地瓜
               </text>
             </view>
@@ -113,7 +113,7 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
         </view>
       </view>
       <!--      贡献信息-->
-      <view v-if="selectValue==2" style="display:flex; width: 90%;height: 90%;background-color:
+      <view v-show="selectValue==2" style="display:flex; width: 90%;height: 90%;background-color:
 rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;">
         <view class="my-top-select">
           <view @click="contributeFood" class="my-select-left" :style="{ backgroundColor: bgColorLeft }">
@@ -132,13 +132,13 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
           <view style="display: flex;">
             <text class="text-small">1.请上传店铺封面：</text>
             <view class="my-shop-img" @click="myUploadImg">
-              <image class="my-shop-img"  :src="conTempUrl"></image>
+              <image class="my-shop-img" :src="conTempUrl"></image>
             </view>
           </view>
           <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
           <view style="display: flex;">
-            <text class="text-small" v-model="myConName" >2.请输入店铺名字：</text>
-            <input class="my-shop-input" style="color: #767676"/>
+            <text class="text-small" >2.请输入店铺名字：</text>
+            <input class="my-shop-input" v-model="myConName" style="color: #767676"/>
           </view>
           <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
           <view style="display: flex;">
@@ -169,8 +169,7 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
           </view>
 
           <view style="display: flex;justify-content: center;">
-            <nut-button style="margin-top: 40px;width: 132px;height: 24px; font-family: 'PingFang';
-  font-size: 14Px;color: white;" type="success">上传
+            <nut-button class="my-con-upload" type="success">上传
             </nut-button>
           </view>
         </view>
@@ -180,13 +179,13 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
           <view style="display: flex;">
             <text class="text-small">1.请上传菜品图片：</text>
             <view class="my-shop-img" @click="myUploadImg">
-              <image class="my-shop-img"  :src="conTempUrl"></image>
+              <image class="my-shop-img" :src="conTempUrl"></image>
             </view>
           </view>
           <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
           <view style="display: flex;">
-            <text class="text-small" v-model="myConName" >2.请输入菜品名字：</text>
-            <input class="my-shop-input"  style="color: #767676"/>
+            <text class="text-small" >2.请输入菜品名字：</text>
+            <input class="my-shop-input" v-model="myConName" style="color: #767676"/>
           </view>
           <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
           <view style="display: flex;">
@@ -217,8 +216,7 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
           </view>
 
           <view style="display: flex;justify-content: center;">
-            <nut-button style="margin-top: 40px;width: 132px;height: 24px; font-family: 'PingFang';
-  font-size: 14Px;color: white;" type="success">上传
+            <nut-button class="my-con-upload" type="success">上传
             </nut-button>
           </view>
         </view>
@@ -226,12 +224,32 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
       </view>
       <!--      店铺关注-->
       <view v-if="selectValue==3" style="display:flex; width: 90%;height: 90%;background-color:
-rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;">
+rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px;position: relative; align-items: center;justify-content: center;">
+        <view style="width: 95%;height: 95%;">
+          <nut-row>
+            <nut-col :span="8" style="display:flex; justify-content: center;">
+              <view
+                style="display: flex;flex-direction: column;justify-content: center;margin: 10px; width: 65px;align-items: center;">
+                <image src="https://images.fzuhuahuo.cn/coffee.png"
+                       style="width: 65px;height: 65px;object-fit: contain; border-radius: 10px;">
+                </image>
+                <text class="text-small" style="margin-top: 3px;">
+                  瑞幸咖啡
+                </text>
+              </view>
+            </nut-col>
+
+
+          </nut-row>
+        </view>
+
       </view>
       <!--      联系管理-->
       <view v-if="selectValue==4" style="display:flex; width: 90%;height: 90%;background-color:
-rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;">
+rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;text-align: center;">
+        <text class="input-text">如需联系管理员请发邮件到2294198058@qq.com感谢您对知食分子做出的贡献！</text>
       </view>
+
     </view>
   </view>
 
@@ -244,6 +262,8 @@ import './my.css'
 import Taro, {getUserProfile, useDidShow} from "@tarojs/taro";
 import {useLoad} from "@tarojs/taro";
 import {getUnionId, getUserByUnionId, register} from "../../request/api";
+
+const br = ref("\n")
 
 const conTempUrl = ref("")
 const myUploadImg = () => {
@@ -449,6 +469,15 @@ useLoad(() => {
   width: 120Px;
   height: 22Px;
   border-radius: 11Px;
+}
+
+.my-con-upload {
+  margin-top: 80px;
+  width: 260px;
+  height: 50px;
+  font-family: 'PingFang';
+  font-size: 28px;
+  color: white;
 }
 
 image {

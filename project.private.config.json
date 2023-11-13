@@ -3,5 +3,6 @@
   "projectname": "fzu_food",
   "setting": {
     "compileHotReLoad": true
-  }
+  },
+  "libVersion": "3.1.5"
 }
