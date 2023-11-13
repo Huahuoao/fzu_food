@@ -17,7 +17,7 @@
       </nut-col>
       <nut-col :span="6">
         <view >
-          <image :src="headImg" style="  box-shadow: 2px 2px 2px rgba(220,38,38,0.3);
+          <image :src="headImg" style="    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.11);
 width: 65px;height: 65px;border-radius: 50px;"> </image>
         </view>
       </nut-col>

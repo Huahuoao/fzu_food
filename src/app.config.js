@@ -29,12 +29,11 @@ export default defineAppConfig({
 
     }],
     'color': '#000',
-    'selectedColor': '#56abe4',
+    'selectedColor': '#000',
     'backgroundColor': '#FFF9EE',
     'borderStyle': 'white'
   },
   window: {
-    handleWebviewPreload: "auto",
     disableScroll: true,
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#FFC765',

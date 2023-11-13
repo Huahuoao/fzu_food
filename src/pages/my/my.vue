@@ -15,7 +15,8 @@
         <view>
           <image
             :src="headImg"
-            style="width: 65px;height: 65px;border-radius: 50px;  box-shadow: 2px 2px 2px rgba(220,38,38,0.3);"></image>
+            style="width: 65px;height: 65px;border-radius: 50px;    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.11);
+"></image>
         </view>
         <view @click="showLogin">
           <text class="title-medium" style="margin-left: 10px;">{{ nickName == "" ? '点击登录' : nickName }}</text>
@@ -137,7 +138,7 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
           </view>
           <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
           <view style="display: flex;">
-            <text class="text-small" >2.请输入店铺名字：</text>
+            <text class="text-small">2.请输入店铺名字：</text>
             <input class="my-shop-input" v-model="myConName" style="color: #767676"/>
           </view>
           <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
@@ -184,7 +185,7 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
           </view>
           <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
           <view style="display: flex;">
-            <text class="text-small" >2.请输入菜品名字：</text>
+            <text class="text-small">2.请输入菜品名字：</text>
             <input class="my-shop-input" v-model="myConName" style="color: #767676"/>
           </view>
           <nut-divider :style="{ color: '#A1A1A140'}" style="margin: 20px 0;"></nut-divider>
@@ -432,7 +433,7 @@ useLoad(() => {
 <style>
 .my-top-select {
   position: absolute;
-  box-shadow: 5px 5px 5px rgba(220, 38, 38, 0.3);
+  box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.11);
   display: flex;
   width: 150Px;
   height: 22Px;
@@ -457,7 +458,7 @@ useLoad(() => {
   border-radius: 10Px;
   margin-left: 5px;
   background-color: white;
-  box-shadow: 5px 5px 5px rgba(220, 38, 38, 0.1);
+  box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.11);
   font-family: 'PingFang';
   font-size: 14Px;
   text-align: center;
@@ -491,7 +492,7 @@ image {
   height: 140px;
   border-radius: 10Px;
   background-color: white;
-  box-shadow: 5px 5px 5px rgba(220, 38, 38, 0.1);
+  box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.11);
 
 }
 
@@ -503,7 +504,7 @@ image {
 }
 
 .my-button-item {
-  box-shadow: 5px 5px 5px rgba(220, 38, 38, 0.3);
+  box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.11);
   display: flex;
   flex-direction: column;
   align-items: center;
