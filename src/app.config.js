@@ -3,7 +3,8 @@ export default defineAppConfig({
     'pages/index/index',
     'pages/my/my',
     'pages/leaderboard/leaderboard',
-    'pages/randomselection/randomselection'
+    'pages/randomselection/randomselection',
+    'pages/eatdiary/eatdiary',
   ],
   subpackages: [
     {
