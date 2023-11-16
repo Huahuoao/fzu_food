@@ -50,7 +50,12 @@
                   <view class="line"></view>
                   <view class="text">{{ item.time }}</view>
                 </view>
-                <view class="r_box">{{ item.content }}</view>
+                <view class="r_box">
+                  <view class="up_text" v-if="item.image!=''">
+                    <image :src="item.image" class="text_image"></image>
+                  </view>
+                  {{ item.content }}
+                </view>
               </view>
             </view>
           </view>
@@ -85,7 +90,7 @@
           <text class="pop_title">标题</text>
           <nut-input v-model="val" placeholder="请输入文本" />
           <text class="pop_title">文字</text>
-          <nut-textarea v-model="record" autosize />
+          <nut-textarea v-model="record"  />
           <text class="pop_title">图片</text>
           <view style="display: flex;align-items: flex-end;"><nut-uploader :url="uploadUrl"
               :source-type="['camera']"></nut-uploader><view class="final_button"><span
@@ -181,32 +186,35 @@ const diary = ref([
     year: "2023年",
     day: "7月23日",
     time: "7:30",
+    image: "",
     content: "吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭"
   },
   {
     year: "2023年",
     day: "7月23日",
     time: "12:00",
-    content: "吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭"
+    image: "https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png",
+    content: "吃了一碗饭吃了一碗饭"
   },
   {
     year: "2023年",
     day: "7月23日",
     time: "18:30",
+    image: "",
     content: "吃了一碗饭"
   },
-  {
-    year: "2023年",
-    day: "7月23日",
-    time: "7:30",
-    content: "吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭"
-  },
-  {
-    year: "2023年",
-    day: "7月23日",
-    time: "12:00",
-    content: "吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭"
-  },
+  // {
+  //   year: "2023年",
+  //   day: "7月23日",
+  //   time: "7:30",
+  //   content: "吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭"
+  // },
+  // {
+  //   year: "2023年",
+  //   day: "7月23日",
+  //   time: "12:00",
+  //   content: "吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭"
+  // },
 
 ])
 const state = reactive({
@@ -311,25 +319,16 @@ page {
   font-size: 16px;
 }
 
-/*
-position: absolute;
-width: 36px;
-height: 36px;
-left: 129px;
-top: 34px;
-background: #595959;
- */
 .nut-tabs__titles .nut-tabs__list {
   justify-content: center;
   margin-top: 10px;
-  /* position: fixed; */
   top: 0;
 }
 
 .nut-tabs__titles {
   border-bottom-left-radius: 40px;
   border-bottom-right-radius: 40px;
-  /* position: fixed; */
+
 }
 
 .nut-tab-pane {
@@ -339,9 +338,6 @@ background: #595959;
   padding: 0%;
   background-color: #FFF9EE;
 }
-
-
-
 .tabs {
   align-items: center;
 }
@@ -363,9 +359,6 @@ background: #595959;
 }
 .con {
   flex: 1;
-  /* width: 93vw;
-  background: #fff;
-  border-radius: 40px; */
   height: 80%;
   margin: 40px auto;
   box-sizing: border-box;
@@ -391,6 +384,7 @@ background: #595959;
   line-height: 37px;
   color: #333;
   position: relative;
+  
 }
 
 .right::after {
@@ -434,36 +428,29 @@ background: #595959;
   font-weight: 400;
   line-height: 56px;
   color: #595959;
-
+  
 }
-
-/* .right .time::after {
-  content: '';
-  position: absolute;
-  width: 98px;
-  height: 14px;
-  left: 0%;
-  right: -9.52%;
-  top: 20%;
-  bottom: 25%;
-  background: #FFC765;
-  border-radius: 7px;
-  z-index: 1;
-} */
 .time .line {
   position: absolute;
-  width: 98px;
+  width: 105px;
   height: 14px;
-  left: -3px;
-  right: 0%;
+  
   top: 30px;
   background: #FFC765;
   border-radius: 7px;
   z-index: 1;
 }
 
+.text_image {
+  width: 140px;
+  height: 140px;
+  border-radius: 20px;
+}
+
 .time .text {
   position: relative;
+  width: 105px;
+  text-align: center;
   z-index: 2;
 }
 
@@ -479,20 +466,6 @@ background: #595959;
   border-radius: 40px;
 }
 
-/* .r_box::after{
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-top: 13px solid transparent;
-  border-bottom: 13px solid transparent;
-  border-right: 17px solid #e4c1c1;
-  left: -17px;
-  top: 20px;
-} */
-/* .con-item:last-child .right .r_box{
-  margin-bottom: 0;
-} */
 .out_button .nut-cell {
   width: 140px;
   height: 140px;
@@ -581,9 +554,10 @@ background: #595959;
   box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.15);
   border-radius: 20px;
   margin-left: 40px;
+  overflow: scroll;
 }
 
-.picture {
+ .picture {
 
   width: 200px;
   height: 200px;
@@ -606,17 +580,6 @@ background: #595959;
   right: 54px;
 }
 </style>
-/* Rectangle 111 */
-
-position: absolute;
-width: 88px;
-height: 36px;
-left: 250px;
-top: 725px;
-
-background: #FFC765;
-box-shadow: -2px 2px 2px rgba(0, 0, 0, 0.15);
-border-radius: 14px;
 
 
 
