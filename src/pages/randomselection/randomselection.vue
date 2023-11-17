@@ -2,13 +2,15 @@
   <view class="randomselection">
     <nut-popup  v-model:visible="popupresult" pop-class="dialog" close-icon-position="top-right" closeable="true">
       <view class="dialog_in">
-        <image src="https://images.fzuhuahuo.cn/hum1.png" class="dialog_img"/>
+        <image :src="choosefinal.url" class="dialog_img"/>
         <view class="dialog_content">
-          <view style="font-family: PingFang;font-size: 22Px;font-weight: 600;color: black;">{{ choosefinal.name }}</view>
-          <view class="input-text" style="margin-top: 5px;">商铺: &nbsp;{{ choosefinal.storename }}</view>
+          <view style="font-family: PingFang;font-size: 22Px;font-weight: 600;color: black;">{{ choosefinal.foodName }}</view>
+          <!-- <view class="input-text" style="margin-top: 5px;">商铺: &nbsp;{{ choosefinal.storename }}</view>
           <view class="input-text" style="margin-top: 5px;">餐厅: &nbsp;{{ choosefinal.dinneroom }}</view>
           <view class="input-text" style="margin-top: 5px;">品类: &nbsp;{{ choosefinal.typetag }}</view>
-          <view class="input-text" style="margin-top: 5px;">口味: &nbsp;{{ choosefinal.tastytag }}</view>
+          <view class="input-text" style="margin-top: 5px;">口味: &nbsp;{{ choosefinal.tastytag }}</view> -->
+          <view class="input-text" style="margin-top: 5px;">价格: &nbsp;{{ choosefinal.price }}</view>
+          <view class="input-text" style="margin-top: 5px;">口味: &nbsp;{{ choosefinal.intro }}</view>
         </view>
         <view class="dialog_btn">
           <nut-button color="#FFC765" >
@@ -35,10 +37,10 @@
               <view class="menu-container">
                 <IconFont name="arrow-up" style="width: 50px;margin-top: 10px;"></IconFont>
               <view class="dropdown">
-                <view @click="chooseRoom(item.text)" v-for="(item,index) in chooselist.dinneroom">{{ item.text }}</view>
+                <view @click="chooseRoom(item)" v-for="(item,index) in chooselist.dinneroom">{{ item.canteenName }}</view>
               </view>
           </view> 
-            <view style="height: 60px;display: flex;align-items: center;">{{ choose.dinneroom }}</view>
+            <view style="height: 60px;display: flex;align-items: center;">{{ choose.dinneroom.canteenName }}</view>
             <view class="choose_name">
               餐厅
             </view>
@@ -47,10 +49,10 @@
           <view class="menu-container">
                 <IconFont name="arrow-up" style="width: 50px;margin-top: 10px;"></IconFont>
               <view class="dropdown">
-                  <view @click="chooseType(item.text)" v-for="(item,index) in chooselist.type">{{ item.text }}</view>
+                  <view @click="chooseType(item)" v-for="(item,index) in chooselist.type">{{ item.tagName }}</view>
               </view>
           </view> 
-            <view style="height: 60px;display: flex;align-items: center;">{{ choose.type}}</view>
+            <view style="height: 60px;display: flex;align-items: center;">{{ choose.type.tagName}}</view>
             <view class="choose_name">
               品种
             </view>
@@ -59,10 +61,10 @@
           <view class="menu-container">
                 <IconFont name="arrow-up" style="width: 50px;margin-top: 10px;"></IconFont>
               <view class="dropdown">
-                  <view @click="chooseTasty(item.text)" v-for="(item,index) in chooselist.tasty">{{ item.text }}</view>
+                  <view @click="chooseTasty(item)" v-for="(item,index) in chooselist.tasty">{{ item.tagName }}</view>
               </view>
           </view> 
-            <view style="height: 60px;display: flex;align-items: center;">{{ choose.tasty }}</view>
+            <view style="height: 60px;display: flex;align-items: center;">{{ choose.tasty.tagName }}</view>
             <view class="choose_name">
               口味
             </view>
@@ -74,25 +76,35 @@
 </template>
 
 <script setup>
-import { ref,reactive } from 'vue'
+import { ref,reactive, onMounted } from 'vue'
 import './randomselection.css'
 import { IconFont } from '@nutui/icons-vue-taro';
-const choosefinal = reactive({
-    id:2,
-    name:'麦辣鸡腿堡',
-    storename:'麦当劳',
-    dinneroom:'紫荆园一楼',
-    star:0,
-    typetag:'种类标签',
-    tastytag:'口味标签',
-    logo:'https://images.fzuhuahuo.cn/hum1.png',
-    price:23
+import { getFoodTagbyID, getFoodTagbyType } from '../../request/tagapi';
+import { getCanteenList, getStoreList } from '../../request/new_api';
+import {getFood} from '../../request/food_api'
+import {getImagebyID} from '../../request/new_api'
+var choosefinal = reactive({
+
+})
+const foodlist = reactive({
+  data:[]
 })
 const popupresult = ref(false);
 const choose = reactive({
-  dinneroom:'全部',
-  type:'全部',
-  tasty:'全部'
+  dinneroom:{
+      "id": 0,
+      "canteenName": "全部",
+    },
+  type:{
+      "id": 0,
+      "tagName": "全部",
+      "tagType": 1
+    },
+  tasty:{
+      "id": 0,
+      "tagName": "全部",
+      "tagType": 1
+    }
 })
 const chooselist = reactive({
   dinneroom:[
@@ -117,14 +129,39 @@ const chooselist = reactive({
     { text: '清淡', value: 4 },
   ]
 })
+onMounted(async()=>{
+  const tagtasty_res = await getFoodTagbyType({"tagType":1})
+  chooselist.tasty = tagtasty_res.data.data
+  chooselist.tasty.push({
+      "id": 0,
+      "tagName": "全部",
+      "tagType": 1
+    })
+  const tagtype_res = await getFoodTagbyType({"tagType":0})
+  chooselist.type = tagtype_res.data.data
+  chooselist.tasty.push({
+      "id": 0,
+      "tagName": "全部",
+      "tagType": 1
+    })
+  const tagcanteen_res = await getCanteenList({"page":0,"size":50})
+  chooselist.dinneroom = tagcanteen_res.data.data
+  const food_res = await getFood({"page":0,"size":500})
+  foodlist.data = food_res.data.data
+  console.log(foodlist.data)
+})
 const turnflag = ref(0)
 const ppflag = ref(0)
 const turnTables = (res) =>{
     turnflag.value = 1
     console.log(turnflag.value)
-    setTimeout(()=>{
+    setTimeout(async()=>{
       turnflag.value = 0
       popupresult.value = true
+      var ra = Math.floor(Math.random()*foodlist.data.length)
+      choosefinal = foodlist.data[ra]
+      const img_res = await getImagebyID({"belongId":choosefinal.id,"belongType":"Food"})
+      choosefinal.url = img_res.data.data[0].url
     },5000 )
 }
 const chooseRoom = function(e){
@@ -248,7 +285,7 @@ const decideChoose = ()=>{
           justify-content: center;
           width: 200px;
           .dropdown {
-            width: 85%;
+            width: 100%;
             height: 50px;
             position: absolute;
             bottom: 100%;
@@ -258,13 +295,14 @@ const decideChoose = ()=>{
             opacity: 0;
             // transform: translateY(-10px);
             transition-duration: 0.5s;
+            overflow-y: scroll;
+            overflow-x: visible;
             // animation: ss 0.5 ease-out;
           view {
             color: #333;
-            padding: 12px 15px;
             display: none;
             width: 100%;
-            height: 50px;
+            height: 60px;
             // transition: opacity 3s ease-out
             transition-duration: 3s;
             //animation: ss 0.5 ease-out;
@@ -272,11 +310,12 @@ const decideChoose = ()=>{
             font-family: 'PingFang';
             font-size: 12Px;
             font-weight: 200;
+            overflow-x: visible;
           }
         }
       }
       .menu-container:hover .dropdown {
-          height: 350px;
+          height: 240px;
           opacity: 1;
           view{
             display: block;
@@ -349,6 +388,7 @@ const decideChoose = ()=>{
     }
     100% {
         transform: rotate(1440deg);
+
     }
   }
   }

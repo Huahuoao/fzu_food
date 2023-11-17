@@ -45,6 +45,5 @@ export default defineAppConfig({
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black',
     initialRenderingCache: 'static',
-    enablePullDownRefresh:true,
   }
 })
