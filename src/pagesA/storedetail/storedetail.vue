@@ -19,7 +19,7 @@
                 </div>
                 
                 <div class="store_type">
-                  {{ store.data.intro }}
+                  {{ store.data.tag }}
                 </div>
               </div>
             </div>
