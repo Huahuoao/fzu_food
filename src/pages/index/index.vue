@@ -53,19 +53,19 @@ width: 65px;height: 65px;border-radius: 50px;"> </image>
         <nut-swiper :init-page="page" :pagination-visible="true" pagination-color="#426543" auto-play="3000"
                     style="width: 90%; border-radius: 15px;">
           <nut-swiper-item>
-            <img src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png"
+            <img src="https://images.fzuhuahuo.cn//1698725729118.jpeg?imageslim/zlevel/6"
                  alt=""/>
           </nut-swiper-item>
           <nut-swiper-item>
-            <img src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png"
+            <img src="https://images.fzuhuahuo.cn//1698727133477.jpeg?imageslim/zlevel/6"
                  alt=""/>
           </nut-swiper-item>
           <nut-swiper-item>
-            <img src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png"
+            <img src="https://images.fzuhuahuo.cn//1698726919664.jpeg?imageslim/zlevel/6"
                  alt=""/>
           </nut-swiper-item>
           <nut-swiper-item>
-            <img src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png"
+            <img src="https://images.fzuhuahuo.cn//1698727361927.jpeg?imageslim/zlevel/6"
                  alt=""/>
           </nut-swiper-item>
         </nut-swiper>
