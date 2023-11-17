@@ -28,7 +28,7 @@
                   <nut-rate :custom-icon="HeartFill" v-model="item1.collect"  count="1" />
                 </div>     
                 <div class="store_type">
-                  {{ item1.intro }}
+                  {{ item1.tag }}
                 </div>
               </div>
             </div>
@@ -47,7 +47,7 @@
                 </div>
                 
                 <div class="store_type">
-                  {{ item1.intro }}
+                  {{ item1.tag }}
                 </div>
               </div>
             </div>
