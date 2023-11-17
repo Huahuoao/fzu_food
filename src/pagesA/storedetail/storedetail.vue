@@ -58,7 +58,7 @@
 </template>
 
 <script setup>
-import Taro,{getCurrentInstance} from '@tarojs/taro';
+import Taro,{canIUseWebp, getCurrentInstance} from '@tarojs/taro';
 import { HeartFill } from '@nutui/icons-vue-taro';
 import { onBeforeMount, onMounted, reactive, ref } from 'vue'
 import { getStorebyID,getFoodbyID,getImagebyID } from '../../request/new_api';
@@ -149,6 +149,7 @@ onBeforeMount(async()=>{
     const tag_res = await getFoodTagbyID({"foodId":item.id})
     menulist.data[i].typetag = []
     menulist.data[i].typetag.push(...(tag_res.data.data))
+    console.log(menulist.data[i])
     console.log(JSON.stringify(menulist.data[i].typetag))
   }
   page.value += 1

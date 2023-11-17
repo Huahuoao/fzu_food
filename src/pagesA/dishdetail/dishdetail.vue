@@ -9,10 +9,10 @@
           <text class="title-medium">{{ dish.data.foodName }} </text>
             <div class="tag">
               <div class="dish_type" v-if="typetag.length>0" >
-                    {{ typetag[0].tagName }}
+                    {{ 咸香 }}
                   </div>
                   <div class="dish_type" v-if="typetag.length>0"  >
-                    {{ typetag[1].tagName }}
+                    {{ 粉 }}
                   </div>
             </div>
         </view>
@@ -68,7 +68,7 @@ var cmt = reactive({
     like: 1 // 此评论的点赞数
   }
 })
-var typetag = ref([])
+//var typetag = ref([{"tagName":"种类标签"},{"tagName":"种类标签"}"}])
 var good = ref(0)
 var bad = ref(0)
 var star = ref(0)
@@ -104,9 +104,17 @@ var dishs  =reactive({
     price:23
   },)
   onBeforeMount(async()=>{
-  dish.data = JSON.parse(getCurrentInstance().router.params.id)
-  typetag.value = JSON.parse(getCurrentInstance().router.params.typetag)
-
+  //dish.data = JSON.parse(getCurrentInstance().router.params.id)
+  //typetag.value = JSON.parse(getCurrentInstance().router.params.typetag)
+  dish.data = {
+    foodName: "肥肠米线",
+    id: 28,
+    intro: "咸香",
+    price: 15,
+    storeId: 2,
+    url: "https://images.fzuhuahuo.cn//1698727030987.jpeg?imageslim/zlevel/6"
+  }
+  console.log(dish.data)
 })
 const submit = ()=>{
   console.log(comment.value)
