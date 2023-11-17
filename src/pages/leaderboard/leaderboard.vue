@@ -1,53 +1,53 @@
 <template>
   <view class="leaderboard"  >
     <view style="height: 15px;"></view>
-    <nut-tabs v-model="value" swipeable>
+    <nut-tabs v-model="value" swipeable @change="swipChange(value)">
       <template #titles>
         <div class="mytab" style="display: flex;">
-          <div class="nut-tabs__titles-item" v-for="item in list" @click="changelist(item)" :class="{ active: value == item.paneKey }"
+          <div class="nut-tabs__titles-item" v-for="item in list"  @click="changelist(item)"  :class="{ active: value == item.paneKey }"
             :key="item.paneKey" >
-            <div :class="{ 'activeCss': value == item.paneKey }"><span class="nut-tabs__titles-item__text">{{ item.title
+            <div :class="{'activeCss':value == item.paneKey}"><span style="text-align: center;">{{ item.title
             }}</span></div>
           </div>
         </div>
       </template>
-      <nut-tab-pane v-for="item in list" :pane-key="item.paneKey">
+      <nut-tab-pane v-for="item in list" :pane-key="item.paneKey" >
         <view class="top-three" style="display: flex; gap: 5vw;justify-content: center;">
           <view style="display: flex;flex-direction: column;">
             <image src="https://images.fzuhuahuo.cn/%E7%9A%87%E5%86%A02.png" class="crown" />
-            <image src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png" class="top_img" />
+            <image :src="renderlist[1].image" class="top_img" />
             <text
-              style="font-family: 'PingFang';font-size: 12px; font-weight: 700;text-align: center;margin-top: 1vw;">{{ renderlist[1].name }}</text>
+              style="font-family: 'PingFang';font-size: 12px; font-weight: 700;text-align: center;margin-top: 1vw;margin-left:10px;">{{ renderlist[1].name }}</text>
             <text
-              style="font-family: 'DM Sans';font-size: 16px; font-weight: 700;text-align: center;margin-top: 1vw;">{{renderlist[1].num}}</text>
+              style="font-family: 'DM Sans';font-size: 16px; font-weight: 700;text-align: center;margin-top: 1vw;margin-left:10px;">{{renderlist[1].num}}</text>
           </view>
           <view style="display: flex;flex-direction: column;position: relative; top: -5vw;">
             <image src="https://images.fzuhuahuo.cn/%E7%9A%87%E5%86%A01.png" class="crown" />
-            <image src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png" class="top_img" style="width: 80px;height: 80px;" />
+            <image :src="renderlist[0].image" class="top_img" style="width: 80px;height: 80px;" />
             <text
-              style="font-family: 'PingFang';font-size: 12px; font-weight: 700;text-align: center;margin-top: 1vw;">{{ renderlist[0].name }}</text>
+              style="font-family: 'PingFang';font-size: 12px; font-weight: 700;text-align: center;margin-top: 1vw;margin-left:10px;">{{ renderlist[0].name }}</text>
             <text
-              style="font-family: 'DM Sans';font-size: 16px; font-weight: 700;text-align: center;margin-top: 1vw;">{{renderlist[0].num}}</text>
+              style="font-family: 'DM Sans';font-size: 16px; font-weight: 700;text-align: center;margin-top: 1vw;margin-left:10px;">{{renderlist[0].num}}</text>
           </view>
           <view style="display: flex;flex-direction: column;">
             <image src="https://images.fzuhuahuo.cn/%E7%9A%87%E5%86%A03.png" class="crown" />
-            <image src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png" class="top_img" />
+            <image :src="renderlist[2].image" class="top_img" />
             <text
-              style="font-family: 'PingFang';font-size: 12px; font-weight: 700;text-align: center;margin-top: 1vw;">{{ renderlist[2].name }}</text>
+              style="font-family: 'PingFang';font-size: 12px; font-weight: 700;text-align: center;margin-top: 1vw;margin-left:10px;">{{ renderlist[2].name }}</text>
             <text
-              style="font-family: 'DM Sans';font-size: 16px; font-weight: 700;text-align: center;margin-top: 1vw;">{{renderlist[2].num}}</text>
+              style="font-family: 'DM Sans';font-size: 16px; font-weight: 700;text-align: center;margin-top: 1vw;margin-left:10px;">{{renderlist[2].num}}</text>
           </view>
         </view>
         <view class="tab_pane">
           <view v-for="(item, index) in renderlist.slice(3,10)"  class="remainder" :key="item.id">
 
-            <view style="display:flex;align-items: center;width: 150px;padding-left: 20px;">
+            <view style="display:flex;align-items: center;padding-left: 20px;">
               <text style="font-family: 'DM Sans';font-size: 16px; font-weight: 700;  color:#F6AC15;width: 20px;height: 21px;">{{
                 item.id }}</text>
-              <image src="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png" class="img" />
-              <text
-                style="font-family: 'PingFang';font-size: 12px; font-weight: 700; margin-left:20px;text-align: center;width: 48px;">{{
-                  item.name }}</text>
+              <image :src="item.image" class="img" />
+              <span
+                style="font-family: 'PingFang';font-size: 12px; font-weight: 700; margin-left:20px;text-align: center;line-height: 16.8px;">{{
+                  item.name }}</span>
             </view>
             <view style="display: flex;">
               <text style="font-family: 'PingFang';font-size: 12px; font-weight: 400;">{{ count }}</text>
@@ -83,52 +83,62 @@ const favouritelist = ref([
   {
     id: 1,
     name: '第一名',
-    num:1000
+    num:1000,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 2,
     name: '第二名',
-    num:900
+    num:900,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 3,
     name: '第三名',
-    num:800
+    num:800,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 4,
     name: '第四名',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 5,
     name: '拔丝地瓜',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 6,
     name: '拔丝地瓜',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 7,
     name: '拔丝地瓜',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 8,
     name: '拔丝地瓜',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 9,
     name: '拔丝地瓜',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 10,
     name: '拔丝地瓜',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
 
 ]);
@@ -136,69 +146,82 @@ const hotlist = ref([
 {
     id: 1,
     name: 'first',
-    num:1000
+    num:1000,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 2,
     name: 'second',
-    num:900
+    num:900,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 3,
     name: 'three',
-    num:800
+    num:800,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 4,
     name: 'four',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 5,
     name: '拔丝地瓜',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 6,
     name: '拔丝地瓜',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 7,
     name: '拔丝地瓜',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 8,
     name: '拔丝地瓜',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 9,
     name: '拔丝地瓜',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 10,
     name: '拔丝地瓜',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
 ]);
 const renderlist = ref([
   {
     id: 1,
     name: '',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 1,
     name: '',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
   {
     id: 1,
     name: '',
-    num:400
+    num:400,
+    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
 ]);
 const changelist=(item)=>{
@@ -212,6 +235,18 @@ const changelist=(item)=>{
     count.value='点赞数'
   }
 };
+const swipChange=(item)=>
+{
+  
+  if(item=='c1'){
+    renderlist.value = hotlist.value
+    count.value='评论数'
+  }
+  else{
+    renderlist.value = favouritelist.value
+    count.value='点赞数'
+  }
+}
 useDidShow(() => {
   renderlist.value= hotlist.value
 })
@@ -230,11 +265,16 @@ page {
   width: 240px;
   transition: .2s;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 
 .nut-tab-pane {
   padding: 0%;
   background-color: transparent;
+  
 }
 
 /* .nut-tabs__titles-item__text{
@@ -256,7 +296,7 @@ page {
 
 .crown {
   position: relative;
-  left: -5vw;
+  left: -4vw;
   top: 6vw;
   object-fit: cover;
   width: 12vw;

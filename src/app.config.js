@@ -3,7 +3,7 @@ export default defineAppConfig({
     'pages/index/index',
     'pages/my/my',
     'pages/leaderboard/leaderboard',
-    'pages/randomselection/randomselection'
+    'pages/randomselection/randomselection',
   ],
   subpackages: [
     {
@@ -12,6 +12,11 @@ export default defineAppConfig({
         "store/store",
         "storedetail/storedetail",
         "dishdetail/dishdetail"
+      ]
+    },{
+      "root": "pagesB",
+      "pages": [
+        "eatdiary/eatdiary",
       ]
     }
   ],
