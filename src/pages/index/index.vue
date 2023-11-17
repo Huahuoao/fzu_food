@@ -17,7 +17,7 @@
       </nut-col>
       <nut-col :span="6">
         <view >
-          <image :src="headImg" style="  box-shadow: 2px 2px 2px rgba(220,38,38,0.3);
+          <image :src="headImg" style="    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.11);
 width: 65px;height: 65px;border-radius: 50px;"> </image>
         </view>
       </nut-col>
@@ -34,7 +34,7 @@ width: 65px;height: 65px;border-radius: 50px;"> </image>
       <IndexBar
         background-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Auto%20stories.svg"
         icon-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Vector%20%282%29.svg"
-        msg="享受美味，记录瞬间" title="干饭日记"></IndexBar>
+        msg="享受美味，记录瞬间" title="干饭日记" @click="navitoEatdiary"></IndexBar>
       <IndexBar icon-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Sync.svg"
                 background-url="https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Sync%20%281%29.svg"
                 msg="摇出美食，惊喜上桌" title="随机摇菜" @click="navitoRandom"></IndexBar>
@@ -91,6 +91,11 @@ const navitoRandom = ()=>{
 const navitoLeaderboard =()=>{
   Taro.navigateTo({
     url:'../leaderboard/leaderboard'
+  })
+}
+const navitoEatdiary =()=>{
+  Taro.navigateTo({
+    url:'../../pagesB/eatdiary/eatdiary'
   })
 }
 const br = ref("\n")

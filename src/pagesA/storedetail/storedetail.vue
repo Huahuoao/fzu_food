@@ -5,7 +5,7 @@
     </div>
     <div class="store_line0">
       <div  class="store_line" >
-              <image src="https://images.fzuhuahuo.cn/mcdona.png" class="store_logo_img" />
+              <image :src="store.data.imgUrl" class="store_logo_img" />
               <div class="store_rate">
                 <div style="margin-bottom: 10px;font-family: 'PingFang';font-size: 20px;font-weight: 600;">{{ store.data.storeName }}</div>
                 <div style="display: flex;">
@@ -268,6 +268,7 @@ onBeforeMount(async()=>{
   width:140px;
   height: 126px;
   margin-left: 14px;
+  border-radius: 15px;
 }
 .store_rate{
   width: 45vw;

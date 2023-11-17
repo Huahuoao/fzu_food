@@ -1,10 +1,9 @@
 export default defineAppConfig({
   pages: [
     'pages/index/index',
-    'pages/register/register',
     'pages/my/my',
     'pages/leaderboard/leaderboard',
-    'pages/randomselection/randomselection'
+    'pages/randomselection/randomselection',
   ],
   subpackages: [
     {
@@ -13,6 +12,11 @@ export default defineAppConfig({
         "store/store",
         "storedetail/storedetail",
         "dishdetail/dishdetail"
+      ]
+    },{
+      "root": "pagesB",
+      "pages": [
+        "eatdiary/eatdiary",
       ]
     }
   ],
@@ -30,17 +34,16 @@ export default defineAppConfig({
 
     }],
     'color': '#000',
-    'selectedColor': '#56abe4',
+    'selectedColor': '#000',
     'backgroundColor': '#FFF9EE',
     'borderStyle': 'white'
   },
   window: {
+    disableScroll: true,
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#FFC765',
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black',
     initialRenderingCache: 'static',
-    backgroundTextStyle:"dark",
-    enablePullDownRefresh:true,
   }
 })

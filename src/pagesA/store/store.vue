@@ -42,7 +42,7 @@
                 </div>
               </div>
               <div class="store_line_right">
-                <div style="margin-left: 50px;">
+                <div style="margin-left: 50px;margin-top: 2px;">
                   <nut-rate :custom-icon="HeartFill" v-model="item1.collect"  count="1" />
                 </div>
                 
@@ -247,7 +247,7 @@ useReachBottom(async() => {
   height: 3vh;
   border-radius:20px;
   border: 2px solid #595959;
-  margin-top: 36px;
+  margin-top: 25px;
   margin-right: 20px;
   font-family: 'PingFang';
   font-size: 16Px;
