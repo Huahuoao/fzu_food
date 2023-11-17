@@ -248,7 +248,7 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px;position: relative
       <!--      联系管理-->
       <view v-if="selectValue==4" style="display:flex; width: 90%;height: 90%;background-color:
 rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: center;justify-content: center;position: relative;text-align: center;">
-        <text class="input-text">如需联系管理员请发邮件到2294198058@qq.com感谢您对知食分子做出的贡献！</text>
+        <text class="input-text">如需联系管理员请发邮件到2294198058@qq.com感谢您对<text @click="myCleanCache">知食分子</text>做出的贡献！</text>
       </view>
 
     </view>
@@ -308,6 +308,13 @@ const bgColorRight = ref('white')
 const myContributeType = ref(1)
 const textColorLeft = ref("white")
 const textColorRight = ref("#595959")
+const myCleanCache = ()=>{
+  Taro.clearStorageSync ()
+  Taro.showToast({
+    title: "缓存清理成功，请重新启动小程序",
+  })
+
+}
 //选择餐厅位置
 const shopAreaValueString = ref("")
 const shopAreaColumns = ref([
