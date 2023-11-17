@@ -3,11 +3,11 @@
     <view class="inner-bar">
       <view class="inner-bar-ball">
       </view>
-      <image  :src="props.iconUrl" style=" width:35px; height: 32px;  z-index: 999;">
+      <image :src="props.iconUrl" style=" width:35px; height: 32px;  z-index: 999;">
       </image>
     </view>
     <view class="indexBarText">
-      <text class="indexbart1" >{{ props.title }}{{ br }}</text>
+      <text class="indexbart1">{{ props.title }}{{ br }}</text>
       <text class="indexbart2">{{ props.msg }}</text>
     </view>
     <image :src="props.backgroundUrl"
@@ -34,8 +34,8 @@ useLoad(() => {
 
 <style>
 .index-bar {
-  box-shadow: 5px 5px 5px rgba(220,38,38,0.3);
-  margin:34px;
+  box-shadow: 5px 5px 5px rgba(220, 38, 38, 0.3);
+  margin: 34px;
   position: relative;
   display: flex;
   width: 300px;
@@ -69,6 +69,7 @@ useLoad(() => {
 }
 
 .indexbart1 {
+  z-index: 999;
   font-size: 32px;
   font-weight: bold;
   line-height: 44px;
@@ -78,7 +79,7 @@ useLoad(() => {
 }
 
 .indexbart2 {
-
+  z-index: 999;
   font-size: 24px;
   font-weight: normal;
   line-height: 28px;

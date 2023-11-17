@@ -170,7 +170,7 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
           </view>
 
           <view style="display: flex;justify-content: center;">
-            <nut-button class="my-con-upload" type="success">上传
+            <nut-button @click="myConUpload(1)" class="my-con-upload" type="success">上传
             </nut-button>
           </view>
         </view>
@@ -217,7 +217,7 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
           </view>
 
           <view style="display: flex;justify-content: center;">
-            <nut-button class="my-con-upload" type="success">上传
+            <nut-button @click="myConUpload(1)" class="my-con-upload" type="success">上传
             </nut-button>
           </view>
         </view>
@@ -265,7 +265,15 @@ import {useLoad} from "@tarojs/taro";
 import {getUnionId, getUserByUnionId, register} from "../../request/api";
 
 const br = ref("\n")
-
+const myConUpload = (i) => {
+  conTempUrl.value = ""
+  myConName.value = ""
+  shopAreaValueString.value = ""
+  shopLabelValueString.value = ""
+  Taro.showToast({
+    title: "上传成功",
+  })
+}
 const conTempUrl = ref("")
 const myUploadImg = () => {
   Taro.chooseMedia({
@@ -335,9 +343,14 @@ const handleShopLabelConfirm = ({selectedValue, selectedOptions}) => {
   isShopLabelShow.value = false;
 };
 //
-const contributeFood = () => {
+const iniConItem = () => {
+  conTempUrl.value = ""
+  myConName.value = ""
   shopAreaValueString.value = ""
   shopLabelValueString.value = ""
+}
+const contributeFood = () => {
+  iniConItem()
   bgColorLeft.value = "#FFC765"
   bgColorRight.value = "white"
   myContributeType.value = 1;
@@ -345,8 +358,7 @@ const contributeFood = () => {
   textColorRight.value = "#595959"
 }
 const contributeShop = () => {
-  shopAreaValueString.value = ""
-  shopLabelValueString.value = ""
+  iniConItem()
   bgColorRight.value = "#FFC765"
   bgColorLeft.value = "white"
   myContributeType.value = 2;

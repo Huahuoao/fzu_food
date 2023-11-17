@@ -182,21 +182,21 @@ const diary = ref([
     day: "7月23日",
     time: "7:30",
     image: "",
-    content: "吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭"
+    content: "今天吃了玫瑰园麻辣烫，感觉淀粉肠太好吃了"
   },
   {
     year: "2023年",
     day: "7月23日",
     time: "12:00",
     image: "https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png",
-    content: "吃了一碗饭吃了一碗饭"
+    content: "今天吃了这个哦"
   },
   {
     year: "2023年",
     day: "7月23日",
     time: "18:30",
     image: "",
-    content: "吃了一碗饭"
+    content: "今晚胃不舒服，喝了一碗皮蛋瘦肉粥，意想不到的暖胃。好喝！"
   },
   // {
   //   year: "2023年",
