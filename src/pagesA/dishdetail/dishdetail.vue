@@ -2,18 +2,18 @@
   <view class="dishdetail">
     <view class="head_image_area">
       <nut-rate v-model="star"  class="star" count="1" void-color="#FFFFFF"/>
-      <image :src="dish.data.logo" class="head_image"/>
+      <image :src="dish.data.url" class="head_image"/>
     </view>
     <view class="head_detail">
         <view class="left">
-          <text class="title-medium">{{ dish.data.name }} </text>
+          <text class="title-medium">{{ dish.data.foodName }} </text>
             <div class="tag">
-              <div class="dish_type">
-                {{ dish.data.typetag }}
-              </div>
-              <div class="dish_type">
-                {{ dish.data.tastytag }}
-              </div>
+              <div class="dish_type" v-if="typetag.length>0" >
+                    {{ typetag[0].tagName }}
+                  </div>
+                  <div class="dish_type" v-if="typetag.length>0"  >
+                    {{ typetag[1].tagName }}
+                  </div>
             </div>
         </view>
         <view class="right">
@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref, setBlockTracking } from 'vue'
+import { onMounted, reactive, ref,onBeforeMount} from 'vue'
 import './dishdetail.css'
 import Taro,{getCurrentInstance} from '@tarojs/taro';
 import { IconFont } from '@nutui/icons-vue-taro';
@@ -68,6 +68,7 @@ var cmt = reactive({
     like: 1 // 此评论的点赞数
   }
 })
+var typetag = ref([])
 var good = ref(0)
 var bad = ref(0)
 var star = ref(0)
@@ -102,8 +103,10 @@ var dishs  =reactive({
     logo:'https://images.fzuhuahuo.cn/hum_c.png',
     price:23
   },)
-onMounted(()=>{
-  dish['data'] = JSON.parse(getCurrentInstance().router.params.id)
+  onBeforeMount(async()=>{
+  dish.data = JSON.parse(getCurrentInstance().router.params.id)
+  typetag.value = JSON.parse(getCurrentInstance().router.params.typetag)
+
 })
 const submit = ()=>{
   console.log(comment.value)
@@ -150,6 +153,7 @@ const chooseBad = ()=>{
         width:88vw;
         height: 30vh;
         margin-top: 30px;
+        border-radius: 50px;
     }
   }
   .head_detail{
@@ -223,7 +227,7 @@ const chooseBad = ()=>{
       margin-left: 20px;
     }
     .comment_btn{
-      width: 120px;
+      width: 130px;
       height: 66px;
       background-color: #FCE8C5;
       font-family: 'PingFang';
