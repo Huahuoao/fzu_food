@@ -95,7 +95,7 @@ const navitoLeaderboard =()=>{
 }
 const navitoEatdiary =()=>{
   Taro.navigateTo({
-    url:'../eatdiary/eatdiary'
+    url:'../../pagesB/eatdiary/eatdiary'
   })
 }
 const br = ref("\n")
