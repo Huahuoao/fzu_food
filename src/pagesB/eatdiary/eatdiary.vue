@@ -5,13 +5,13 @@
         <div class="tab_left">
           <div class="tabs" style="display: flex;flex-direction: column;">
             <div class="top_tab" style="display: flex;">
-              <div class="nut-tabs__titles-item" v-for="item in month" :class="{ active: value.top == item.paneKey }">
+              <div class="nut-tabs__titles-item" v-for="item in tabMonth" :class="{ active: value.top == item.paneKey }">
                 <span :class="{ 'activeMonth': value.top == item.paneKey, 'defaultMonth': value.top != item.paneKey }"
                   style="font-family:'PingFang SC';font-size: 16px;font-weight: 500;">{{ item.title }}</span>
               </div>
             </div>
             <div class="buttom_tab" style="display: flex;">
-              <div class="nut-tabs__titles-item" v-for="item in day" @click="value.buttom = item.paneKey"
+              <div class="nut-tabs__titles-item" v-for="item in tabDay" @click="value.buttom = item.paneKey"
                 :class="{ active: value.buttom == item.paneKey }" :key="item.paneKey">
                 <div class="top_circle" :class="{ 'activeCss': value.buttom == item.paneKey }">
                   <div :class="{ 'activeDay': value.buttom == item.paneKey, 'defaultDay': value.buttom != item.paneKey }"
@@ -25,15 +25,12 @@
         </div>
         <div class="tab_right" style="display: flex;align-items: center;">
           <IconFont name="date" @click="openSwitch('isVisible')" size="20"></IconFont>
-          <nut-calendar ref="calendarRef" v-model:visible="isVisible" :default-value="date" type="range"
-            :start-date="null" :end-date="null" @close="closeSwitch('isVisible')" @choose="setChooseValue">
-            <template #day="date">
-              <span>{{ date.date.day }}</span>
-            </template>
+          <nut-calendar v-model:visible="state.isVisible" :start-date="startDate" :end-date="null"
+            @close="closeSwitch('isVisible')" @choose="setChooseValue">
           </nut-calendar>
         </div>
       </template>
-      <nut-tab-pane v-for="item in day" :pane-key="item.paneKey">
+      <nut-tab-pane v-for="item in tabDay" :pane-key="item.paneKey">
         <view class="con">
           <view v-for="item in diary" :key="item.time">
             <view class="con-item" style="display: flex;">
@@ -72,22 +69,19 @@
           <nut-cell :title="date_popupDesc" @click="date_show = true"></nut-cell>
         </view>
         <nut-popup position="bottom" v-model:visible="date_show">
-          <nut-date-picker v-model="currentDate" :min-date="minDate" :max-date="maxDate" @confirm="popupConfirm" @cancel="date_show = false"
-            :is-show-chinese="true">
-            <nut-button block type="primary" @click="alwaysFun">永远有效</nut-button>
+          <nut-date-picker v-model="currentDate" :min-date="minDate" :max-date="maxDate" @confirm="popupConfirm"
+            @cancel="date_show = false" :is-show-chinese="true">
           </nut-date-picker>
         </nut-popup>
       </view>
       <text class="pop_title">时间</text>
-      <view>
-        <view class="inside_button">
-          <nut-cell :title="time_popupDesc" @click="time_show = true"></nut-cell>
-        </view>
-        <nut-popup position="bottom" v-model:visible="time_show">
-          <nut-date-picker v-model="currentTime" title="时间选择" type="hour-minute" :min-date="minDate" :max-date="maxDate" @cancel="time_show = false"
-            @confirm="confirm"></nut-date-picker>
-        </nut-popup>
+      <view class="inside_button">
+        <nut-cell :title="time_popupDesc" @click="time_show = true"></nut-cell>
       </view>
+      <nut-popup position="bottom" v-model:visible="time_show">
+        <nut-date-picker v-model="currentTime" title="时间选择" type="hour-minute" :min-date="minDate" :max-date="maxDate"
+          @cancel="time_show = false" @confirm="confirm"></nut-date-picker>
+      </nut-popup>
       <text class="pop_title">标题</text>
       <nut-input v-model="val" placeholder="请输入文本" />
       <text class="pop_title">文字</text>
@@ -103,17 +97,17 @@
   </div>
 </template>
 <script  setup>
-import { reactive, toRefs, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue'
 import { IconFont } from '@nutui/icons-vue-taro';
 const record = ref('');
 const date_show = ref(false);
 const time_show = ref(false);
 const date_popupDesc = ref("选择日期");
 const time_popupDesc = ref("选择时间");
-const minDate = new Date(2021, 0, 1);
-const maxDate = new Date(2026, 10, 1);
-const currentDate = new Date(2023, 4, 10, 10, 10);
-const currentTime = new Date(2023, 4, 10, 10, 10);
+const minDate = new Date(2022, 1, 1);
+const maxDate = new Date(2030, 10, 1);
+const currentDate = new Date();
+const currentTime = new Date();
 const val = ref('');
 const confirm = ({ selectedValue, selectedOptions }) => {
   console.log(selectedValue.join(':'));
@@ -126,13 +120,10 @@ const popupConfirm = ({ selectedValue, selectedOptions }) => {
   date_popupDesc.value = selectedValue.join('/')
   date_show.value = false;
 };
-const alwaysFun = () => {
-  date_popupDesc.value = '永远有效';
-  date_show.value = false;
-};
+
 const button_show = ref(false);
-const value = ref({top:'c3',buttom:'c3'});
-const month = ref([
+const value = ref({ top: 'c3', buttom: 'c3' });
+const tabMonth = ref([
   {
     title: 'May',
     paneKey: 'c1'
@@ -154,7 +145,7 @@ const month = ref([
     paneKey: 'c5'
   }
 ]);
-const day = ref([
+const tabDay = ref([
   {
     title: '22',
     paneKey: 'c1'
@@ -215,39 +206,111 @@ const diary = ref([
 
 ])
 const state = reactive({
-  date: [],
+  dateWeek: '',
+  date: '',
   isVisible: false
 });
-const calendarRef = ref(null);
-const getNumTwoBit = (n) => {
-  n = Number(n);
-  return (n > 9 ? '' : '0') + n;
-};
+let map = new Map();
+map.set('01', 'Jan');
+map.set('02', 'Feb');
+map.set('03', 'Mar');
+map.set('04', 'Apr');
+map.set('05', 'May');
+map.set('06', 'Jun');
+map.set('07', 'Jul');
+map.set('08', 'Aug');
+map.set('09', 'Sep');
+map.set('10', 'Oct');
+map.set('11', 'Nov');
+map.set('12', 'Dec');
 
-const date2Str = (date, split = '-') => {
-  const y = date.getFullYear();
-  const m = getNumTwoBit(date.getMonth() + 1);
-  const d = getNumTwoBit(date.getDate());
-  return [y, m, d].join(split);
-};
+const getDay = (day, today) => {
+  var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
+  today.setTime(targetday_milliseconds); //注意，这行是关键代码
 
-const getDay = (i = 0) => {
-  let date = new Date();
-  const diff = i * (1000 * 60 * 60 * 24);
-  date = new Date(date.getTime() + diff);
-  return date2Str(date);
-};
-
-const isLeapYear = (y) => {
-  return (y % 4 == 0 && y % 100 != 0) || y % 400 == 0;
-};
-
-const getMonthDays = (year, month) => {
-  if (/^0/.test(month)) {
-    month = month.split('')[1];
+  var tYear = today.getFullYear();
+  var tMonth = today.getMonth();
+  var tDate = today.getDate();
+  tMonth = doHandleMonth(tMonth + 1);
+  tDate = doHandleMonth(tDate);
+  return tYear + "-" + tMonth + "-" + tDate;
+}
+const doHandleMonth = (month) => {
+  var m = month;
+  if (month.toString().length == 1) {
+    m = "0" + month;
   }
-  return ([0, 31, isLeapYear(Number(year)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month]);
-};
+  return m;
+}
+const getMonth = (month, gap) => {
+  month = Number(month) + gap;
+  if (month > 12) {
+    month = month - 12;
+  }
+  if (month <= 0) {
+    month = 12 + month;
+  }
+  month = month.toString();
+  if (month.length == 1) {
+    month = '0' + month;
+  }
+  return month;
+}
+var today = new Date();
+const startDate = ref(getDay(-14, today));
+
+const init = () => {
+  var today = new Date();
+  var title1 = getDay(-2, today);
+  today = new Date();
+  var title2 = getDay(-1, today);
+  today = new Date();
+  var title3 = getDay(0, today);
+  today = new Date();
+  var title4 = getDay(1, today);
+  today = new Date();
+  var title5 = getDay(2, today);
+  tabDay.value = [{
+    title: title1.split('-')[2],
+    paneKey: 'c1'
+  },
+  {
+    title: title2.split('-')[2],
+    paneKey: 'c2'
+  },
+  {
+    title: title3.split('-')[2],
+    paneKey: 'c3'
+  },
+  {
+    title: title4.split('-')[2],
+    paneKey: 'c4'
+  },
+  {
+    title: title5.split('-')[2],
+    paneKey: 'c5'
+  }];
+  tabMonth.value = [{
+    title: map.get(getMonth(title1.split('-')[1], -2)),
+    paneKey: 'c1'
+  },
+  {
+    title: map.get(getMonth(title2.split('-')[1], -1)),
+    paneKey: 'c2'
+  },
+  {
+    title: map.get(title3.split('-')[1]),
+    paneKey: 'c3'
+  },
+  {
+    title: map.get(getMonth(title4.split('-')[1], 1)),
+    paneKey: 'c4'
+  },
+  {
+    title: map.get(getMonth(title5.split('-')[1], 2)),
+    paneKey: 'c5'
+  }];
+}
 
 const openSwitch = (param) => {
   state[`${param}`] = true;
@@ -258,10 +321,62 @@ const closeSwitch = (param) => {
 };
 
 const setChooseValue = (param) => {
-  state.date = param[3];
+  var tDate = new Date(param[3].toString() + ' 12:00:00');
+  var title1 = getDay(-2, tDate);
+  tDate = new Date(param[3].toString() + ' 12:00:00');
+  var title2 = getDay(-1, tDate);
+  tDate = new Date(param[3].toString() + ' 12:00:00');
+  var title3 = getDay(0, tDate);
+  tDate = new Date(param[3].toString() + ' 12:00:00');
+  var title4 = getDay(1, tDate);
+  tDate = new Date(param[3].toString() + ' 12:00:00');
+  var title5 = getDay(2, tDate);
+  tabDay.value = [{
+    title: title1.split('-')[2],
+    paneKey: 'c1'
+  },
+  {
+    title: title2.split('-')[2],
+    paneKey: 'c2'
+  },
+  {
+    title: title3.split('-')[2],
+    paneKey: 'c3'
+  },
+  {
+    title: title4.split('-')[2],
+    paneKey: 'c4'
+  },
+  {
+    title: title5.split('-')[2],
+    paneKey: 'c5'
+  }];
+  tabMonth.value = [{
+    title: map.get(getMonth(title1.split('-')[1], -2)),
+    paneKey: 'c1'
+  },
+  {
+    title: map.get(getMonth(title2.split('-')[1], -1)),
+    paneKey: 'c2'
+  },
+  {
+    title: map.get(title3.split('-')[1]),
+    paneKey: 'c3'
+  },
+  {
+    title: map.get(getMonth(title4.split('-')[1], 1)),
+    paneKey: 'c4'
+  },
+  {
+    title: map.get(getMonth(title5.split('-')[1], 2)),
+    paneKey: 'c5'
+  }];
+  console.log(getMonth(title2.split('-')[1], -1));
 };
-
-const { date, isVisible } = toRefs(state);
+onMounted(async () => {
+  init()
+}
+)
 </script>
 <style>
 .eatdiary {
@@ -580,8 +695,6 @@ page {
   text-align: center;
   right: 54px;
 }
-
-
 </style>
 
 
