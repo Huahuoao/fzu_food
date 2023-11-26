@@ -87,8 +87,8 @@
       <text class="pop_title">文字</text>
       <nut-textarea v-model="record" />
       <text class="pop_title">图片</text>
-      <view style="display: flex;align-items: flex-end;"><nut-uploader :url="uploadUrl"
-          :source-type="['camera']"></nut-uploader>
+      <view style="display: flex;align-items: flex-end;"><nut-uploader url="" :before-upload="beforeXhrUpload" 
+        ></nut-uploader>
         <view class="final_button"><span
             style="font-size: 20px;font-family: 'PingFang SC';font-weight: 400;text-align: center;color: #595959;line-height: 35px;">记录</span>
         </view>
@@ -99,7 +99,9 @@
 <script  setup>
 import { onMounted, reactive, ref } from 'vue'
 import { IconFont } from '@nutui/icons-vue-taro';
-const record = ref('');
+import Taro from "@tarojs/taro";
+const uploadUrl = ref("");
+const record = ref('');//标题
 const date_show = ref(false);
 const time_show = ref(false);
 const date_popupDesc = ref("选择日期");
@@ -109,6 +111,39 @@ const maxDate = new Date(2030, 10, 1);
 const currentDate = new Date();
 const currentTime = new Date();
 const val = ref('');
+const beforeXhrUpload = (taroUploadFile, options) => {
+  console.log(options);
+  //taroUploadFile  是 Taro.uploadFile ， 你也可以自定义设置其它函数
+  const uploadTask = taroUploadFile({
+    url: options.url,
+    filePath: options.taroFilePath,
+    fileType: options.fileType,
+    header: {
+      'Content-Type': 'multipart/form-data',
+      ...options.headers
+    }, //
+    formData: options.formData,
+    name: options.name,
+    success(response) {
+      if (options.xhrState == response.statusCode) {
+        options.onSuccess?.(response, options);
+      } else {
+        options.onFailure?.(response, options);
+      }
+    },
+    fail(e) {
+      options.onFailure?.(e, options);
+    }
+  });
+  options.onStart?.(options);
+  uploadTask.progress((res) => {
+    options.onProgress?.(res, options);
+    // console.log('上传进度', res.progress);
+    // console.log('已经上传的数据长度', res.totalBytesSent);
+    // console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend);
+  });
+  // uploadTask.abort(); // 取消上传任务
+};
 const confirm = ({ selectedValue, selectedOptions }) => {
   console.log(selectedValue.join(':'));
   time_popupDesc.value = selectedOptions.map((val) => val.text).join(':');
@@ -124,48 +159,8 @@ const popupConfirm = ({ selectedValue, selectedOptions }) => {
 const button_show = ref(false);
 const value = ref({ top: 'c3', buttom: 'c3' });
 const tabMonth = ref([
-  {
-    title: 'May',
-    paneKey: 'c1'
-  },
-  {
-    title: 'Jun',
-    paneKey: 'c2'
-  },
-  {
-    title: 'Jul',
-    paneKey: 'c3'
-  },
-  {
-    title: 'Aug',
-    paneKey: 'c4'
-  },
-  {
-    title: 'Sep',
-    paneKey: 'c5'
-  }
 ]);
 const tabDay = ref([
-  {
-    title: '22',
-    paneKey: 'c1'
-  },
-  {
-    title: '23',
-    paneKey: 'c2'
-  },
-  {
-    title: '24',
-    paneKey: 'c3'
-  },
-  {
-    title: '25',
-    paneKey: 'c4'
-  },
-  {
-    title: '26',
-    paneKey: 'c5'
-  }
 ]);
 const diary = ref([
   {
@@ -226,7 +221,7 @@ map.set('12', 'Dec');
 
 const getDay = (day, today) => {
   var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
-  today.setTime(targetday_milliseconds); //注意，这行是关键代码
+  today.setTime(targetday_milliseconds);
 
   var tYear = today.getFullYear();
   var tMonth = today.getMonth();
