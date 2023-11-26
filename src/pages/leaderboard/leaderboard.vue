@@ -12,7 +12,7 @@
         </div>
       </template>
       <nut-tab-pane v-for="item in list" :pane-key="item.paneKey" >
-        <view class="top-three" style="display: flex; gap: 5vw;justify-content: center;">
+        <view class="top-three" style="display: flex; gap: 5vw;justify-content: center;" >
           <view style="display: flex;flex-direction: column;">
             <image src="https://images.fzuhuahuo.cn/%E7%9A%87%E5%86%A02.png" class="crown" />
             <image :src="renderlist[1].image" class="top_img" />
@@ -54,10 +54,8 @@
               <text
                 style="font-family: 'DM Sans';font-size: 12px; font-weight: 700; color:#F6AC15;margin-right: 25px;">{{ item.num }}</text>
             </view>
-
           </view>
         </view>
-
       </nut-tab-pane>
     </nut-tabs>
   </view>
@@ -65,7 +63,7 @@
 
 <script setup>
 import Taro, {useDidShow, useLoad} from "@tarojs/taro";
-import { ref, render } from 'vue'
+import { reactive, ref, render } from 'vue'
 import './leaderboard.css'
 const value = ref('c1');
 const list = ref([
@@ -204,26 +202,27 @@ const hotlist = ref([
     image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
   },
 ]);
-const renderlist = ref([
-  {
-    id: 1,
-    name: '',
-    num:400,
-    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
-  },
-  {
-    id: 1,
-    name: '',
-    num:400,
-    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
-  },
-  {
-    id: 1,
-    name: '',
-    num:400,
-    image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
-  },
-]);
+// const renderlist = ref([
+//   {
+//     id: 1,
+//     name: '',
+//     num:400,
+//     image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
+//   },
+//   {
+//     id: 1,
+//     name: '',
+//     num:400,
+//     image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
+//   },
+//   {
+//     id: 1,
+//     name: '',
+//     num:400,
+//     image:'https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png'
+//   },
+// ]);
+const renderlist = ref([{},{},{}]);
 const changelist=(item)=>{
   value.value = item.paneKey
   if(item.title=='热度排行榜'){
