@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    NutAnimate: typeof import('@nutui/nutui-taro')['Animate']
     NutAvatar: typeof import('@nutui/nutui-taro')['Avatar']
     NutButton: typeof import('@nutui/nutui-taro')['Button']
     NutCalendar: typeof import('@nutui/nutui-taro')['Calendar']
@@ -16,6 +17,7 @@ declare module 'vue' {
     NutDivider: typeof import('@nutui/nutui-taro')['Divider']
     NutInput: typeof import('@nutui/nutui-taro')['Input']
     NutPicker: typeof import('@nutui/nutui-taro')['Picker']
+    NutPopover: typeof import('@nutui/nutui-taro')['Popover']
     NutPopup: typeof import('@nutui/nutui-taro')['Popup']
     NutRate: typeof import('@nutui/nutui-taro')['Rate']
     NutRow: typeof import('@nutui/nutui-taro')['Row']

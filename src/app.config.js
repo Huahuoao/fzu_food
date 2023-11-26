@@ -11,7 +11,8 @@ export default defineAppConfig({
       "pages": [
         "store/store",
         "storedetail/storedetail",
-        "dishdetail/dishdetail"
+        "dishdetail/dishdetail",
+        "search/search"
       ]
     },{
       "root": "pagesB",

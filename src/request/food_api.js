@@ -14,6 +14,16 @@ export function getFoodbyId(data) {
 
 }
 
+
+export function getFoodbyFoodId(data) {
+  return request({
+    url: '/food/foodId',
+    method: 'get',
+    params: data
+  })
+
+}
+
 export function getFoodbyTag(data) {
     return request({
       url: '/food/tagId',
