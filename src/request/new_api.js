@@ -58,5 +58,12 @@ export function getImagebyID(data) {
     method: 'get',
     params: data
   })
+}
 
+export function getTimeLine(data) {
+  return request({
+    url: '/review/timeline/userId',
+    method: 'get',
+    params: data
+  })  
 }

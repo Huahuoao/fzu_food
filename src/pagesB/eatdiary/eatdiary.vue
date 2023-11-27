@@ -87,8 +87,8 @@
       <text class="pop_title">文字</text>
       <nut-textarea v-model="record" />
       <text class="pop_title">图片</text>
-      <view style="display: flex;align-items: flex-end;"><nut-uploader url="" :before-upload="beforeXhrUpload" 
-        ></nut-uploader>
+      <view style="display: flex;align-items: flex-end;"><nut-uploader url="" :before-upload="beforeXhrUpload"
+          :source-type="['album', 'camera']"></nut-uploader>
         <view class="final_button"><span
             style="font-size: 20px;font-family: 'PingFang SC';font-weight: 400;text-align: center;color: #595959;line-height: 35px;">记录</span>
         </view>
@@ -100,6 +100,8 @@
 import { onMounted, reactive, ref } from 'vue'
 import { IconFont } from '@nutui/icons-vue-taro';
 import Taro from "@tarojs/taro";
+import { getTimeLine } from "../../request/new_api.js";
+
 const uploadUrl = ref("");
 const record = ref('');//标题
 const date_show = ref(false);
@@ -162,6 +164,9 @@ const tabMonth = ref([
 ]);
 const tabDay = ref([
 ]);
+const timelineList = reactive({
+  data: []
+})
 const diary = ref([
   {
     year: "2023年",
@@ -368,8 +373,54 @@ const setChooseValue = (param) => {
   }];
   console.log(getMonth(title2.split('-')[1], -1));
 };
+const getDateLine = async () => {
+  let userId = Taro.getStorageSync("userId")
+  getTimeLine({ "userId": userId }).then(res => {
+    console.log(res)
+  })
+}
 onMounted(async () => {
   init()
+  const timeline_res = await getTimeLine({ "userId": 4 })
+  // getTimeLine({ "userId": 4 }).then(res => {
+  //   const timeline_res = res.data.data
+  //   console.log(res.data.data[0].date)
+  //   for(var i=0;i<5;i++)
+  //   {
+  //     var unixtime = res.data.data[i].date
+  //     var now = new Date(unixtime);
+  //     var year = now.getFullYear();
+  //     var m = now.getMonth() + 1;
+  //     var d = now.getDate();
+  //     var day = m+'月'+d+'日'
+  //     timelineList.data[i].daylist.push({
+  //       year:year,
+  //       day:day,
+  //     })
+  //   }
+  //   console.log(timelineList.data)
+  // })
+  timelineList.data = timeline_res.data.data
+  for (var i = 0; i < 5; i++) {
+    timelineList.data[i].daylist = []
+  }
+  for (var i = 0; i < 5; i++) {
+    var list = timeline_res.data.data[i].timeline[i]
+    console.log(list)
+    console.log(typeof (list))
+    // var unixtime = list[reviewTime]
+    // console.log(unixtime)
+    // var now = new Date(unixtime);
+    // var year = now.getFullYear();
+    // var m = now.getMonth() + 1;
+    // var d = now.getDate();
+    // var day = m + '月' + d + '日'
+    // console.log(d)
+    // timelineList.data[i].daylist.push({
+    //   year: year,
+    //   day: day,
+    // })
+  }
 }
 )
 </script>
