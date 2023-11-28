@@ -10,7 +10,6 @@ declare module 'vue' {
     NutAnimate: typeof import('@nutui/nutui-taro')['Animate']
     NutAvatar: typeof import('@nutui/nutui-taro')['Avatar']
     NutButton: typeof import('@nutui/nutui-taro')['Button']
-    NutCalendar: typeof import('@nutui/nutui-taro')['Calendar']
     NutCell: typeof import('@nutui/nutui-taro')['Cell']
     NutCol: typeof import('@nutui/nutui-taro')['Col']
     NutDatePicker: typeof import('@nutui/nutui-taro')['DatePicker']
