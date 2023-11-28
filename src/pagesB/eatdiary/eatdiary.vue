@@ -105,9 +105,8 @@
 <script  setup>
 import { onMounted, reactive, ref } from 'vue'
 import { IconFont } from '@nutui/icons-vue-taro';
-import Taro from "@tarojs/taro";
+import Taro, { getStorageSync } from "@tarojs/taro";
 import { getTimeLine } from "../../request/new_api.js";
-import {postDialog} from "../../request/dialog_api.js";
 
 const uploadUrl = ref("");
 const record = ref('');//标题
@@ -131,28 +130,28 @@ const myUploadImg = () => {
     success: (res) => {
       console.log(res.tempFiles[0].tempFilePath)
       console.log(res.type)
-      conTempUrl.value = res.tempFiles[0].tempFilePath
+      uploadUrl.value = res.tempFiles[0].tempFilePath
     }
   })
 }
 const dialogIt = async () => {
   console.log(uploadUrl.value)
   //var form = new FormData();
+  const date1 = new Date();
+  const isoString1= date1.toISOString();
   Taro.uploadFile({
-    url:'https://luke.host:9001/dialog/upload?title=123123&context=123123&createTime=123123&userId=2',
-     timeout: 5000, // 请求超时时间毫秒
+    url:'https://luke.host:9001/dialog/upload?title='+val.value+'&context='+record.value+'&createTime='+isoString1+'&userId='+getStorageSync('userId'),
     //  headers: {
     //    'Content-Type':"multipart/form-data",
     //  },
-    method:'POST',
     name:'file',
     filePath:uploadUrl.value,
-    // formData: {
-    //   "userId": 4,
-    //   "content": 'sssssssssssss',
-    //   "reviewTime": '2023-11-28T14:35:12.837Z',
-    //   "title": 'ssssssss'
-    // },
+    //  formData: {
+    //    "userId": 4,
+    //    "content": 'sssssssssssss',
+    //    "reviewTime": '2023-11-28T14:35:12.837Z',
+    //    "title": 'ssssssss'
+    //  },
     success: function (res) {
       console.log(res)
     },
