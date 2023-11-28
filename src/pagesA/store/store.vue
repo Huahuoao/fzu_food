@@ -29,18 +29,18 @@
             <div v-for="(item1,index) in item.storelist" class="store_line">
               <image  :src="item1.imgUrl" class="store_logo_img" />
               <div class="store_rate" >
-                <div style="margin-bottom: 20px;" @click="navitoStoreDetail(item1.id)">{{ item1.storeName }}</div>
+                <div class="store_name" @click="navitoStoreDetail(item1.id)">{{ item1.storeName }}</div>
                 <div style="display: flex;">
                   <nut-rate v-model="item1.storeScore " readnoly active-color="#F6AC15" size="13" class="rate_star" spacing="8" style="width: 103px;"/>
                   <span style="font-family: 'PingFang';font-size: 10px; margin-top: 0.5vh;">{{ item1.storeScore }}分</span>
                 </div>
               </div>
               <div class="store_line_right">
-                <div style="margin-left: 50px;margin-top: 2px;">
+                <div class="collect_heart">
                   <nut-rate :custom-icon="HeartFill" v-model="item1.collect"  count="1" />
                 </div>
                 
-                <div class="store_type">
+                <div class="store_type text-small">
                   {{ item1.tag }}
                 </div>
               </div>
@@ -96,7 +96,6 @@ const changeTabs = async(tab) => {
 };
 useReachBottom(async() => {
   const store_res = await getStoreListID({"canteenId":tabactive.value,"page":canteenlist.data[tabactive.value-1].page,"size":6})
-  console.log(store_res.data.data)
   canteenlist.data[tabactive.value-1].storelist.push(...(store_res.data.data))
   for(var i = 0;i<canteenlist.data[tabactive.value-1].storelist.length;i++){
     canteenlist.data[tabactive.value-1].storelist[i].storeScore = Math.floor(Math.random()*5+1)
@@ -184,7 +183,7 @@ onMounted(async () => {
   overflow: scroll;
   /* align-content:flex-start  */
 }
- .my_divider{
+ /* .my_divider{
   z-index: 2;
   position: absolute;
   top: 130px;
@@ -192,7 +191,7 @@ onMounted(async () => {
   height: 40px;
   background-color: black;
 
-}
+} */
 .store_line{
   margin-left: 15px;
   width: 640px;
@@ -205,6 +204,9 @@ onMounted(async () => {
   box-shadow: 5px 5px 20px -13px rgba(0,0,0,0.5);
   margin-bottom: 40px;
 }
+.store_name{
+  margin-bottom: 23px;
+}
 .store_logo_img{
   object-fit: cover;
   width:140px;
@@ -216,9 +218,10 @@ onMounted(async () => {
 .store_rate{
   width: 45vw;
   margin-left: 30px;
+  margin-bottom: 6px;
 }
 .rate_star{
-  margin-top: 10px;
+  margin-top: 5px;
   width: 30vw;
 }
 .store_line_right{
@@ -229,14 +232,17 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   color: #595959;
-  width: 21vw;
-  height: 3vh;
+  width: 132px;
+  height: 40px;
   border-radius:20px;
   border: 2px solid #595959;
-  margin-top: 25px;
-  margin-right: 20px;
-  font-family: 'PingFang';
-  font-size: 16Px;
+  margin-top: 10px;
+  margin-right: 25px;
+  margin-bottom:15px;
+}
+.collect_heart{
+  margin-top: 15px;
+  margin-left: 80px;
 }
 .heart {
   position:absolute;

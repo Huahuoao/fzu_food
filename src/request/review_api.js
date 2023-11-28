@@ -22,6 +22,22 @@ export function getReviewOfFood(data) {
   })
 }
 
+export function getCommentOfFood(data) {
+  return request({
+    url: '/food/comment/foodId',
+    method: 'get',
+    params: data
+  })
+}
+
+export function postCommentOfFood(data) {
+  return request({
+    url: '/food/comment/',
+    method: 'post',
+    data: data
+  })
+}
+
 export function postReview(data) {
   return request({
     url: '/review/',

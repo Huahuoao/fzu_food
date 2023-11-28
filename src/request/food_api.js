@@ -41,4 +41,34 @@ export function getFoodbyTag(data) {
     })
   
   }
+
+  export function getFoodLike(data) {
+    return request({
+      url: '/food/like/',
+      method: 'get',
+      params: data
+    })
+  
+  }
+
+
+  export function postFoodLike(data) {
+    return request({
+      url: '/food/like/click',
+      method: 'post',
+      params: data
+    })
+  
+  }
+  
+
+  export function getLikeNumByFoodId(data) {
+    return request({
+      url: '/food/like/foodId',
+      method: 'get',
+      params: data
+    })
+  
+  }
+  
   

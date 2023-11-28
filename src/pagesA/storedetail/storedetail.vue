@@ -7,7 +7,7 @@
       <div  class="store_line" >
               <image :src="store.data.imgUrl" class="store_logo_img" />
               <div class="store_rate">
-                <div style="margin-bottom: 10px;font-family: 'PingFang';font-size: 20px;font-weight: 600;">{{ store.data.storeName }}</div>
+                <div style="margin-bottom: 10px;" class="title-medium">{{ store.data.storeName }}</div>
                 <div  class="text-small store_line_middle">
                   <image src="../../images/location.svg" class="loc_img"/>
                   {{ store.data.location }}
@@ -34,8 +34,8 @@
               <div class="menu_img">
                 <image :src="item.url" class="menu_logo_img" v-show="item.url"/>
               </div>
-              <div class="store_rate" @click="navitoDishDetail(item.id)">
-                <div style="margin-top: 10px;font-family: 'PingFang';font-size: 20Px;font-weight: 600;">{{ item.foodName }}</div>
+              <div class="menu_rate" @click="navitoDishDetail(item.id)">
+                <div style="margin-top: 10px;" class="label menu_rate_name">{{ item.foodName }}</div>
                 <div style="display: flex;">
                    <div class="menu_type text-small">
                     {{ item.typetag1 }}
@@ -96,12 +96,16 @@ useReachBottom(async()=>{
     console.log(tag_res.data.data)
     try{
       //menulist.data[i].typetag.push(...(tag_res.data.data))
-      menulist.data[i].typetag1 = tag_res.data.data[0].tagName
-      menulist.data[i].typetag2 = tag_res.data.data[1].tagName
+      menulist.data[i].typetag2 = tag_res.data.data[0].tagName
     }
     catch(err){
-      menulist.data[i].typetag1 = '暂无'
       menulist.data[i].typetag2 = '暂无'
+    }
+    try{
+      menulist.data[i].typetag1 = tag_res.data.data[1].tagName
+    }
+    catch{
+      menulist.data[i].typetag1 = '暂无'
     }
   }
   page.value += 1
@@ -190,33 +194,45 @@ onBeforeMount(async()=>{
           height: 160px;
           border-radius: 20px ;
           .menu_logo_img{
-          object-fit: cover;
+            object-fit: cover;
             width:160px;
             height: 160px;
             border-radius: 20px ;
           }
         }
+        .menu_rate{
+          width: 45vw;
+          margin-left: 30px;
+          margin-top: 7px;
+          text-overflow:ellipsis;
+          white-space:nowrap;
+          overflow:hidden;
+          .menu_rate_name{
+            text-overflow:ellipsis;
+            white-space:nowrap;
+            overflow:hidden;
+          }
+        }
         .menu_type{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid #595959;
-        width: 20vw;
-        height: 3vh;
-        border-radius:20px;
-        margin-top: 20px;
-        margin-right: 20px;
-        font-size:30px;
-        font-family: 'PingFang';
-        font-weight: 400;
-      }
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 2px solid #595959;
+          width: 140px;
+          height: 40px;
+          border-radius:20px;
+          margin-top: 20px;
+          margin-right: 20px;
+        }
       .dish_line_right{
         width: 20vw;
         margin-bottom: 20px;
+
         .menu_price{
+          width: 60px;
+          margin-left: 25px;
           margin-top: 15px;
           align-items: center;
-          justify-content: center;
           border-radius:20px;
           font-family: 'PingFang';
           font-size: 20Px;
@@ -248,7 +264,6 @@ onBeforeMount(async()=>{
   display: flex;
   justify-content: center;
   .store_line{
-
     width: 640px;
     height: 164px;
     background-color: #FFF9EE;
