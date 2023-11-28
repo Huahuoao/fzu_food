@@ -67,3 +67,19 @@ export function getTimeLine(data) {
     params: data
   })  
 }
+
+export function getRankListByHotValue(data) {
+  return request({
+    url: '/rank/list/hot',
+    method: 'get',
+    params: data
+  })  
+}
+
+export function getRankListByLikeNum(data) {
+  return request({
+    url: '/rank/list/like',
+    method: 'get',
+    params: data
+  })  
+}

@@ -11,7 +11,7 @@
               </div>
             </div>
             <div class="buttom_tab" style="display: flex;">
-              <div class="nut-tabs__titles-item" v-for="item in tabDay" @click="value.buttom = item.paneKey"
+              <div class="nut-tabs__titles-item" v-for="item in tabDay" @click=changeTabs(item)
                 :class="{ active: value.buttom == item.paneKey }" :key="item.paneKey">
                 <div class="top_circle" :class="{ 'activeCss': value.buttom == item.paneKey }">
                   <div :class="{ 'activeDay': value.buttom == item.paneKey, 'defaultDay': value.buttom != item.paneKey }"
@@ -23,12 +23,12 @@
             </div>
           </div>
         </div>
-        <div class="tab_right" style="display: flex;align-items: center;">
+        <!-- <div class="tab_right" style="display: flex;align-items: center;">
           <IconFont name="date" @click="openSwitch('isVisible')" size="20"></IconFont>
           <nut-calendar v-model:visible="state.isVisible" :start-date="startDate" :end-date="null"
             @close="closeSwitch('isVisible')" @choose="setChooseValue">
           </nut-calendar>
-        </div>
+        </div> -->
       </template>
       <nut-tab-pane v-for="item in tabDay" :pane-key="item.paneKey">
         <view class="con">
@@ -38,7 +38,7 @@
                 <view
                   style="font-size: 14px; font-family: 'DM Sans'; font-weight: 500; margin-bottom: 5px;text-align: right;">
                   {{ item.year }}</view>
-                <view style="font-size: 16px; font-family: 'DM Sans'; font-weight: 700;">{{ item.day }}</view>
+                <view style="font-size: 16px; font-family: 'DM Sans'; font-weight: 700;line-height: 21px;">{{ item.day }}</view>
               </view>
               <view class="right">
                 <view class="circle"></view>
@@ -47,7 +47,7 @@
                   <view class="text">{{ item.time }}</view>
                 </view>
                 <view class="r_box">
-                  <view class="up_text" v-if="item.image != ''">
+                  <view class="up_text" v-if="item.image!=''">
                     <image :src="item.image" class="text_image"></image>
                   </view>
                   {{ item.content }}
@@ -159,7 +159,7 @@ const popupConfirm = ({ selectedValue, selectedOptions }) => {
 };
 
 const button_show = ref(false);
-const value = ref({ top: 'c3', buttom: 'c3' });
+const value = ref({ top: 'c3', buttom: 3 });
 const tabMonth = ref([
 ]);
 const tabDay = ref([
@@ -272,23 +272,23 @@ const init = () => {
   var title5 = getDay(2, today);
   tabDay.value = [{
     title: title1.split('-')[2],
-    paneKey: 'c1'
+    paneKey: 1
   },
   {
     title: title2.split('-')[2],
-    paneKey: 'c2'
+    paneKey: 2
   },
   {
     title: title3.split('-')[2],
-    paneKey: 'c3'
+    paneKey: 3
   },
   {
     title: title4.split('-')[2],
-    paneKey: 'c4'
+    paneKey: 4
   },
   {
     title: title5.split('-')[2],
-    paneKey: 'c5'
+    paneKey: 5
   }];
   tabMonth.value = [{
     title: map.get(getMonth(title1.split('-')[1], -2)),
@@ -374,53 +374,50 @@ const setChooseValue = (param) => {
   console.log(getMonth(title2.split('-')[1], -1));
 };
 const getDateLine = async () => {
-  let userId = Taro.getStorageSync("userId")
-  getTimeLine({ "userId": userId }).then(res => {
-    console.log(res)
-  })
+  const timeline_res = await getTimeLine({ "userId": 4 })
+  timelineList.data = timeline_res.data.data
+  for (var i = 0; i <5 ; i++) {
+    timelineList.data[i].daylist = []
+  }
+  for (var i = 0; i <5; i++) {
+    var list = timeline_res.data.data[i].timeline[i]
+    if (list == undefined) {
+      continue
+    }
+    const map = new Map(Object.entries(list));
+    var content = map.get('content')
+    var img = map.get('imgUrlList')
+    if (img == undefined) {
+      img = ''
+    }
+    var unixtime = map.get('reviewTime')
+    var now = new Date(unixtime);
+    var year = now.getFullYear()+ '年';
+    var m = now.getMonth() + 1;
+    var d = now.getDate();
+    var h = now.getHours();
+    var min = now.getMinutes();
+    var day = m + '月' + d + '日'
+    var time = h + ':' + min
+
+    timelineList.data[2-i].daylist.push({
+      year: year,
+      day: day,
+      time: time,
+      image: img,
+      content: content
+    })
+  }
+  diary.value = timelineList.data[2].daylist
+  console.log(timelineList.data)
+}
+const changeTabs = async(item) =>{
+  diary.value = timelineList.data[item.paneKey-1].daylist
+  value.value.buttom = item.paneKey
 }
 onMounted(async () => {
   init()
-  const timeline_res = await getTimeLine({ "userId": 4 })
-  // getTimeLine({ "userId": 4 }).then(res => {
-  //   const timeline_res = res.data.data
-  //   console.log(res.data.data[0].date)
-  //   for(var i=0;i<5;i++)
-  //   {
-  //     var unixtime = res.data.data[i].date
-  //     var now = new Date(unixtime);
-  //     var year = now.getFullYear();
-  //     var m = now.getMonth() + 1;
-  //     var d = now.getDate();
-  //     var day = m+'月'+d+'日'
-  //     timelineList.data[i].daylist.push({
-  //       year:year,
-  //       day:day,
-  //     })
-  //   }
-  //   console.log(timelineList.data)
-  // })
-  timelineList.data = timeline_res.data.data
-  for (var i = 0; i < 5; i++) {
-    timelineList.data[i].daylist = []
-  }
-  for (var i = 0; i < 5; i++) {
-    var list = timeline_res.data.data[i].timeline[i]
-    console.log(list)
-    console.log(typeof (list))
-    // var unixtime = list[reviewTime]
-    // console.log(unixtime)
-    // var now = new Date(unixtime);
-    // var year = now.getFullYear();
-    // var m = now.getMonth() + 1;
-    // var d = now.getDate();
-    // var day = m + '月' + d + '日'
-    // console.log(d)
-    // timelineList.data[i].daylist.push({
-    //   year: year,
-    //   day: day,
-    // })
-  }
+  getDateLine()
 }
 )
 </script>
@@ -531,7 +528,7 @@ page {
 }
 
 .left {
-  width: 130px;
+  width: 145px;
   text-align: center;
   line-height: 33px;
   margin-right: 60px;
