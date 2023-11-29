@@ -17,7 +17,8 @@
     },
     "minifyWXSS": false,
     "minifyWXML": false,
-    "condition": false
+    "condition": false,
+    "packNpmRelationList": []
   },
   "compileType": "miniprogram",
   "libVersion": "3.1.4",
