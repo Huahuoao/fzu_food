@@ -26,7 +26,7 @@ export default defineConfig(async (merge, { command, mode }) => {
     },
     sourceRoot: 'src',
     outputRoot: 'dist',
-    plugins: ['@tarojs/plugin-html'],
+    plugins: ['@tarojs/plugin-html','@tarojs/plugin-http'],
     sass: {
       data: `@import "@nutui/nutui-taro/dist/styles/variables.scss";`,
     },
@@ -50,6 +50,10 @@ export default defineConfig(async (merge, { command, mode }) => {
       enable: false // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
     },
     mini: {
+      miniCssExtractPluginOption: {
+        ignoreOrder: true
+      },
+      hot: true,
       webpackChain(chain) {
         chain.plugin('unplugin-vue-components').use(ComponentsPlugin({
           resolvers: [NutUIResolver({taro: true})]

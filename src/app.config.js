@@ -1,31 +1,50 @@
 export default defineAppConfig({
   pages: [
     'pages/index/index',
-    'pages/register/register',
-    'pages/my/my'
+    'pages/my/my',
+    'pages/leaderboard/leaderboard',
+    'pages/randomselection/randomselection',
+  ],
+  subpackages: [
+    {
+      "root": "pagesA",
+      "pages": [
+        "store/store",
+        "storedetail/storedetail",
+        "dishdetail/dishdetail",
+        "search/search"
+      ]
+    },{
+      "root": "pagesB",
+      "pages": [
+        "eatdiary/eatdiary",
+      ]
+    }
   ],
   tabBar: {
     list: [{
       pagePath: 'pages/index/index',
       text: '首页',
-      iconPath:"images/index_tabbar_before.png", // 激活前的图片
-      selectedIconPath:"images/index_tabbar_before.png", // 激活后的图片
+      iconPath:"images/s1.png", // 激活前的图片
+      selectedIconPath:"images/s2.png", // 激活后的图片
     }, {
       pagePath: 'pages/my/my',
       text: '个人',
-      iconPath:"images/my_tabbar_before.png",
-      selectedIconPath:"images/my_tabbar_before.png",
+      iconPath:"images/m1.png",
+      selectedIconPath:"images/m2.png",
 
     }],
     'color': '#000',
-    'selectedColor': '#56abe4',
+    'selectedColor': '#000',
     'backgroundColor': '#FFF9EE',
     'borderStyle': 'white'
   },
   window: {
+    disableScroll: true,
     backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#FFF9EE',
+    navigationBarBackgroundColor: '#FFC765',
     navigationBarTitleText: 'WeChat',
-    navigationBarTextStyle: 'black'
+    navigationBarTextStyle: 'black',
+    initialRenderingCache: 'static',
   }
 })

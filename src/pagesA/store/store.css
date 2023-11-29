@@ -1,0 +1,9 @@
+page{
+    --nut-tabbar-active-color:#000000;
+    --nut-tabs-titles-border-radius:20Px;
+    --nut-tabs-horizontal-titles-height:70px;
+    --nut-tabs-horizontal-titles-item-active-line-width:50px;
+    --nut-tabs-vertical-titles-item-active-line-height:10px;
+    --nut-tabs-titles-item-line-border-radius:5px;
+    --nut-popover-white-background-color:#FFF9EE
+}

@@ -1,35 +1,44 @@
-/*全局css配置*/
-/*字体规范css*/
-
-
-.max-title {
-  font-weight: bold;
-  font-size: 1.95em;
+.title-big {
+  font-family: 'PingFang';
+  font-size: 26Px;
+  font-weight: 600;
 }
 
-.part-title {
-  font-weight: bold;
-  font-size: 1.5em;
+/* 20px 加粗 部分标题 */
+.title-medium {
+  font-family: 'PingFang';
+  font-size: 20Px;
+  font-weight: 600;
 }
 
-.tag-text {
-  font-weight: bold;
-  font-size: 1.2em;
+
+/* 16px 加粗 标签 */
+.label {
+  font-family: 'PingFang';
+  font-size: 16Px;
+  font-weight: 600;
 }
 
-.normal-text {
-  font-weight: normal;
-  font-size: 1.2em;
+/* 16px 正常 搜索框文本 */
+.input-text {
+  font-family: 'PingFang';
+  font-size: 16Px;
 }
 
-.comment-text {
-  font-weight: normal;
-  font-size: 1.05em;
+/* 14px 正常 部分文本 */
+.text-small {
+  font-family: 'PingFang';
+  font-size: 14Px;
 }
 
-.icon-text {
-  font-weight: normal;
-  font-size: 0.75em;
+/* 12px 评论 */
+.comment {
+  font-family: 'PingFang';
+  font-size: 12Px;
 }
-/**/
 
+/* 10px 图标名字 */
+.icon-name {
+  font-family: 'PingFang';
+  font-size: 10Px;
+}
