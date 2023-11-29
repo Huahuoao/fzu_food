@@ -29,7 +29,7 @@
               <image src="https://images.fzuhuahuo.cn/good_ash.png" class="good" v-if="likelist.data.like == false" :onTap="goodClick"/>
             <image src="https://images.fzuhuahuo.cn/good_red.png" class="good" v-if="likelist.data.like == true" :onTap="goodClick"/>
           </nut-animate>
-          <view class="text-small">{{ dish.data.likeNum }}</view>
+          <view class="text-small" style="width: 20px;">{{ dish.data.likeNum }}</view>
           <nut-animate type="shake" :show="show2" style="margin-left: 20px;">
             <image src="https://images.fzuhuahuo.cn/good_ash.png" class="bad " v-if="likelist.data.unlike == false" :onTap="badClick"/>
             <image src="https://images.fzuhuahuo.cn/good_red.png" class="bad" v-if="likelist.data.unlike == true" :onTap="badClick"/>
@@ -50,7 +50,7 @@
         <nut-input type="text" v-model="comment" class="input-text comment_inp" input-align="left" :border="false"/>
       </div>
       <div class="comment_btn_div">
-        <div class="comment_btn" @click="submit" style="border: none;">评分</div>
+        <div class="comment_btn" @click="submit" style="border: none;">评论</div>
       </div>
     </view>
       <view class="comments">
@@ -243,7 +243,7 @@ const review_res = await postCommentOfFood(form)
 console.log(review_res.data.data)
 comment.value = ''
 try{
-  commentlist.data.push(review_res.data.data)
+  commentlist.data.unshift(review_res.data.data)
   Taro.showToast({
       title: '评论发布成功！',
       duration: 2000
