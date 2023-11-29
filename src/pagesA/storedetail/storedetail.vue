@@ -83,14 +83,18 @@ useReachBottom(async()=>{
   const food_res = await getFoodbyID({"storeId":store.data.id,"page":page.value,"size":6})
   menulist.data.push(...(food_res.data.data))
   for(var i=0;i<menulist.data.length;i++){
+    
     var item = menulist.data[i]
     const img_res = await getImagebyID({"belongId":item.id,"belongType":"Food"})
     //Reflect(menulist.value[i],'url',img_res.data.data[0].url)
     try{
       menulist.data[i].url = img_res.data.data[0].url
+      if(menulist.data[i].url==null){
+      menulist.data[i].url='https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
+    }
     }
     catch(err){
-      menulist.data[i].url = ''
+      menulist.data[i].url = 'https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
     }
     const tag_res = await getFoodTagbyID({"foodId":item.id})
     console.log(tag_res.data.data)
@@ -118,14 +122,18 @@ onBeforeMount(async()=>{
   const food_res = await getFoodbyID({"storeId":store.data.id,"page":0,"size":6})
   menulist.data= food_res.data.data
   for(var i=0;i<menulist.data.length;i++){
+    
     var item = menulist.data[i]
     const img_res = await getImagebyID({"belongId":item.id,"belongType":"Food"})
     //Reflect(menulist.value[i],'url',img_res.data.data[0].url)
     try{
       menulist.data[i].url = img_res.data.data[0].url
+      if(menulist.data[i].url==null){
+      menulist.data[i].url='https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
+    }
     }
     catch(err){
-      menulist.data[i].url = ''
+      menulist.data[i].url = 'https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
     }
     const tag_res = await getFoodTagbyID({"foodId":item.id})
     console.log(tag_res.data.data)

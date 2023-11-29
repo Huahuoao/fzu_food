@@ -11,8 +11,8 @@
               </div>
             </div>
             <div class="buttom_tab" style="display: flex;">
-              <div class="nut-tabs__titles-item" v-for="item in tabDay" @click=changeTabs(item)
-                :class="{ active: value.buttom == item.paneKey }" :key="item.paneKey">
+              <div class="nut-tabs__titles-item" v-for="item in tabDay" 
+                :class="{ active: value.buttom == item.paneKey }" :key="item.paneKey" @click=changeTabs(item)>
                 <div class="top_circle" :class="{ 'activeCss': value.buttom == item.paneKey }">
                   <div :class="{ 'activeDay': value.buttom == item.paneKey, 'defaultDay': value.buttom != item.paneKey }"
                     style="font-size: 16px;font-family: 'DM Sans';font-weight: 500;">{{
@@ -49,6 +49,9 @@
                 <view class="r_box">
                   <view class="up_text" v-if="item.image!=''">
                     <image :src="item.image" class="text_image"></image>
+                  </view>
+                  <view style="font-family:PingFang SC;font-weight: 600;font-size: 14px;line-height: 20px;">
+                    {{ item.title }}
                   </view>
                   {{ item.content }}
                 </view>
@@ -88,8 +91,8 @@
       <nut-textarea v-model="record" />
       <text class="pop_title">图片</text>
       <view class="my-shop-img" @click="myUploadImg">
-              <image class="my-shop-img" :src="uploadUrl"></image>
-            </view>
+        <image style="width: 100px;height: 100px;" :src="uploadUrl" ></image>
+      </view>
       <!-- <view style="display: flex;align-items: flex-end;"><nut-uploader url="" :before-upload="myUploadImg"
           :source-type="['album', 'camera']"></nut-uploader>
         <view class="final_button" @click="dialogIt"><span
@@ -114,6 +117,7 @@ const date_show = ref(false);
 const time_show = ref(false);
 const date_popupDesc = ref("选择日期");
 const time_popupDesc = ref("选择时间");
+const date_popupDesc1 = ref("");
 const minDate = new Date(2022, 1, 1);
 const maxDate = new Date(2030, 10, 1);
 const currentDate = new Date();
@@ -137,10 +141,12 @@ const myUploadImg = () => {
 const dialogIt = async () => {
   console.log(uploadUrl.value)
   //var form = new FormData();
-  const date1 = new Date();
+  const date1 = new Date(date_popupDesc1.value + ' ' + time_popupDesc.value + ':00');
+  const createTime = date1.getTime();
+  console.log(createTime.toString())
   const isoString1= date1.toISOString();
   Taro.uploadFile({
-    url:'https://luke.host:9001/dialog/upload?title='+val.value+'&context='+record.value+'&createTime='+isoString1+'&userId='+getStorageSync('userId'),
+    url:'https://luke.host:9001/dialog/upload?title='+val.value+'&context='+record.value+'&createTime='+createTime.toString()+'&userId='+getStorageSync('userId'),
     //  headers: {
     //    'Content-Type':"multipart/form-data",
     //  },
@@ -154,6 +160,7 @@ const dialogIt = async () => {
     //  },
     success: function (res) {
       console.log(res)
+      getDateLine()
     },
   })
   // var form = new FormData();
@@ -169,61 +176,15 @@ const dialogIt = async () => {
   //   getDateLine()
   // }
 }
-const beforeXhrUpload = (taroUploadFile, options) => {
-  Taro.chooseMedia({
-    count: 1,
-    mediaType: ['image'],
-    sourceType: ['album', 'camera'],
-    maxDuration: 30,
-    camera: 'back',
-    success: (res) => {
-      console.log(res.tempFiles)
-      console.log(res.type)
-      conTempUrl.value = res.tempFiles[0].tempFilePath
-    }
-  })
-
-  // console.log(options);
-  // //taroUploadFile  是 Taro.uploadFile ， 你也可以自定义设置其它函数
-  // const uploadTask = taroUploadFile({
-  //   url: options.url,
-  //   filePath: options.taroFilePath,
-  //   fileType: options.fileType,
-  //   header: {
-  //     'Content-Type': 'multipart/form-data',
-  //     ...options.headers
-  //   }, //
-  //   formData: options.formData,
-  //   name: options.name,
-  //   success(response) {
-  //     if (options.xhrState == response.statusCode) {
-  //       options.onSuccess?.(response, options);
-  //     } else {
-  //       options.onFailure?.(response, options);
-  //     }
-  //   },
-  //   fail(e) {
-  //     options.onFailure?.(e, options);
-  //   }
-  // });
-  // options.onStart?.(options);
-  // uploadTask.progress((res) => {
-  //   options.onProgress?.(res, options);
-  //   // console.log('上传进度', res.progress);
-  //   // console.log('已经上传的数据长度', res.totalBytesSent);
-  //   // console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend);
-  // });
-  // // uploadTask.abort(); // 取消上传任务
-};
 const confirm = ({ selectedValue, selectedOptions }) => {
   console.log(selectedValue.join(':'));
   time_popupDesc.value = selectedOptions.map((val) => val.text).join(':');
   time_show.value = false;
 };
 const popupConfirm = ({ selectedValue, selectedOptions }) => {
-  console.log(selectedValue.join(':'));
-  // date_popupDesc.value = selectedOptions.map((val) => val.text).join('');
   date_popupDesc.value = selectedValue.join('/')
+  date_popupDesc1.value = selectedValue.join('-')
+  console.log(selectedValue.join('-'));
   date_show.value = false;
 };
 
@@ -233,47 +194,8 @@ const tabMonth = ref([
 ]);
 const tabDay = ref([
 ]);
-const timelineList = reactive({
-  data: []
-})
-const diary = ref([
-  {
-    year: "2023年",
-    day: "7月23日",
-    time: "7:30",
-    image: "",
-    content: "今天吃了玫瑰园麻辣烫，感觉淀粉肠太好吃了"
-  },
-  {
-    year: "2023年",
-    day: "7月23日",
-    time: "12:00",
-    image: "https://images.fzuhuahuo.cn/%E5%90%83%E9%A5%AD%E5%B0%8F%E7%A8%8B%E5%BA%8F/Rectangle%2067.png",
-    content: "今天吃了这个哦"
-  },
-  {
-    year: "2023年",
-    day: "7月23日",
-    time: "18:30",
-    image: "",
-    content: "今晚胃不舒服，喝了一碗皮蛋瘦肉粥，意想不到的暖胃。好喝！"
-  },
-  // {
-  //   year: "2023年",
-  //   day: "7月23日",
-  //   time: "7:30",
-  //   image: "",
-  //   content: "吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭"
-  // },
-  // {
-  //   year: "2023年",
-  //   day: "7月23日",
-  //   time: "12:00",
-  //   image: "",
-  //   content: "吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭吃了一碗饭"
-  // },
-
-])
+const tab = ref([
+]);
 const state = reactive({
   dateWeek: '',
   date: '',
@@ -325,39 +247,49 @@ const getMonth = (month, gap) => {
   }
   return month;
 }
-var today = new Date();
-const startDate = ref(getDay(-14, today));
+// var today = new Date();
+// const startDate = ref(getDay(-14, today));
 
 const init = () => {
   var today = new Date();
   var title1 = getDay(-2, today);
+  const date1 = new Date(title1);
   today = new Date();
   var title2 = getDay(-1, today);
+  const date2 = new Date(title2);
   today = new Date();
   var title3 = getDay(0, today);
+  const date3 = new Date(title3);
   today = new Date();
   var title4 = getDay(1, today);
+  const date4 = new Date(title4);
   today = new Date();
   var title5 = getDay(2, today);
+  const date5 = new Date(title5);
   tabDay.value = [{
     title: title1.split('-')[2],
-    paneKey: 1
+    paneKey: 1,
+    date: date1
   },
   {
     title: title2.split('-')[2],
-    paneKey: 2
+    paneKey: 2,
+    date: date2
   },
   {
     title: title3.split('-')[2],
-    paneKey: 3
+    paneKey: 3,
+    date: date3
   },
   {
     title: title4.split('-')[2],
-    paneKey: 4
+    paneKey: 4,
+    date: date4
   },
   {
     title: title5.split('-')[2],
-    paneKey: 5
+    paneKey: 5,
+    date: date5
   }];
   tabMonth.value = [{
     title: map.get(getMonth(title1.split('-')[1], -2)),
@@ -379,6 +311,7 @@ const init = () => {
     title: map.get(getMonth(title5.split('-')[1], 2)),
     paneKey: 'c5'
   }];
+  console.log(tabDay.value)
 }
 
 const openSwitch = (param) => {
@@ -442,51 +375,58 @@ const setChooseValue = (param) => {
   }];
   console.log(getMonth(title2.split('-')[1], -1));
 };
-const getDateLine = async () => {
-  const timeline_res = await getTimeLine({ "userId": 4 })
+const timelineList = reactive({data:[],daylist:[]})
+// const timelineList = ref()
+const diary = ref([])
+const getDateLine = async (today) => {
+  const userId = getStorageSync('userId')
+  const timeline_res = await getTimeLine({"page":0,"size":100,"userId": userId })
   timelineList.data = timeline_res.data.data
-  for (var i = 0; i <5 ; i++) {
-    timelineList.data[i].daylist = []
-  }
-  for (var i = 0; i <5; i++) {
-    var list = timeline_res.data.data[i].timeline[i]
-    if (list == undefined) {
-      continue
-    }
-    const map = new Map(Object.entries(list));
-    var content = map.get('content')
-    var img = map.get('imgUrlList')
-    if (img == undefined) {
-      img = ''
-    }
-    var unixtime = map.get('reviewTime')
-    var now = new Date(unixtime);
+  timelineList.data.sort(function(a,b){
+    return a.createTime - b.createTime
+  })
+  timelineList.daylist = []
+  for (var i = timeline_res.data.data.length-1;i >=0 ; i--) {
+    var unixtime = timelineList.data[i].createTime
+    var t_year = today.getFullYear()+ '年';
+    var t_month = today.getMonth() + 1;
+    var t_date = today.getDate();
+    var now = new Date(unixtime*1);
     var year = now.getFullYear()+ '年';
     var m = now.getMonth() + 1;
     var d = now.getDate();
     var h = now.getHours();
     var min = now.getMinutes();
+
+    if(min<10){
+      min = '0'+min
+    }
     var day = m + '月' + d + '日'
     var time = h + ':' + min
-
-    timelineList.data[2-i].daylist.push({
+    var img = timelineList.data[i].imgUrl
+    var content = timelineList.data[i].context
+    var title = timelineList.data[i].title
+    if(m==t_month && d==t_date){
+      timelineList.daylist.push({
       year: year,
       day: day,
       time: time,
       image: img,
+      title: title,
       content: content
     })
+    }
   }
-  diary.value = timelineList.data[2].daylist
-  console.log(timelineList.data)
+  diary.value = timelineList.daylist
 }
 const changeTabs = async(item) =>{
-  diary.value = timelineList.data[item.paneKey-1].daylist
+  getDateLine(item.date)
   value.value.buttom = item.paneKey
 }
 onMounted(async () => {
   init()
-  getDateLine()
+  var today = new Date();
+  getDateLine(today)
 }
 )
 </script>
@@ -793,7 +733,7 @@ page {
   overflow: scroll;
 }
 
-.picture {
+/* .picture {
 
   width: 200px;
   height: 200px;
@@ -801,7 +741,18 @@ page {
   background: #FFF9EE;
   box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.15);
   border-radius: 20px;
+} */
+
+.my-shop-img {
+
+width: 200px;
+height: 200px;
+margin-left: 40px;
+background: #FFF9EE;
+box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.15);
+border-radius: 20px;
 }
+
 
 .final_button {
   position: absolute;

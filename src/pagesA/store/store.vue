@@ -17,7 +17,8 @@
             <template #reference>
               <nut-button  class="choose_list_button label">{{ activelist.name }}</nut-button>
             </template>
-          </nut-popover>
+            
+          </nut-popover><div class="triangle"></div>
           <image src="../../images/search.svg"  :onTap="Search" class="search_img"></image>
         </div>
         
@@ -91,6 +92,9 @@ const changeTabs = async(tab) => {
     canteenlist.data[tabactive.value-1].page += 1
   }
   for(var i = 0;i<canteenlist.data[tabactive.value-1].storelist.length;i++){
+    if(canteenlist.data[tabactive.value-1].storelist[i].imgUrl==null){
+      canteenlist.data[tabactive.value-1].storelist[i].imgUrl='https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
+    }
     canteenlist.data[tabactive.value-1].storelist[i].storeScore = Math.floor(Math.random()*5+1)
   }
 };
@@ -114,6 +118,9 @@ onMounted(async () => {
   for(var i = 0;i<canteenlist.data[0].storelist.length;i++){
     // const score_res = getReviewStore({"storeId":canteenlist.data[0].storelist[i].id})
     // console.log(score_res)
+    if(canteenlist.data[0].storelist[i].imgUrl==null){
+      canteenlist.data[0].storelist[i].imgUrl='https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
+    }
     canteenlist.data[0].storelist[i].storeScore = Math.floor(Math.random()*5+1)
   }
   canteenlist.data[0].page = 1
@@ -168,6 +175,7 @@ onMounted(async () => {
   background-color: #FFF9EE;
   width: 150px;
 }
+
 .store_list{
   width: 100%;
   height: 80vh;
@@ -308,4 +316,13 @@ onMounted(async () => {
     top: 0;
     left: 100px;
 } */
+.triangle {
+  position: absolute;
+  top: 70px;
+  left: 600px;
+
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(-45deg,black 50%, transparent 50% ) ;
+}
 </style>
