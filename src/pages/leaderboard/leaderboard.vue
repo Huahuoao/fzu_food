@@ -107,6 +107,16 @@ const swipChange=(item)=>
 const init = async () => {
   const hotlist_res = await getRankListByHotValue()
   const favouritelist_res = await getRankListByLikeNum()
+  for(var i=0;i<hotlist_res.data.data.length;i++){
+    if(hotlist_res.data.data[i].url==null){
+      hotlist_res.data.data[i].url='https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
+    }
+  }
+  for(var i=0;i<favouritelist_res.data.data.length;i++){
+    if(favouritelist_res.data.data[i].url==null){
+      favouritelist_res.data.data[i].url='https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
+    }
+  }
   hotlist.value = hotlist_res.data.data
   favouritelist.value = favouritelist_res.data.data
   renderlist.value= hotlist.value

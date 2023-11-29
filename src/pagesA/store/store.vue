@@ -92,6 +92,9 @@ const changeTabs = async(tab) => {
     canteenlist.data[tabactive.value-1].page += 1
   }
   for(var i = 0;i<canteenlist.data[tabactive.value-1].storelist.length;i++){
+    if(canteenlist.data[tabactive.value-1].storelist[i].imgUrl==null){
+      canteenlist.data[tabactive.value-1].storelist[i].imgUrl='https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
+    }
     canteenlist.data[tabactive.value-1].storelist[i].storeScore = Math.floor(Math.random()*5+1)
   }
 };
@@ -115,6 +118,9 @@ onMounted(async () => {
   for(var i = 0;i<canteenlist.data[0].storelist.length;i++){
     // const score_res = getReviewStore({"storeId":canteenlist.data[0].storelist[i].id})
     // console.log(score_res)
+    if(canteenlist.data[0].storelist[i].imgUrl==null){
+      canteenlist.data[0].storelist[i].imgUrl='https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
+    }
     canteenlist.data[0].storelist[i].storeScore = Math.floor(Math.random()*5+1)
   }
   canteenlist.data[0].page = 1
