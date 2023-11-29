@@ -17,7 +17,8 @@
             <template #reference>
               <nut-button  class="choose_list_button label">{{ activelist.name }}</nut-button>
             </template>
-          </nut-popover>
+            
+          </nut-popover><div class="triangle"></div>
           <image src="../../images/search.svg"  :onTap="Search" class="search_img"></image>
         </div>
         
@@ -168,6 +169,7 @@ onMounted(async () => {
   background-color: #FFF9EE;
   width: 150px;
 }
+
 .store_list{
   width: 100%;
   height: 80vh;
@@ -308,4 +310,13 @@ onMounted(async () => {
     top: 0;
     left: 100px;
 } */
+.triangle {
+  position: absolute;
+  top: 70px;
+  left: 600px;
+
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(-45deg,black 50%, transparent 50% ) ;
+}
 </style>

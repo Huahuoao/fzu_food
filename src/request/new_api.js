@@ -62,8 +62,8 @@ export function getImagebyID(data) {
 
 export function getTimeLine(data) {
   return request({
-    url: '/review/timeline/userId',
-    method: 'get',
+    url: '/dialog/list',
+    method: 'post',
     params: data
   })  
 }
