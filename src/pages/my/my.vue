@@ -410,6 +410,7 @@ const handleAuth = async () => {
         Taro.showToast({
           title: "登录成功",
         })
+        Taro.setStorageSync("userId", res.data.data.id)
         Taro.setStorageSync("isLogin", true)
         Taro.setStorageSync("headImg", headImg.value)
         Taro.setStorageSync("nickName", nickNameInput.value)

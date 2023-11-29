@@ -87,19 +87,25 @@
       <text class="pop_title">文字</text>
       <nut-textarea v-model="record" />
       <text class="pop_title">图片</text>
-      <view style="display: flex;align-items: flex-end;"><nut-uploader url="" :before-upload="beforeXhrUpload"
+      <view class="my-shop-img" @click="myUploadImg">
+              <image class="my-shop-img" :src="uploadUrl"></image>
+            </view>
+      <!-- <view style="display: flex;align-items: flex-end;"><nut-uploader url="" :before-upload="myUploadImg"
           :source-type="['album', 'camera']"></nut-uploader>
-        <view class="final_button"><span
+        <view class="final_button" @click="dialogIt"><span
             style="font-size: 20px;font-family: 'PingFang SC';font-weight: 400;text-align: center;color: #595959;line-height: 35px;">记录</span>
         </view>
-      </view>
+      </view> -->
+      <view class="final_button" @click="dialogIt"><span
+            style="font-size: 20px;font-family: 'PingFang SC';font-weight: 400;text-align: center;color: #595959;line-height: 35px;">记录</span>
+        </view>
     </nut-popup>
   </div>
 </template>
 <script  setup>
 import { onMounted, reactive, ref } from 'vue'
 import { IconFont } from '@nutui/icons-vue-taro';
-import Taro from "@tarojs/taro";
+import Taro, { getStorageSync } from "@tarojs/taro";
 import { getTimeLine } from "../../request/new_api.js";
 
 const uploadUrl = ref("");
@@ -113,38 +119,101 @@ const maxDate = new Date(2030, 10, 1);
 const currentDate = new Date();
 const currentTime = new Date();
 const val = ref('');
-const beforeXhrUpload = (taroUploadFile, options) => {
-  console.log(options);
-  //taroUploadFile  是 Taro.uploadFile ， 你也可以自定义设置其它函数
-  const uploadTask = taroUploadFile({
-    url: options.url,
-    filePath: options.taroFilePath,
-    fileType: options.fileType,
-    header: {
-      'Content-Type': 'multipart/form-data',
-      ...options.headers
-    }, //
-    formData: options.formData,
-    name: options.name,
-    success(response) {
-      if (options.xhrState == response.statusCode) {
-        options.onSuccess?.(response, options);
-      } else {
-        options.onFailure?.(response, options);
-      }
-    },
-    fail(e) {
-      options.onFailure?.(e, options);
+const conTempUrl = ref('')
+const myUploadImg = () => {
+  Taro.chooseMedia({
+    count: 1,
+    mediaType: ['image'],
+    sourceType: ['album', 'camera'],
+    maxDuration: 30,
+    camera: 'back',
+    success: (res) => {
+      console.log(res.tempFiles[0].tempFilePath)
+      console.log(res.type)
+      uploadUrl.value = res.tempFiles[0].tempFilePath
     }
-  });
-  options.onStart?.(options);
-  uploadTask.progress((res) => {
-    options.onProgress?.(res, options);
-    // console.log('上传进度', res.progress);
-    // console.log('已经上传的数据长度', res.totalBytesSent);
-    // console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend);
-  });
-  // uploadTask.abort(); // 取消上传任务
+  })
+}
+const dialogIt = async () => {
+  console.log(uploadUrl.value)
+  //var form = new FormData();
+  const date1 = new Date();
+  const isoString1= date1.toISOString();
+  Taro.uploadFile({
+    url:'https://luke.host:9001/dialog/upload?title='+val.value+'&context='+record.value+'&createTime='+isoString1+'&userId='+getStorageSync('userId'),
+    //  headers: {
+    //    'Content-Type':"multipart/form-data",
+    //  },
+    name:'file',
+    filePath:uploadUrl.value,
+    //  formData: {
+    //    "userId": 4,
+    //    "content": 'sssssssssssss',
+    //    "reviewTime": '2023-11-28T14:35:12.837Z',
+    //    "title": 'ssssssss'
+    //  },
+    success: function (res) {
+      console.log(res)
+    },
+  })
+  // var form = new FormData();
+  // const dialog_res = await postDialog(form)
+  // console.log(dialog_res)
+  // if (dialog_res.data.code == 200) {
+  //   Taro.showToast({
+  //     title: '记录成功',
+  //     icon: 'success',
+  //     duration: 2000
+  //   })
+  //   button_show.value = false
+  //   getDateLine()
+  // }
+}
+const beforeXhrUpload = (taroUploadFile, options) => {
+  Taro.chooseMedia({
+    count: 1,
+    mediaType: ['image'],
+    sourceType: ['album', 'camera'],
+    maxDuration: 30,
+    camera: 'back',
+    success: (res) => {
+      console.log(res.tempFiles)
+      console.log(res.type)
+      conTempUrl.value = res.tempFiles[0].tempFilePath
+    }
+  })
+
+  // console.log(options);
+  // //taroUploadFile  是 Taro.uploadFile ， 你也可以自定义设置其它函数
+  // const uploadTask = taroUploadFile({
+  //   url: options.url,
+  //   filePath: options.taroFilePath,
+  //   fileType: options.fileType,
+  //   header: {
+  //     'Content-Type': 'multipart/form-data',
+  //     ...options.headers
+  //   }, //
+  //   formData: options.formData,
+  //   name: options.name,
+  //   success(response) {
+  //     if (options.xhrState == response.statusCode) {
+  //       options.onSuccess?.(response, options);
+  //     } else {
+  //       options.onFailure?.(response, options);
+  //     }
+  //   },
+  //   fail(e) {
+  //     options.onFailure?.(e, options);
+  //   }
+  // });
+  // options.onStart?.(options);
+  // uploadTask.progress((res) => {
+  //   options.onProgress?.(res, options);
+  //   // console.log('上传进度', res.progress);
+  //   // console.log('已经上传的数据长度', res.totalBytesSent);
+  //   // console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend);
+  // });
+  // // uploadTask.abort(); // 取消上传任务
 };
 const confirm = ({ selectedValue, selectedOptions }) => {
   console.log(selectedValue.join(':'));
@@ -422,6 +491,14 @@ onMounted(async () => {
 )
 </script>
 <style>
+.my-shop-img {
+  width: 140px;
+  height: 140px;
+  border-radius: 10Px;
+  background-color: white;
+  box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.11);
+
+}
 .eatdiary {
   background: #FFF9EE;
   height: 100%;
