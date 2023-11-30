@@ -135,20 +135,7 @@ const currentDate = new Date();
 const currentTime = new Date();
 const val = ref('');
 const conTempUrl = ref('')
-const handleRecord = () => {
-  if (button_show.value == true) {
-    button_show.value = false
-    val.value = ""
-    uploadUrl.value = ""
-    record.value = ""
-    Taro.showToast({
-      title: "日记记录成功",
-    })
-  } else {
-    button_show.value = true
-  }
 
-}
 const myUploadImg = () => {
   Taro.chooseMedia({
     count: 1,
@@ -164,7 +151,7 @@ const myUploadImg = () => {
   })
 }
 const dialogIt = async () => {
-  handleRecord()
+
   console.log(uploadUrl.value)
   //var form = new FormData();
   const date1 = new Date(date_popupDesc1.value + ' ' + time_popupDesc.value + ':00');
@@ -185,8 +172,9 @@ const dialogIt = async () => {
     //    "title": 'ssssssss'
     //  },
     success: function (res) {
+      handleRecord()
       console.log(res)
-      getDateLine()
+
     },
   })
   // var form = new FormData();
@@ -453,6 +441,24 @@ onMounted(async () => {
     getDateLine(today)
   }
 )
+
+const handleRecord = () => {
+  if (button_show.value == true) {
+    button_show.value = false
+    val.value = ""
+    uploadUrl.value = ""
+    record.value = ""
+    init()
+    const today = new Date();
+    getDateLine(today)
+    Taro.showToast({
+      title: "日记记录成功",
+    })
+  } else {
+    button_show.value = true
+  }
+
+}
 </script>
 <style>
 .my-shop-img {
