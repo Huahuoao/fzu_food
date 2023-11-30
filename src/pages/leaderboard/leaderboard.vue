@@ -85,7 +85,7 @@ const changelist=(item)=>{
   value.value = item.paneKey
   if(item.title=='热度排行榜'){
     renderlist.value = hotlist.value
-    count.value='评论数'
+    count.value='热点值'
   }
   else{
     renderlist.value = favouritelist.value
@@ -109,12 +109,12 @@ const init = async () => {
   const favouritelist_res = await getRankListByLikeNum()
   for(var i=0;i<hotlist_res.data.data.length;i++){
     if(hotlist_res.data.data[i].url==null){
-      hotlist_res.data.data[i].url='https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
+      hotlist_res.data.data[i].url='https://images.fzuhuahuo.cn/QQ%E5%9B%BE%E7%89%8720231129233810.jpg'
     }
   }
   for(var i=0;i<favouritelist_res.data.data.length;i++){
     if(favouritelist_res.data.data[i].url==null){
-      favouritelist_res.data.data[i].url='https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
+      favouritelist_res.data.data[i].url='https://images.fzuhuahuo.cn/QQ%E5%9B%BE%E7%89%8720231129233810.jpg'
     }
   }
   hotlist.value = hotlist_res.data.data

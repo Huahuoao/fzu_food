@@ -2,8 +2,8 @@
   <view class="dishdetail">
     <view class="head_image_area">
       <view class="title-medium" style="height: 20px;width: 400px;text-align: center;">{{ dish.data.foodName }} </view>
-      <nut-rate v-model="star"  class="star" count="1" void-color="#FFFFFF"/>
-      <image :src="imgUrlList[0]" class="head_image"/>
+      <nut-rate v-model="star"  class="star" count="1" active-color="#F6AC15" void-color="#FFFFFF" @click="collect"/>
+      <image :src="imgUrlList[0]" class="head_image" />
     </view>
     <view class="head_detail">
         <view class="left">
@@ -29,13 +29,11 @@
               <image src="https://images.fzuhuahuo.cn/good_ash.png" class="good" v-if="likelist.data.like == false" :onTap="goodClick"/>
             <image src="https://images.fzuhuahuo.cn/good_red.png" class="good" v-if="likelist.data.like == true" :onTap="goodClick"/>
           </nut-animate>
-          <view class="text-small" style="width: 20px;">{{ dish.data.likeNum }}</view>
-          <nut-animate type="shake" :show="show2" style="margin-left: 20px;">
+          <view class="text-small" style="width: 50px;font-weight: 600;">{{ likelist.data.likenum }}</view>
+          <nut-animate type="shake" :show="show2" style="margin-left: 15px;">
             <image src="https://images.fzuhuahuo.cn/good_ash.png" class="bad " v-if="likelist.data.unlike == false" :onTap="badClick"/>
             <image src="https://images.fzuhuahuo.cn/good_red.png" class="bad" v-if="likelist.data.unlike == true" :onTap="badClick"/>
           </nut-animate>
-            <!-- <image src="https://images.fzuhuahuo.cn/good.png" class="good_image" :class="{op:good}" :onTap="chooseGood"/>
-            <image src="https://images.fzuhuahuo.cn/bad.png" class="bad_image" :class="{op:bad}" :onTap="chooseBad"/> -->
           </view>
         </view>
       </view>
@@ -50,7 +48,17 @@
         <nut-input type="text" v-model="comment" class="input-text comment_inp" input-align="left" :border="false"/>
       </div>
       <div class="comment_btn_div">
-        <div class="comment_btn" @click="submit" style="border: none;">评论</div>
+          <nut-popover v-model:visible="popvisible" location="top" :offset=[-70,10] arrow-offset=40 @open="openPop">
+            <template #reference>
+              <div class="comment_btn" @click="submit" style="border: none;">{{comment==''?'评分':'评论'}}</div>
+            </template>
+            <template #content >
+              <div class="score_food">
+                <nut-rate v-model="score"  class="star" count="5" active-color="#F6AC15" void-color="#FFFFFF" size="20" style="margin-top: 3px;" @change="scoreFood"  />
+              </div>
+            </template>
+          </nut-popover>
+        
       </div>
     </view>
       <view class="comments">
@@ -64,16 +72,6 @@
         <view class="comment_username">{{ item.username }}</view>
         <view class="comment_info">{{ item.content }}</view>
       </view>
-      <!-- <view class="comment_comment">
-        <nut-animate type="shake" :show="item.show1">
-          <image src="https://images.fzuhuahuo.cn/good_ash.png" class="comment_good" v-if="!item.good" :onTap="goodCommentClick" :data-index =index />
-        <image src="https://images.fzuhuahuo.cn/good_red.png" class="comment_good" v-if="item.good" :onTap="goodCommentClick" :data-index =index />
-      </nut-animate>
-      <nut-animate type="shake" :show="item.show2">
-        <image src="https://images.fzuhuahuo.cn/good_ash.png" class="comment_bad" v-if="!item.bad" :onTap="badCommentClick" :data-index =index />
-        <image src="https://images.fzuhuahuo.cn/good_red.png" class="comment_bad" v-if="item.bad" :onTap="badCommentClick" :data-index =index />
-      </nut-animate>
-      </view> -->
         </view>
       </view>
   </view>
@@ -83,35 +81,29 @@
 import { reactive, ref,onBeforeMount} from 'vue'
 import './dishdetail.css'
 import Taro,{getCurrentInstance, getStorageSync} from '@tarojs/taro';
-import { IconFont,HeartFill,Left, Right } from '@nutui/icons-vue-taro';
+import { IconFont } from '@nutui/icons-vue-taro';
 import { getFoodTagbyID } from '../../request/tagapi';
-import { getFoodbyFoodId,getFoodLike,postFoodLike,getLikeNumByFoodId } from '../../request/food_api';
-import {getImagebyID} from '../../request/new_api'
-import { getReviewOfFood,postReview,getReviewIsUserLiked,getReviewIsUserDisliked,postReviewLike,postReviewDislike,getCommentOfFood,postCommentOfFood } from '../../request/review_api';
+import { getFoodbyFoodId,getFoodLike,postFoodLike,getFoodIsCollect,postFoodScore,getFoodCollect,getFoodLikeByFoodId } from '../../request/food_api';
+import {getCommentOfFood,postCommentOfFood } from '../../request/review_api';
 import { getUserByUnionId,getUnionId } from '../../request/api';
 import { getStorebyID } from '../../request/new_api';
-var value = ref(0)
+var score = ref(0)
 var show1 = ref(false)
 var show2 = ref(false)
-var goodclick = ref(false)
-var badclick = ref(false)
 var id = ref(0)
 var star = ref(0)
 var dish = reactive({data:{}})
 var imgUrlList = ref([])
 var comment = ref('')
 var avatarurl = ref('https://images.fzuhuahuo.cn/default_headImg.jpeg')
-var review = reactive({
-  menu:0,
-  store:0,
-  time:0,
-  tasty:0,
-})
+var popvisible = ref(false)
+var score  = ref(0)
 var userid = ref(0)
 var likelist = reactive({
   data:{
     like:false,
     unlike:false,
+    likenum:0
   }
 })
 var commentlist = reactive({
@@ -120,13 +112,18 @@ var commentlist = reactive({
 var tag = reactive({
   data:[]
 })
+const openPop = ()=>{
+  if(comment.value != ''){
+    popvisible.value = false
+  }
+}
 const goodClick = async()=>{
     const like_res = await postFoodLike({"foodId":id.value,"userId":userid.value})
     if(likelist.data.like == true){
-      dish.data.likeNum = dish.data.likeNum - 1
+      likelist.data.likenum  = likelist.data.likenum  - 1
     }
     else{
-      dish.data.likeNum = dish.data.likeNum + 1
+      likelist.data.likenum  = likelist.data.likenum  + 1
     }
     likelist.data.like = !likelist.data.like
       show1.value = true
@@ -141,27 +138,17 @@ const badClick = ()=>{
         show2.value = false
       },1000)
 }
-const goodCommentClick = async(e)=>{
-  var index = e.target.dataset.index
-    if(commentlist.data[index].good==true){
-       commentlist.data[index].good = !commentlist.data[index].good
-       commentlist.data[index].show1 = false
-       return 
-     }
-     const like_res = await postReviewLike({"reviewId":commentlist.data[index].id,"userId":userid.value})
-     commentlist.data[index].good = true
-      commentlist.data[index].show1 = true
+const scoreFood = async(value)=>{
+  popvisible.value = false
+  const score_res = await postFoodScore({"foodId":id.value,"userId":userid.value,"foodScore":score.value})
+  console.log(score_res.data.data)
+  Taro.showToast({
+    title: '评分成功！',
+    duration: 2000
+  })
 }
-const badCommentClick = async(e)=>{
-  var index = e.target.dataset.index
-     if(commentlist.data[index].bad==true){
-       commentlist.data[index].bad = !commentlist.data[index].bad
-        commentlist.data[index].show2 = false
-       return 
-     }
-     const dislike_res = await postReviewDislike({"reviewId":commentlist.data[index].id,"userId":userid.value})
-     commentlist.data[index].bad = true
-     commentlist.data[index].show2 = true
+const collect  = async(item)=>{
+   const collect_res = await getFoodCollect({"foodId":id.value,"userId":Taro.getStorageSync('userId')})
 }
 const getUserId = async()=>{
   let res= await Taro.login()
@@ -172,86 +159,70 @@ const getUserId = async()=>{
   userid.value = getuser_res.data.data.id
   console.log(userid.value)
 }
-const submit_score = ()=>{
-  Taro.showToast({
-      title: '评分成功！',
-      duration: 2000
-    })
-}
 onBeforeMount(async()=>{
    const getuser_res = await getUserId()
    if(getStorageSync('isLogin')==true){
      avatarurl.value = Taro.getStorageSync('headImg')
-     console.log(avatarurl.value)
    }
   id.value = JSON.parse(getCurrentInstance().router.params.id)
-  const review_res = await getCommentOfFood({"foodId":id.value,'page':0,'size':500})
-  commentlist.data = review_res.data.data
-  const like_res = await getFoodLike({"foodId":id.value,"userId":userid.value})
-  likelist.data.like = like_res.data.data
-  console.log(likelist.data.like)
-   for(var i=0;i<commentlist.data.length;i++){
-     const like_res = await getReviewIsUserLiked({"reviewId":commentlist.data[i].id,"userId":userid.value})
-     commentlist.data[i].good = like_res.data.data
-     const dislike_res = await getReviewIsUserDisliked({"reviewId":commentlist.data[i].id,"userId":userid.value})
-     commentlist.data[i].bad = dislike_res.data.data
-     commentlist.data[i].show1 = false
-     commentlist.data[i].show2 = false
-   }
-  const food_res = await getFoodbyFoodId({"foodId":id.value})
-  dish.data = food_res.data.data
+  commentlist.data =  (await getCommentOfFood({"foodId":id.value,'page':0,'size':500})).data.data
+  likelist.data.like = (await getFoodLike({"foodId":id.value,"userId":userid.value})).data.data
+  likelist.data.likenum = (await getFoodLikeByFoodId({"foodId":id.value})).data.data
+  dish.data = (await getFoodbyFoodId({"foodId":id.value})).data.data
+  if(dish.data.imgUrlList.length==0){
+    dish.data.imgUrlList.push('https://images.fzuhuahuo.cn/QQ%E5%9B%BE%E7%89%8720231129233810.jpg')
+  }
+  
   imgUrlList.value = dish.data.imgUrlList
-  const tag_res = await getFoodTagbyID({"foodId":id.value})
-  tag.data = tag_res.data.data
-  const img_res = await getImagebyID({"belongType":"Food","belongId":id.value})
-  try{
-    dish.data.imgUrl = img_res.data.data[0].url
-  }
-  catch{
-    dish.data.imgUrl = ''
-  }
-  const store_res = await getStorebyID({"storeId":dish.data.storeId})
+  tag.data =  (await getFoodTagbyID({"foodId":id.value})).data.data
+  const store_res =  await getStorebyID({"storeId":dish.data.storeId})
   dish.data.storeName = store_res.data.data.storeName
   dish.data.location = store_res.data.data.location
+
+  //是否收藏食物
+  const collect_res = await getFoodIsCollect({"foodId":id.value,"userId":Taro.getStorageSync("userId")})
+  if(collect_res.data.data == true){
+    star.value = 1
+  }
+  else{
+    star.value =0
+  }
 })
 const submit = async()=>{
-  if(comment.value==''){
-    Taro.showToast({
-      title: '评论不能为空~',
-      icon: 'error',
-      duration: 2000
-    })
-    return
+  if(comment.value != ''){
+      if(getStorageSync('isLogin')!=true){
+        Taro.showToast({
+          title: '请先登录~',
+          icon: 'error',
+          duration: 2000
+        })
+        return
+      }
+      const date1 = new Date();
+      const isoString1= date1.toISOString();
+      var form = {
+      "content": comment.value,
+      "foodId": id.value,
+      "reviewTime": isoString1,
+      "userId": userid.value,
+    }
+    const review_res = await postCommentOfFood(form)
+    console.log(review_res.data.data)
+    comment.value = ''
+    try{
+      commentlist.data.unshift(review_res.data.data)
+      Taro.showToast({
+          title: '评论发布成功！',
+          duration: 2000
+        })
+    }
+    catch{
+      
+    }
   }
-  if(getStorageSync('isLogin')!=true){
-    Taro.showToast({
-      title: '请先登录~',
-      icon: 'error',
-      duration: 2000
-    })
-    return
+  else{
+    return 
   }
-  const date1 = new Date();
-  const isoString1= date1.toISOString();
-  var form = {
-  "content": comment.value,
-  "foodId": id.value,
-  "reviewTime": isoString1,
-  "userId": userid.value,
-}
-const review_res = await postCommentOfFood(form)
-console.log(review_res.data.data)
-comment.value = ''
-try{
-  commentlist.data.unshift(review_res.data.data)
-  Taro.showToast({
-      title: '评论发布成功！',
-      duration: 2000
-    })
-}
-catch{
-  
-}
 }
 </script>
 <style lang="scss">
@@ -388,14 +359,14 @@ catch{
     }
     .comment_btn_div{
         width: 130px;
-        height: 66px;
+        height: 74px;
         display: flex;
         align-items: center;
         justify-content: center;
         .comment_btn{
         margin-left: 15px;
         width: 130px;
-        height: 66px;
+        height: 74px;
         background-color: #FCE8C5;
         font-family: 'PingFang';
         font-size: 16Px;
@@ -465,56 +436,14 @@ catch{
       }
     }
   }
-  // .score{
-  //   width: 100vw;
-  //   height: 600px;
-  //   .score_line{
-  //     width: 100vw;
-  //     height: 500px;
-  //     display: flex;
-  //     flex-wrap: wrap;
-  //     align-content: flex-start;
-  //     justify-content: center;
-  //   }
-  //   .label{
-  //     margin-top: 30px;
-  //     width: 100vw;
-  //     height: 50px;
-  //     display: flex;
-  //     align-items: center;
-  //     justify-content: center;
-  //     font-family: 'PingFang';
-  //     font-size: 16Px;
-  //     font-weight: 600;
-  //   }
-  // }
-//   .nut-swiper-btns {
-//   width: 100%;
-//   position: absolute;
-//   top: 75%;
-//   transform: translateY(-50%);
-//   z-index: 4;
-//   display: flex;
-//   justify-content: space-between;
-// }
-// .nut-swiper-btns span {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   width: 40px;
-//   height: 80px;
-//   background-color: rgba(0, 0, 0, 0.1);
-// }
-// .demo-box {
-//   position: relative;
-// }
-// .submit_btn{
-//     width: 250px;
-//     display: flex;
-//     justify-content: center;
-//     position: relative;
-//     left:50%;
-//     transform: translate(-50%,0);
-//   }
+}
+.score_food{
+  background-color: #FCE8C5;
+  height: 69px;
+  width: 340px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
 }
 </style>

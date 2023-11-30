@@ -7,7 +7,7 @@
         <view style="margin-left: 5vw;">
           <view v-if="isLogin">
           <text class="title-medium" style="margin-bottom: 5px;">Hi!{{ nickName }}</text>
-          <text class="text-small">{{ br }}这么晚了还没睡，有什么心事吗？</text>
+          <text class="text-small">{{ br }}{{ title }}</text>
           </view>
           <view v-if="!isLogin">
             <text class="title-medium" style="margin-bottom: 5px;">未登录</text>
@@ -98,15 +98,31 @@ const navitoEatdiary =()=>{
     url:'../../pagesB/eatdiary/eatdiary'
   })
 }
+const title = ref("这么晚了还没睡，有什么心事吗？")
 const br = ref("\n")
 const nickName = ref()
 const headImg = ref()
 const isLogin = ref(false)
 useDidShow(() => {
-  if(Taro.getStorageSync("isLogin")){
+  if(Taro.getStorageSync("isLogin") == true){
     isLogin.value = true
     nickName.value = Taro.getStorageSync("nickName")
     headImg.value = Taro.getStorageSync("headImg")
+    console.log(headImg.value+'sssssssssss')
+    console.log(nickName.value+'aaaaaaa')
+    var data = new Date()
+    var hour = data.getHours()
+    if(hour>22||hour<6){
+      title.value = "这么晚了还没睡，有什么心事吗？"
+    }else if(hour>6&&hour<12){
+      title.value = "早上好，今天早饭吃什么呢？"
+    }else if(hour>12&&hour<14){
+      title.value = "中午好，今天午饭吃什么呢？"
+    }else if(hour>14&&hour<18){
+      title.value = "下午好，今天下午茶吃什么呢？"
+    }else if(hour>18&&hour<22){
+      title.value = "晚上好，今天晚餐吃什么呢？"
+    }
   }else {
     nickName.value = ""
     headImg.value = "https://images.fzuhuahuo.cn/default_headImg.jpeg"
