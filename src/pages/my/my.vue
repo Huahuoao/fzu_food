@@ -100,7 +100,25 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
             <text class="label">|</text>
             <text class="text-small" style="margin-left: 5px;margin-bottom: 10px;"> 默认收藏夹</text>
           </view>
-          <view style="justify-content: center;align-items: center;">
+          <view style="width: 95%;height: 95%;overflow-y: scroll;">
+          <nut-row v-for="(item,index) in collect_list1.data">
+            <nut-col :span="8" style="display:flex; justify-content: center;" v-for="(item1,index) in item">
+              <view
+                style="display: flex;flex-direction: column;justify-content: center;margin: 10px; width: 65px;align-items: center;">
+                <image :src="item1.imgUrlList[0]"
+                       style="width: 65px;height: 65px;object-fit: contain; border-radius: 10px;">
+                </image>
+                <text class="text-small" style="margin-top: 3px;">
+                  {{ item1.foodName }}
+                </text>
+              </view>
+              
+            </nut-col>
+
+
+          </nut-row>
+          </view>  
+          <!-- <view style="justify-content: center;align-items: center;">
             <view
               style="display: flex;flex-direction: column;justify-content: center;margin: 10px; width: 65px;align-items: center;">
               <image src="https://images.fzuhuahuo.cn/20231102002910.png"
@@ -110,7 +128,7 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
                 拔丝地瓜
               </text>
             </view>
-          </view>
+          </view> -->
         </view>
       </view>
       <!--      贡献信息-->
@@ -226,18 +244,19 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
       <!--      店铺关注-->
       <view v-if="selectValue==3" style="display:flex; width: 90%;height: 90%;background-color:
 rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px;position: relative; align-items: center;justify-content: center;">
-        <view style="width: 95%;height: 95%;">
+        <view style="width: 95%;height: 95%;overflow-y: scroll;">
           <nut-row>
-            <nut-col :span="8" style="display:flex; justify-content: center;">
+            <nut-col :span="8" style="display:flex; justify-content: center;" >
               <view
                 style="display: flex;flex-direction: column;justify-content: center;margin: 10px; width: 65px;align-items: center;">
-                <image src="https://images.fzuhuahuo.cn/coffee.png"
+                <image src="https://images.fzuhuahuo.cn/Rectangle%2075.png"
                        style="width: 65px;height: 65px;object-fit: contain; border-radius: 10px;">
                 </image>
                 <text class="text-small" style="margin-top: 3px;">
                   瑞幸咖啡
                 </text>
               </view>
+              
             </nut-col>
 
 
@@ -258,12 +277,19 @@ rgba(255, 255, 255, 0.6);border-radius: 15px;margin-top: 20px; align-items: cent
 </template>
 
 <script setup>
-import {ref} from 'vue'
+import {ref,reactive, onMounted} from 'vue'
 import './my.css'
 import Taro, {getUserProfile, useDidShow} from "@tarojs/taro";
 import {useLoad} from "@tarojs/taro";
 import {getUnionId, getUserByUnionId, register} from "../../request/api";
+import { getFoodCollectList } from '../../request/food_api';
 
+const collect_list = reactive({
+  data:{}
+})
+var collect_list1 = reactive(
+  {data:[]}
+)
 const br = ref("\n")
 const myConUpload = (i) => {
   conTempUrl.value = ""
@@ -413,7 +439,7 @@ const handleAuth = async () => {
         Taro.setStorageSync("userId", res.data.data.id)
         Taro.setStorageSync("isLogin", true)
         Taro.setStorageSync("headImg", headImg.value)
-        Taro.setStorageSync("nickName", nickNameInput.value)
+        Taro.setStorageSync("nickName", nickName.value)
       })
     })
   })
@@ -435,7 +461,8 @@ const showLogin = () => {
 }
 
 
-useLoad(() => {
+
+useDidShow(async () => {
   if (Taro.getStorageSync("isLogin")) {
     isLogin.value = true
     nickName.value = Taro.getStorageSync("nickName")
@@ -444,10 +471,31 @@ useLoad(() => {
     nickName.value = ""
     headImg.value = "https://images.fzuhuahuo.cn/default_headImg.jpeg"
   }
-
-
+  if(Taro.getStorageSync('isLogin')!=true){
+    return 
+  }
+  const collect_res = await getFoodCollectList({"userId":Taro.getStorageSync('userId')})
+  collect_list.data = collect_res.data.data
+  for(var i = 0;i<collect_list.data.length;i++){
+    if(collect_list.data[i].imgUrlList.length==0){
+      collect_list.data[i].imgUrlList.push('https://images.fzuhuahuo.cn/QQ%E5%9B%BE%E7%89%8720231129233810.jpg')
+    }
+  }
+  collect_list1.data = []
+  for(var i = 0;i<collect_list.data.length/3;i++){
+    
+    for(var j = 0;j<3;j++){
+      if(i*3+j>=collect_list.data.length){
+        break
+      }
+      if(collect_list1.data[i]==null){
+        collect_list1.data[i] = []
+      }
+      collect_list1.data[i].push(collect_list.data[i*3+j])
+    }
+  }
+  console.log(collect_list1.data) 
 })
-
 
 </script>
 <style>

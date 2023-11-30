@@ -17,7 +17,8 @@
             <template #reference>
               <nut-button  class="choose_list_button label">{{ activelist.name }}</nut-button>
             </template>
-          </nut-popover>
+            
+          </nut-popover><div class="triangle"></div>
           <image src="../../images/search.svg"  :onTap="Search" class="search_img"></image>
         </div>
         
@@ -42,7 +43,7 @@
             </div>
             <div v-for="(item,index) in foodlist.data" class="store_line"  v-if="searchtype == 2">
               <div class="store_img">
-                <image :src="item.url" class="store_logo_img" />
+                <image :src="item.imgUrlList[0]" class="store_logo_img" />
               </div>
               <div class="store_rate" @click="navitoDishDetail(item.id)">
                 <div class="label food_name">{{ item.foodName }}</div>
@@ -145,33 +146,28 @@ const navitoDishDetail = (index)=>{
 useReachBottom(async()=>{
   if(searchtype.value == 1){
     const getStoreList_res = await getSearchStorebyName({"page":page.value,"size":6,"storeName":searchdata.value})
-    storelist.data.push(...(getStoreList_res.data.data))
-    for(var i=0;i<storelist.data.length;i++){
-      storelist.data[i].storeScore = Math.floor(Math.random()*5+1)
+    for(var i=0;i<getStoreList_res.data.data.length;i++){
+      getStoreList_res.data.data[i].storeScore = Math.floor(Math.random()*5+1)
     }
+    storelist.data.push(...(getStoreList_res.data.data))
   }
   else if(searchtype.value == 2){
     const getStoreList_res = await getSearchFoodbyName({"page":page.value,"size":6,"foodName":searchdata.value})
-    foodlist.data.push(...(getStoreList_res.data.data))
-    for(var i=0;i<foodlist.data.length;i++){
-      var item = foodlist.data[i]
-      const img_res = await getImagebyID({"belongId":item.id,"belongType":"Food"})
-      try{
-        foodlist.data[i].url = img_res.data.data[0].url
-      }
-      catch{
-        foodlist.data[i].url = ''
-      }
+    for(var i=0;i<getStoreList_res.data.data.length;i++){
+      var item = getStoreList_res.data.data[i]
       const tag_res = await getFoodTagbyID({"foodId":item.id})
+      console.log(tag_res.data.data)
       try{
-        foodlist.data[i].typetag1 = tag_res.data.data[0].tagName
-        foodlist.data[i].typetag2 = tag_res.data.data[1].tagName
+        //menulist.data[i].typetag.push(...(tag_res.data.data))
+        getStoreList_res.data.data[i].typetag1 = tag_res.data.data[0].tagName
+        getStoreList_res.data.data[i].typetag2 = tag_res.data.data[1].tagName
       }
-      catch{
-        foodlist.data[i].typetag1 = ''
-        foodlist.data[i].typetag2 = ''
+      catch(err){
+        getStoreList_res.data.data[i].typetag1 = '暂无'
+        getStoreList_res.data.data[i].typetag2 = '暂无'
       }
     }
+    foodlist.data.push(...(getStoreList_res.data.data))
   }
   page.value += 1
 })
@@ -359,5 +355,13 @@ onMounted(async () => {
   width: 20vw;
   margin-bottom: 20px;
 }
+.triangle {
+  position: absolute;
+  top: 70px;
+  left: 600px;
 
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(-45deg,black 50%, transparent 50% ) ;
+}
 </style>

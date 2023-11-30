@@ -4,6 +4,7 @@
       <div class="search">
           <div class="search_line">
             <input v-model="searchdata" class="search_input">
+
             <!-- <nut-divider direction="vertical"  style="background-color: black;height: 70%;"/> -->
           </div>
           <nut-popover 
@@ -90,20 +91,22 @@ const changeTabs = async(tab) => {
     const store_res = await getStoreListID({"canteenId":tabactive.value,"page":canteenlist.data[tabactive.value-1].page,"size":6})
     canteenlist.data[tabactive.value-1].storelist.push(...(store_res.data.data))
     canteenlist.data[tabactive.value-1].page += 1
+    for(var i = 0;i<canteenlist.data[tabactive.value-1].storelist.length;i++){
+      canteenlist.data[tabactive.value-1].storelist[i].storeScore = Math.floor(Math.random()*5+1)
+    }
   }
   for(var i = 0;i<canteenlist.data[tabactive.value-1].storelist.length;i++){
     if(canteenlist.data[tabactive.value-1].storelist[i].imgUrl==null){
-      canteenlist.data[tabactive.value-1].storelist[i].imgUrl='https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
+      canteenlist.data[tabactive.value-1].storelist[i].imgUrl='https://images.fzuhuahuo.cn/QQ%E5%9B%BE%E7%89%8720231129233810.jpg'
     }
-    canteenlist.data[tabactive.value-1].storelist[i].storeScore = Math.floor(Math.random()*5+1)
   }
 };
 useReachBottom(async() => {
   const store_res = await getStoreListID({"canteenId":tabactive.value,"page":canteenlist.data[tabactive.value-1].page,"size":6})
-  canteenlist.data[tabactive.value-1].storelist.push(...(store_res.data.data))
-  for(var i = 0;i<canteenlist.data[tabactive.value-1].storelist.length;i++){
-    canteenlist.data[tabactive.value-1].storelist[i].storeScore = Math.floor(Math.random()*5+1)
+  for(var i=0;i<store_res.data.data.length;i++){
+    store_res.data.data[i].storeScore = Math.floor(Math.random()*5+1)
   }
+  canteenlist.data[tabactive.value-1].storelist.push(...(store_res.data.data))
   canteenlist.data[tabactive.value-1].page += 1
 })
 onMounted(async () => {
@@ -119,7 +122,7 @@ onMounted(async () => {
     // const score_res = getReviewStore({"storeId":canteenlist.data[0].storelist[i].id})
     // console.log(score_res)
     if(canteenlist.data[0].storelist[i].imgUrl==null){
-      canteenlist.data[0].storelist[i].imgUrl='https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
+      canteenlist.data[0].storelist[i].imgUrl='https://images.fzuhuahuo.cn/QQ%E5%9B%BE%E7%89%8720231129233810.jpg'
     }
     canteenlist.data[0].storelist[i].storeScore = Math.floor(Math.random()*5+1)
   }

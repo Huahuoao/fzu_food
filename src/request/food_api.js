@@ -70,5 +70,53 @@ export function getFoodbyTag(data) {
     })
   
   }
+
+  export function getFoodCollect(data) {
+    return request({
+      url: '/food/collect',
+      method: 'get',
+      params: data
+    })
   
+  }
+
+  export function getFoodCollectList(data) {
+    return request({
+      url: '/food/collect/list',
+      method: 'get',
+      params: data
+    })
   
+  }
+
+  export function getFoodIsCollect(data) {
+    return request({
+      url: '/food/is-collect',
+      method: 'get',
+      params: data
+    })
+  
+  }
+  
+
+  export function postFoodScore(data) {
+    return request({
+      url: '/food/score/',
+      method: 'post',
+      data: data
+    })
+  
+  }
+
+
+  export function getFoodLikeByFoodId(data) {
+    return request({
+      url: '/food/like/foodId',
+      method: 'get',
+      params: data
+    })
+  
+  }
+  
+
+

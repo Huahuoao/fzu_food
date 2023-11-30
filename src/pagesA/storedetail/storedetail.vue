@@ -32,7 +32,7 @@
       <div class="menu_list">
         <div v-for="(item,index) in menulist.data" class="menu_line" >
               <div class="menu_img">
-                <image :src="item.url" class="menu_logo_img" v-show="item.url"/>
+                <image :src="item.imgUrlList[0]" class="menu_logo_img" v-show="item.imgUrlList != []"/>
               </div>
               <div class="menu_rate" @click="navitoDishDetail(item.id)">
                 <div style="margin-top: 10px;" class="label menu_rate_name">{{ item.foodName }}</div>
@@ -47,7 +47,7 @@
               </div>
               <div class="dish_line_right">
                 <div class="dish_rate">
-                  <nut-rate v-model="item.star" readnoly active-color="#F6AC15" size="20" class="rate_star" count="1"/>
+                  <nut-rate v-model="item.star" readnoly active-color="#F6AC15" size="20" class="rate_star" count="1" @click="collect(item)"/>
               </div>
               <div class="menu_price">
                 ￥{{ item.price }}
@@ -65,6 +65,7 @@ import { HeartFill } from '@nutui/icons-vue-taro';
 import { onBeforeMount, onMounted, reactive, ref } from 'vue'
 import { getStorebyID,getFoodbyID,getImagebyID } from '../../request/new_api';
 import { getFoodTagbyID } from '../../request/tagapi';
+import { getFoodCollect,getFoodIsCollect } from '../../request/food_api';
 import './storedetail.css'
 var page = ref(1)
 var value =ref(0)
@@ -79,39 +80,41 @@ const navitoDishDetail = (index)=>{
     url:'../dishdetail/dishdetail?id='+ index,
   })
 }
+const collect  = async(item)=>{
+   const collect_res = await getFoodCollect({"foodId":item.id,"userId":Taro.getStorageSync('userId')})
+}
 useReachBottom(async()=>{
   const food_res = await getFoodbyID({"storeId":store.data.id,"page":page.value,"size":6})
-  menulist.data.push(...(food_res.data.data))
-  for(var i=0;i<menulist.data.length;i++){
-    
-    var item = menulist.data[i]
-    const img_res = await getImagebyID({"belongId":item.id,"belongType":"Food"})
-    //Reflect(menulist.value[i],'url',img_res.data.data[0].url)
-    try{
-      menulist.data[i].url = img_res.data.data[0].url
-      if(menulist.data[i].url==null){
-      menulist.data[i].url='https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
+  console.log(food_res.data.data)
+  for(var i =0;i<food_res.data.data.length;i++){
+    var item = food_res.data.data[i]
+    console.log(item)
+    const collect_res = await getFoodIsCollect({"foodId":item.id,"userId":Taro.getStorageSync('userId')})
+    if(collect_res.data.data == true){
+      food_res.data.data[i].star = 1
     }
+    else{
+      food_res.data.data[i].star = 0
     }
-    catch(err){
-      menulist.data[i].url = 'https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
+    if(food_res.data.data[i].imgUrlList.length==0){
+      food_res.data.data[i].imgUrlList.push('https://images.fzuhuahuo.cn/QQ%E5%9B%BE%E7%89%8720231129233810.jpg')
     }
     const tag_res = await getFoodTagbyID({"foodId":item.id})
-    console.log(tag_res.data.data)
     try{
       //menulist.data[i].typetag.push(...(tag_res.data.data))
-      menulist.data[i].typetag2 = tag_res.data.data[0].tagName
+      food_res.data.data[i].typetag2 = tag_res.data.data[0].tagName
     }
     catch(err){
-      menulist.data[i].typetag2 = '暂无'
+      food_res.data.data[i].typetag2 = '暂无'
     }
     try{
-      menulist.data[i].typetag1 = tag_res.data.data[1].tagName
+      food_res.data.data[i].typetag1 = tag_res.data.data[1].tagName
     }
     catch{
-      menulist.data[i].typetag1 = '暂无'
+      food_res.data.data[i].typetag1 = '暂无'
     }
   }
+  menulist.data.push(...(food_res.data.data))
   page.value += 1
 })
 onBeforeMount(async()=>{
@@ -122,21 +125,19 @@ onBeforeMount(async()=>{
   const food_res = await getFoodbyID({"storeId":store.data.id,"page":0,"size":6})
   menulist.data= food_res.data.data
   for(var i=0;i<menulist.data.length;i++){
-    
-    var item = menulist.data[i]
-    const img_res = await getImagebyID({"belongId":item.id,"belongType":"Food"})
+    const item = menulist.data[i]
+    const collect_res = await getFoodIsCollect({"foodId":item.id,"userId":Taro.getStorageSync('userId')})
+    if(collect_res.data.data == true){
+      menulist.data[i].star = 1
+    }
+    else{
+      menulist.data[i].star = 0
+    }
     //Reflect(menulist.value[i],'url',img_res.data.data[0].url)
-    try{
-      menulist.data[i].url = img_res.data.data[0].url
-      if(menulist.data[i].url==null){
-      menulist.data[i].url='https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
-    }
-    }
-    catch(err){
-      menulist.data[i].url = 'https://images.fzuhuahuo.cn/FpfE5odFfJuy21MJgV80UsB3WcFr'
+    if(menulist.data[i].imgUrlList.length==0){
+      menulist.data[i].imgUrlList.push('https://images.fzuhuahuo.cn/QQ%E5%9B%BE%E7%89%8720231129233810.jpg')
     }
     const tag_res = await getFoodTagbyID({"foodId":item.id})
-    console.log(tag_res.data.data)
     try{
       //menulist.data[i].typetag.push(...(tag_res.data.data))
       menulist.data[i].typetag1 = tag_res.data.data[0].tagName

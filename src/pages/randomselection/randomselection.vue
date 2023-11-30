@@ -2,7 +2,7 @@
   <view class="randomselection">
     <nut-popup  v-model:visible="popupresult" pop-class="dialog" close-icon-position="top-right" closeable="true">
       <view class="dialog_in">
-        <image :src="choosefinal.url" class="dialog_img"/>
+        <image :src="choosefinal.imgUrl" class="dialog_img"/>
         <view class="dialog_content">
           <view style="font-family: PingFang;font-size: 22Px;font-weight: 600;color: black;">{{ choosefinal.data.foodName }}</view>
           <!-- <view class="input-text" style="margin-top: 5px;">商铺: &nbsp;{{ choosefinal.storename }}</view>
@@ -81,8 +81,6 @@ import './randomselection.css'
 import { IconFont } from '@nutui/icons-vue-taro';
 import { getFoodTagbyID, getFoodTagbyType } from '../../request/tagapi';
 import { getCanteenList, getStoreList } from '../../request/new_api';
-import {getFood} from '../../request/food_api'
-import {getImagebyID} from '../../request/new_api'
 import {postRandom} from '../../request/random_api'
 var choosefinal = reactive({
   data:{}
@@ -149,8 +147,13 @@ const turnTables = (res) =>{ // 旋转转盘
       if(choosefinal.data.intro == ''){
         choosefinal.data.intro = '暂无'
       }
+      if(choosefinal.data.imgUrlList.length == 0){
+        choosefinal.data.imgUrlList.push('https://images.fzuhuahuo.cn/QQ%E5%9B%BE%E7%89%8720231129233810.jpg')
+      }
       console.log(choosefinal.data)
+
     },5000 )
+
 }
 const chooseRoom = function(e){
   choose.dinneroom = e
@@ -164,6 +167,7 @@ const chooseTasty = function(e){
 const chooseAgain = ()=>{
   popupresult.value=false
   turnTables()
+
 }
 const decideChoose = ()=>{
   popupresult.value=false
