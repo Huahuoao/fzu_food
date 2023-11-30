@@ -28,7 +28,7 @@
               <div class="store_rate" >
                 <div style="margin-bottom: 20px;" class="label" @click="navitoStoreDetail(item.id)">{{ item.storeName }}</div>
                 <div style="display: flex;">
-                  <nut-rate v-model="item.storeScore " readnoly active-color="#F6AC15" size="13" class="rate_star" spacing="8" style="width: 103px;"/>
+                  <nut-rate v-model="item.storeScore " readnoly active-color="#F6AC15" size="13" class="rate_star" spacing="8" style="width: 103px;" readonly/>
                   <span style="font-family: 'PingFang';font-size: 10px; margin-top: 0.5vh;">{{ item.storeScore }}分</span>
                 </div>
               </div>
@@ -58,7 +58,7 @@
               </div>
               <div class="menu_line_right">
                 <div class="dish_rate">
-                  <nut-rate v-model="item.star" readnoly active-color="#F6AC15" size="20" class="rate_star" count="1"/>
+                  <nut-rate v-model="item.star" readnoly active-color="#F6AC15" size="20" class="rate_star" count="1" @click="collect(item)"/>
               </div>
               <div class="menu_price">
                 ￥{{ item.price }}
@@ -77,6 +77,8 @@ import { HeartFill} from '@nutui/icons-vue-taro';
 import { getImagebyID } from "../../request/new_api";
 import { getFoodTagbyID } from "../../request/tagapi";
 import { getSearchStorebyName,getSearchFoodbyName } from "../../request/search_api";
+import { getFoodCollect,getFoodIsCollect } from "../../request/food_api";
+
 var page = ref(1)
 var popvisible = ref(false)
 var searchdata = ref()
@@ -105,15 +107,17 @@ const Search = async() =>{
   else if(searchtype.value == 2){
     const getStoreList_res = await getSearchFoodbyName({"page":0,"size":6,"foodName":searchdata.value})
     foodlist.data = getStoreList_res.data.data
-    //Reflect(menulist.value[i],'url',img_res.data.data[0].url)
     for(var i=0;i<foodlist.data.length;i++){
     var item = foodlist.data[i]
-    const img_res = await getImagebyID({"belongId":item.id,"belongType":"Food"})
-    try{
-      foodlist.data[i].url = img_res.data.data[0].url
+    const collect_res = await getFoodIsCollect({"foodId":item.id,"userId":Taro.getStorageSync('userId')})
+    if(collect_res.data.data == true){
+      foodlist.data[i].star = 1
     }
-    catch(err){
-      foodlist.data[i].url = ''
+    else{
+      foodlist.data[i].star = 0
+    }
+    if(foodlist.data[i].imgUrlList.length==0){
+      foodlist.data[i].imgUrlList.push('https://images.fzuhuahuo.cn/QQ%E5%9B%BE%E7%89%8720231129233810.jpg')
     }
     const tag_res = await getFoodTagbyID({"foodId":item.id})
     console.log(tag_res.data.data)
@@ -143,6 +147,9 @@ const navitoDishDetail = (index)=>{
     url:'../dishdetail/dishdetail?id='+ index,
   })
 }
+const collect  = async(item)=>{
+   const collect_res = await getFoodCollect({"foodId":item.id,"userId":Taro.getStorageSync('userId')})
+}
 useReachBottom(async()=>{
   if(searchtype.value == 1){
     const getStoreList_res = await getSearchStorebyName({"page":page.value,"size":6,"storeName":searchdata.value})
@@ -155,8 +162,17 @@ useReachBottom(async()=>{
     const getStoreList_res = await getSearchFoodbyName({"page":page.value,"size":6,"foodName":searchdata.value})
     for(var i=0;i<getStoreList_res.data.data.length;i++){
       var item = getStoreList_res.data.data[i]
+      const collect_res = await getFoodIsCollect({"foodId":item.id,"userId":Taro.getStorageSync('userId')})
+      if(collect_res.data.data == true){
+        getStoreList_res.data.data[i].star = 1
+      }
+      else{
+        getStoreList_res.data.data[i].star = 0
+      }
+      if(getStoreList_res.data.data[i].imgUrlList.length==0){
+        getStoreList_res.data.data[i].imgUrlList.push('https://images.fzuhuahuo.cn/QQ%E5%9B%BE%E7%89%8720231129233810.jpg')
+      }
       const tag_res = await getFoodTagbyID({"foodId":item.id})
-      console.log(tag_res.data.data)
       try{
         //menulist.data[i].typetag.push(...(tag_res.data.data))
         getStoreList_res.data.data[i].typetag1 = tag_res.data.data[0].tagName
@@ -182,20 +198,23 @@ onMounted(async () => {
     }
   }
   else if(searchtype.value == 2){
+    chooseList(chooselist[1])
     const getStoreList_res = await getSearchFoodbyName({"page":0,"size":6,"foodName":searchdata.value})
     foodlist.data = getStoreList_res.data.data
     //Reflect(menulist.value[i],'url',img_res.data.data[0].url)
     for(var i=0;i<foodlist.data.length;i++){
     var item = foodlist.data[i]
-    const img_res = await getImagebyID({"belongId":item.id,"belongType":"Food"})
-    try{
-      foodlist.data[i].url = img_res.data.data[0].url
+    const collect_res = await getFoodIsCollect({"foodId":item.id,"userId":Taro.getStorageSync('userId')})
+    if(collect_res.data.data == true){
+      foodlist.data[i].star = 1
     }
-    catch(err){
-      foodlist.data[i].url = ''
+    else{
+      foodlist.data[i].star = 0
+    }
+    if(foodlist.data[i].imgUrlList.length==0){
+      foodlist.data[i].imgUrlList.push('https://images.fzuhuahuo.cn/QQ%E5%9B%BE%E7%89%8720231129233810.jpg')
     }
     const tag_res = await getFoodTagbyID({"foodId":item.id})
-    console.log(tag_res.data.data)
     try{
       //menulist.data[i].typetag.push(...(tag_res.data.data))
       foodlist.data[i].typetag1 = tag_res.data.data[0].tagName

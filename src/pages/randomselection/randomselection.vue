@@ -2,19 +2,16 @@
   <view class="randomselection">
     <nut-popup  v-model:visible="popupresult" pop-class="dialog" close-icon-position="top-right" closeable="true">
       <view class="dialog_in">
-        <image :src="choosefinal.imgUrl" class="dialog_img"/>
+        <image :src="imgUrlList.data[0]" class="dialog_img"/>
         <view class="dialog_content">
           <view style="font-family: PingFang;font-size: 22Px;font-weight: 600;color: black;">{{ choosefinal.data.foodName }}</view>
-          <!-- <view class="input-text" style="margin-top: 5px;">商铺: &nbsp;{{ choosefinal.storename }}</view>
-          <view class="input-text" style="margin-top: 5px;">餐厅: &nbsp;{{ choosefinal.dinneroom }}</view>
-          <view class="input-text" style="margin-top: 5px;">品类: &nbsp;{{ choosefinal.typetag }}</view>
-          <view class="input-text" style="margin-top: 5px;">口味: &nbsp;{{ choosefinal.tastytag }}</view> -->
+          <view class="input-text" style="margin-top: 5px;">商铺: &nbsp;{{ choosefinal.data.storeName }}</view>
           <view class="input-text" style="margin-top: 5px;">价格: &nbsp;{{ choosefinal.data.price }}</view>
           <view class="input-text" style="margin-top: 5px;">口味: &nbsp;{{ choosefinal.data.intro }}</view>
         </view>
-        <view class="dialog_btn">
-          <nut-button color="#FFC765" >
-            <view class="dialog_btns" @click="decideChoose()">就决定是你了!</view>
+        <view class="dialog_btn" >
+          <nut-button color="#FFC765" @click="decideChoose()">
+            <view class="dialog_btns" >就决定是你了!</view>
           </nut-button>
           <nut-button color="#FFC765" @click="chooseAgain()">
             <view class="dialog_btns">不喜欢，换一个!</view>
@@ -80,12 +77,16 @@ import { ref,reactive, onMounted } from 'vue'
 import './randomselection.css'
 import { IconFont } from '@nutui/icons-vue-taro';
 import { getFoodTagbyID, getFoodTagbyType } from '../../request/tagapi';
-import { getCanteenList, getStoreList } from '../../request/new_api';
+import { getCanteenList } from '../../request/new_api';
 import {postRandom} from '../../request/random_api'
+import { getStorebyID } from '../../request/new_api';
 var choosefinal = reactive({
   data:{}
 })
 const foodlist = reactive({
+  data:[]
+})
+const imgUrlList = reactive({
   data:[]
 })
 const popupresult = ref(false); // 显示转盘结果
@@ -148,9 +149,14 @@ const turnTables = (res) =>{ // 旋转转盘
         choosefinal.data.intro = '暂无'
       }
       if(choosefinal.data.imgUrlList.length == 0){
-        choosefinal.data.imgUrlList.push('https://images.fzuhuahuo.cn/QQ%E5%9B%BE%E7%89%8720231129233810.jpg')
+        imgUrlList.data.push('https://images.fzuhuahuo.cn/QQ%E5%9B%BE%E7%89%8720231129233810.jpg')
       }
-      console.log(choosefinal.data)
+      else{
+        imgUrlList.data = choosefinal.data.imgUrlList
+      }
+      const store_res = await getStorebyID({"storeId":choosefinal.data.storeId})
+      choosefinal.data.storeName = store_res.data.data.storeName
+      console.log(store_res.data.data)
 
     },5000 )
 
@@ -211,6 +217,7 @@ const decideChoose = ()=>{
         object-fit: cover;
         width: 400px;
         height: 400px;
+        border-radius: 30px;
       }
       .dialog_content{
         margin-top: 30px;

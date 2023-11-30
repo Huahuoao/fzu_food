@@ -77,7 +77,7 @@ const list = ref([
     paneKey: 'c2'
   },
 ]);
-const count =ref('评论数')
+const count =ref('热点值')
 const favouritelist = ref([]);
 const hotlist = ref([{url:''},{url:''},{url:''}]);
 const renderlist = ref([{url:''},{url:''},{url:''}]);
@@ -97,7 +97,7 @@ const swipChange=(item)=>
   
   if(item=='c1'){
     renderlist.value = hotlist.value
-    count.value='评论数'
+    count.value='热点值'
   }
   else{
     renderlist.value = favouritelist.value
