@@ -5,18 +5,22 @@
         <div class="tab_left">
           <div class="tabs" style="display: flex;flex-direction: column;">
             <div class="top_tab" style="display: flex;">
-              <div class="nut-tabs__titles-item" v-for="item in tabMonth" :class="{ active: value.top == item.paneKey }">
+              <div class="nut-tabs__titles-item" v-for="item in tabMonth"
+                   :class="{ active: value.top == item.paneKey }">
                 <span :class="{ 'activeMonth': value.top == item.paneKey, 'defaultMonth': value.top != item.paneKey }"
-                  style="font-family:'PingFang SC';font-size: 16px;font-weight: 500;">{{ item.title }}</span>
+                      style="font-family:'PingFang SC';font-size: 16px;font-weight: 500;">{{ item.title }}</span>
               </div>
             </div>
             <div class="buttom_tab" style="display: flex;">
-              <div class="nut-tabs__titles-item" v-for="item in tabDay" 
-                :class="{ active: value.buttom == item.paneKey }" :key="item.paneKey" @click=changeTabs(item)>
+              <div class="nut-tabs__titles-item" v-for="item in tabDay"
+                   :class="{ active: value.buttom == item.paneKey }" :key="item.paneKey" @click=changeTabs(item)>
                 <div class="top_circle" :class="{ 'activeCss': value.buttom == item.paneKey }">
-                  <div :class="{ 'activeDay': value.buttom == item.paneKey, 'defaultDay': value.buttom != item.paneKey }"
+                  <div
+                    :class="{ 'activeDay': value.buttom == item.paneKey, 'defaultDay': value.buttom != item.paneKey }"
                     style="font-size: 16px;font-family: 'DM Sans';font-weight: 500;">{{
-                      item.title }}</div>
+                      item.title
+                    }}
+                  </div>
                 </div>
                 <span class="nut-tabs__titles-item__line"></span>
               </div>
@@ -37,8 +41,12 @@
               <view class="left">
                 <view
                   style="font-size: 14px; font-family: 'DM Sans'; font-weight: 500; margin-bottom: 5px;text-align: right;">
-                  {{ item.year }}</view>
-                <view style="font-size: 16px; font-family: 'DM Sans'; font-weight: 700;line-height: 21px;">{{ item.day }}</view>
+                  {{ item.year }}
+                </view>
+                <view style="font-size: 16px; font-family: 'DM Sans'; font-weight: 700;line-height: 21px;">{{
+                    item.day
+                  }}
+                </view>
               </view>
               <view class="right">
                 <view class="circle"></view>
@@ -62,10 +70,12 @@
       </nut-tab-pane>
     </nut-tabs>
     <view class="out_button">
-      <nut-cell @click="button_show = true"><text class="button_text">记录</text></nut-cell>
+      <nut-cell @click="handleRecord">
+        <text class="button_text">记录</text>
+      </nut-cell>
     </view>
     <nut-popup position="bottom" closeable round :style="{ height: '85%' }" v-model:visible="button_show"
-      :overlay="false">
+               :overlay="false">
       <text class="pop_title">日期</text>
       <view>
         <view class="inside_button">
@@ -73,7 +83,7 @@
         </view>
         <nut-popup position="bottom" v-model:visible="date_show">
           <nut-date-picker v-model="currentDate" :min-date="minDate" :max-date="maxDate" @confirm="popupConfirm"
-            @cancel="date_show = false" :is-show-chinese="true">
+                           @cancel="date_show = false" :is-show-chinese="true">
           </nut-date-picker>
         </nut-popup>
       </view>
@@ -82,16 +92,17 @@
         <nut-cell :title="time_popupDesc" @click="time_show = true"></nut-cell>
       </view>
       <nut-popup position="bottom" v-model:visible="time_show">
-        <nut-date-picker v-model="currentTime" title="时间选择" type="hour-minute" :min-date="minDate" :max-date="maxDate"
-          @cancel="time_show = false" @confirm="confirm"></nut-date-picker>
+        <nut-date-picker v-model="currentTime" title="时间选择" type="hour-minute" :min-date="minDate"
+                         :max-date="maxDate"
+                         @cancel="time_show = false" @confirm="confirm"></nut-date-picker>
       </nut-popup>
       <text class="pop_title">标题</text>
-      <nut-input v-model="val" placeholder="请输入文本" />
+      <nut-input v-model="val" placeholder="请输入文本"/>
       <text class="pop_title">文字</text>
-      <nut-textarea v-model="record" />
+      <nut-textarea v-model="record"/>
       <text class="pop_title">图片</text>
       <view class="my-shop-img" @click="myUploadImg">
-        <image style="width: 100px;height: 100px;" :src="uploadUrl" ></image>
+        <image style="width: 100px;height: 100px;" :src="uploadUrl"></image>
       </view>
       <!-- <view style="display: flex;align-items: flex-end;"><nut-uploader url="" :before-upload="myUploadImg"
           :source-type="['album', 'camera']"></nut-uploader>
@@ -100,16 +111,16 @@
         </view>
       </view> -->
       <view class="final_button" @click="dialogIt"><span
-            style="font-size: 20px;font-family: 'PingFang SC';font-weight: 400;text-align: center;color: #595959;line-height: 35px;">记录</span>
-        </view>
+        style="font-size: 20px;font-family: 'PingFang SC';font-weight: 400;text-align: center;color: #595959;line-height: 35px;">记录</span>
+      </view>
     </nut-popup>
   </div>
 </template>
-<script  setup>
-import { onMounted, reactive, ref } from 'vue'
-import { IconFont } from '@nutui/icons-vue-taro';
-import Taro, { getStorageSync } from "@tarojs/taro";
-import { getTimeLine } from "../../request/new_api.js";
+<script setup>
+import {onMounted, reactive, ref} from 'vue'
+import {IconFont} from '@nutui/icons-vue-taro';
+import Taro, {getStorageSync} from "@tarojs/taro";
+import {getTimeLine} from "../../request/new_api.js";
 
 const uploadUrl = ref("");
 const record = ref('');//标题
@@ -124,6 +135,7 @@ const currentDate = new Date();
 const currentTime = new Date();
 const val = ref('');
 const conTempUrl = ref('')
+
 const myUploadImg = () => {
   Taro.chooseMedia({
     count: 1,
@@ -139,19 +151,20 @@ const myUploadImg = () => {
   })
 }
 const dialogIt = async () => {
+
   console.log(uploadUrl.value)
   //var form = new FormData();
   const date1 = new Date(date_popupDesc1.value + ' ' + time_popupDesc.value + ':00');
   const createTime = date1.getTime();
   console.log(createTime.toString())
-  const isoString1= date1.toISOString();
+  const isoString1 = date1.toISOString();
   Taro.uploadFile({
-    url:'https://luke.host:9001/dialog/upload?title='+val.value+'&context='+record.value+'&createTime='+createTime.toString()+'&userId='+getStorageSync('userId'),
+    url: 'https://luke.host:9001/dialog/upload?title=' + val.value + '&context=' + record.value + '&createTime=' + createTime.toString() + '&userId=' + getStorageSync('userId'),
     //  headers: {
     //    'Content-Type':"multipart/form-data",
     //  },
-    name:'file',
-    filePath:uploadUrl.value,
+    name: 'file',
+    filePath: uploadUrl.value,
     //  formData: {
     //    "userId": 4,
     //    "content": 'sssssssssssss',
@@ -159,8 +172,9 @@ const dialogIt = async () => {
     //    "title": 'ssssssss'
     //  },
     success: function (res) {
+      handleRecord()
       console.log(res)
-      getDateLine()
+
     },
   })
   // var form = new FormData();
@@ -176,12 +190,12 @@ const dialogIt = async () => {
   //   getDateLine()
   // }
 }
-const confirm = ({ selectedValue, selectedOptions }) => {
+const confirm = ({selectedValue, selectedOptions}) => {
   console.log(selectedValue.join(':'));
   time_popupDesc.value = selectedOptions.map((val) => val.text).join(':');
   time_show.value = false;
 };
-const popupConfirm = ({ selectedValue, selectedOptions }) => {
+const popupConfirm = ({selectedValue, selectedOptions}) => {
   date_popupDesc.value = selectedValue.join('/')
   date_popupDesc1.value = selectedValue.join('-')
   console.log(selectedValue.join('-'));
@@ -189,13 +203,10 @@ const popupConfirm = ({ selectedValue, selectedOptions }) => {
 };
 
 const button_show = ref(false);
-const value = ref({ top: 'c3', buttom: 3 });
-const tabMonth = ref([
-]);
-const tabDay = ref([
-]);
-const tab = ref([
-]);
+const value = ref({top: 'c3', buttom: 3});
+const tabMonth = ref([]);
+const tabDay = ref([]);
+const tab = ref([]);
 const state = reactive({
   dateWeek: '',
   date: '',
@@ -271,46 +282,46 @@ const init = () => {
     paneKey: 1,
     date: date1
   },
-  {
-    title: title2.split('-')[2],
-    paneKey: 2,
-    date: date2
-  },
-  {
-    title: title3.split('-')[2],
-    paneKey: 3,
-    date: date3
-  },
-  {
-    title: title4.split('-')[2],
-    paneKey: 4,
-    date: date4
-  },
-  {
-    title: title5.split('-')[2],
-    paneKey: 5,
-    date: date5
-  }];
+    {
+      title: title2.split('-')[2],
+      paneKey: 2,
+      date: date2
+    },
+    {
+      title: title3.split('-')[2],
+      paneKey: 3,
+      date: date3
+    },
+    {
+      title: title4.split('-')[2],
+      paneKey: 4,
+      date: date4
+    },
+    {
+      title: title5.split('-')[2],
+      paneKey: 5,
+      date: date5
+    }];
   tabMonth.value = [{
     title: map.get(getMonth(title1.split('-')[1], -2)),
     paneKey: 'c1'
   },
-  {
-    title: map.get(getMonth(title2.split('-')[1], -1)),
-    paneKey: 'c2'
-  },
-  {
-    title: map.get(title3.split('-')[1]),
-    paneKey: 'c3'
-  },
-  {
-    title: map.get(getMonth(title4.split('-')[1], 1)),
-    paneKey: 'c4'
-  },
-  {
-    title: map.get(getMonth(title5.split('-')[1], 2)),
-    paneKey: 'c5'
-  }];
+    {
+      title: map.get(getMonth(title2.split('-')[1], -1)),
+      paneKey: 'c2'
+    },
+    {
+      title: map.get(title3.split('-')[1]),
+      paneKey: 'c3'
+    },
+    {
+      title: map.get(getMonth(title4.split('-')[1], 1)),
+      paneKey: 'c4'
+    },
+    {
+      title: map.get(getMonth(title5.split('-')[1], 2)),
+      paneKey: 'c5'
+    }];
   console.log(tabDay.value)
 }
 
@@ -337,98 +348,117 @@ const setChooseValue = (param) => {
     title: title1.split('-')[2],
     paneKey: 'c1'
   },
-  {
-    title: title2.split('-')[2],
-    paneKey: 'c2'
-  },
-  {
-    title: title3.split('-')[2],
-    paneKey: 'c3'
-  },
-  {
-    title: title4.split('-')[2],
-    paneKey: 'c4'
-  },
-  {
-    title: title5.split('-')[2],
-    paneKey: 'c5'
-  }];
+    {
+      title: title2.split('-')[2],
+      paneKey: 'c2'
+    },
+    {
+      title: title3.split('-')[2],
+      paneKey: 'c3'
+    },
+    {
+      title: title4.split('-')[2],
+      paneKey: 'c4'
+    },
+    {
+      title: title5.split('-')[2],
+      paneKey: 'c5'
+    }];
   tabMonth.value = [{
     title: map.get(getMonth(title1.split('-')[1], -2)),
     paneKey: 'c1'
   },
-  {
-    title: map.get(getMonth(title2.split('-')[1], -1)),
-    paneKey: 'c2'
-  },
-  {
-    title: map.get(title3.split('-')[1]),
-    paneKey: 'c3'
-  },
-  {
-    title: map.get(getMonth(title4.split('-')[1], 1)),
-    paneKey: 'c4'
-  },
-  {
-    title: map.get(getMonth(title5.split('-')[1], 2)),
-    paneKey: 'c5'
-  }];
+    {
+      title: map.get(getMonth(title2.split('-')[1], -1)),
+      paneKey: 'c2'
+    },
+    {
+      title: map.get(title3.split('-')[1]),
+      paneKey: 'c3'
+    },
+    {
+      title: map.get(getMonth(title4.split('-')[1], 1)),
+      paneKey: 'c4'
+    },
+    {
+      title: map.get(getMonth(title5.split('-')[1], 2)),
+      paneKey: 'c5'
+    }];
   console.log(getMonth(title2.split('-')[1], -1));
 };
-const timelineList = reactive({data:[],daylist:[]})
+const timelineList = reactive({data: [], daylist: []})
 // const timelineList = ref()
 const diary = ref([])
 const getDateLine = async (today) => {
-  const userId = getStorageSync('userId')
-  const timeline_res = await getTimeLine({"page":0,"size":100,"userId": userId })
+  const userId = getStorageSync("userId")
+  console.log(userId)
+  const timeline_res = await getTimeLine({"page": 0, "size": 100, "userId": userId})
   timelineList.data = timeline_res.data.data
-  timelineList.data.sort(function(a,b){
+  timelineList.data.sort(function (a, b) {
     return a.createTime - b.createTime
   })
   timelineList.daylist = []
-  for (var i = timeline_res.data.data.length-1;i >=0 ; i--) {
+  for (var i = timeline_res.data.data.length - 1; i >= 0; i--) {
     var unixtime = timelineList.data[i].createTime
-    var t_year = today.getFullYear()+ '年';
+    var t_year = today.getFullYear() + '年';
     var t_month = today.getMonth() + 1;
     var t_date = today.getDate();
-    var now = new Date(unixtime*1);
-    var year = now.getFullYear()+ '年';
+    var now = new Date(unixtime * 1);
+    var year = now.getFullYear() + '年';
     var m = now.getMonth() + 1;
     var d = now.getDate();
     var h = now.getHours();
     var min = now.getMinutes();
 
-    if(min<10){
-      min = '0'+min
+    if (min < 10) {
+      min = '0' + min
     }
     var day = m + '月' + d + '日'
     var time = h + ':' + min
     var img = timelineList.data[i].imgUrl
     var content = timelineList.data[i].context
     var title = timelineList.data[i].title
-    if(m==t_month && d==t_date){
+    if (m == t_month && d == t_date) {
       timelineList.daylist.push({
-      year: year,
-      day: day,
-      time: time,
-      image: img,
-      title: title,
-      content: content
-    })
+        year: year,
+        day: day,
+        time: time,
+        image: img,
+        title: title,
+        content: content
+      })
     }
   }
   diary.value = timelineList.daylist
 }
-const changeTabs = async(item) =>{
+const changeTabs = async (item) => {
   getDateLine(item.date)
   value.value.buttom = item.paneKey
 }
 onMounted(async () => {
-  init()
-  var today = new Date();
-  getDateLine(today)
-}
+    init()
+    var today = new Date();
+    getDateLine(today)
+  }
 )
+
+const handleRecord = () => {
+  if (button_show.value == true) {
+    button_show.value = false
+    val.value = ""
+    uploadUrl.value = ""
+    record.value = ""
+    init()
+    const today = new Date();
+    getDateLine(today)
+    Taro.showToast({
+      title: "日记记录成功",
+    })
+  } else {
+    button_show.value = true
+  }
+
+}
 </script>
 <style>
 .my-shop-img {
@@ -439,6 +469,7 @@ onMounted(async () => {
   box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.11);
 
 }
+
 .eatdiary {
   background: #FFF9EE;
   height: 100%;
@@ -745,12 +776,12 @@ page {
 
 .my-shop-img {
 
-width: 200px;
-height: 200px;
-margin-left: 40px;
-background: #FFF9EE;
-box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.15);
-border-radius: 20px;
+  width: 200px;
+  height: 200px;
+  margin-left: 40px;
+  background: #FFF9EE;
+  box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
 }
 
 
