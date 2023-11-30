@@ -33,7 +33,7 @@
               <div class="store_rate" >
                 <div class="store_name" @click="navitoStoreDetail(item1.id)">{{ item1.storeName }}</div>
                 <div style="display: flex;">
-                  <nut-rate v-model="item1.storeScore " readnoly active-color="#F6AC15" size="13" class="rate_star" spacing="8" style="width: 103px;"/>
+                  <nut-rate v-model="item1.storeScore " readnoly active-color="#F6AC15" size="13" class="rate_star" spacing="8" style="width: 103px;" readonly/>
                   <span style="font-family: 'PingFang';font-size: 10px; margin-top: 0.5vh;">{{ item1.storeScore }}分</span>
                 </div>
               </div>
